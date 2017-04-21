@@ -8,6 +8,7 @@
 
 import SwiftUIUtilities
 import SwiftUtilities
+import SwiftPlaceholderTextView
 import UIKit
 
 /// Use this builder class for text-based inputs.
@@ -109,11 +110,73 @@ open class TextInputViewBuilder: InputViewBuilder {
             return ViewBuilderComponent.empty
         }
         
-        return inputField(BaseTextField(), for: view, using: input)
+        return inputField(PlaceholderTextView(), for: view, using: input)
     }
 }
 
 extension TextInputViewBuilder: TextInputViewIdentifierType {}
+
+/// Configure dynamic subviews for text-based InputView.
+open class TextInputViewBuilderConfig: InputViewBuilderConfig {
+    fileprivate var inputTextColor: UIColor
+    
+    override init() {
+        inputTextColor = .darkGray
+        super.init()
+    }
+    
+    override public func configure(for view: UIView) {
+        super.configure(for: view)
+        let subviews = view.subviews
+        
+        guard let inputField = subviews.filter({
+            $0.accessibilityIdentifier == inputFieldIdentifier
+        }).first as? InputFieldType else {
+            return
+        }
+        
+        configure(inputField: inputField)
+    }
+    
+    /// Configure an InputFieldType instance.
+    ///
+    /// - Parameter inputField: An InputFieldType instance.
+    fileprivate func configure(inputField: InputFieldType) {
+        inputField.textColor = inputTextColor
+    }
+    
+    /// Builder class for TextInputViewBuilderConfig.
+    open class TextInputBuilder: BaseBuilder {
+        convenience init() {
+            self.init(config: TextInputViewBuilderConfig())
+        }
+        
+        var textInputConfig: TextInputViewBuilderConfig? {
+            return super.config as? TextInputViewBuilderConfig
+        }
+        
+        /// Set the input field's text color.
+        ///
+        /// - Parameter color: A UIColor instance.
+        /// - Returns: A TextInputBuilder instance.
+        public func with(inputTextColor color: UIColor) -> TextInputBuilder {
+            textInputConfig?.inputTextColor = color
+            return self
+        }
+    }
+}
+
+public extension TextInputViewBuilderConfig {
+    
+    /// Get a TextInputBuilder instance.
+    ///
+    /// - Returns: A TextInputBuilder instance.
+    public static func textInputBuilder() -> TextInputBuilder {
+        return TextInputBuilder()
+    }
+}
+
+extension TextInputViewBuilderConfig: TextInputViewIdentifierType {}
 
 public protocol TextInputDetailType: InputDetailType {
     

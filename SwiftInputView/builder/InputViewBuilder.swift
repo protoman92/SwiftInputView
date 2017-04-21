@@ -54,11 +54,6 @@ open class InputViewBuilder {
         indicator.fontName = String(describing: 1)
         indicator.fontSize = String(describing: 3)
         
-        // We set default values here, but can change later for specific
-        // parent views (by getting this view from accessibilityIdentifier).
-        indicator.text = "input.title.required".localized
-        indicator.textColor = .red
-        
         // Right constraint.
         let rightConstraint = BaseLayoutConstraint(item: view,
                                                    attribute: .right,
@@ -93,3 +88,70 @@ open class InputViewBuilder {
 extension InputViewBuilder: InputViewIdentifierType {}
 
 extension InputViewBuilder: InputViewBuilderType {}
+
+/// Configure dynamic subviews for InputView.
+open class InputViewBuilderConfig {
+    fileprivate var requiredIndicatorTextColor: UIColor
+    
+    init() {
+        requiredIndicatorTextColor = .red
+    }
+    
+    public func configure(for view: UIView) {
+        let subviews = view.subviews
+        
+        guard let requiredIndicator = subviews.filter({
+            $0.accessibilityIdentifier == requiredIndicatorIdentifier
+        }).first as? UILabel else {
+            return
+        }
+        
+        configure(requiredInput: requiredIndicator)
+    }
+    
+    /// Configure required indicator UILabel.
+    ///
+    /// - Parameter indicator: A UILabel instance.
+    fileprivate func configure(requiredInput indicator: UILabel) {
+        indicator.text = "input.title.required".localized
+        indicator.textColor = requiredIndicatorTextColor
+    }
+    
+    /// Builder class for InputViewBuilderConfig.
+    open class BaseBuilder {
+        let config: InputViewBuilderConfig
+        
+        /// Initialize with a InputViewBuilderConfig object. This allows
+        /// subclasses to provide their own config instance.
+        ///
+        /// - Parameter config: An InputViewBuilderConfig instance.
+        init(config: InputViewBuilderConfig) {
+            self.config = config
+        }
+        
+        convenience init() {
+            self.init(config: InputViewBuilderConfig())
+        }
+        
+        /// Set the required indicator's text color.
+        ///
+        /// - Parameter color: A UIColor instance.
+        /// - Returns: The current Builder instance.
+        public func with(requiredIndicatorTextColor color: UIColor)
+            -> BaseBuilder
+        {
+            config.requiredIndicatorTextColor = color
+            return self
+        }
+        
+        /// Get config.
+        ///
+        /// - Returns: A ViewBuilderConfigType instance.
+        public func build() -> ViewBuilderConfigType {
+            return config
+        }
+    }
+}
+
+extension InputViewBuilderConfig: InputViewIdentifierType {}
+extension InputViewBuilderConfig: ViewBuilderConfigType {}
