@@ -23,11 +23,16 @@ open class InputViewBuilder {
     /// We are not using Builder with this class since we expect subclasses
     /// to accept only one argument.
     ///
-    /// - Parameter inputs: A Sequence of InputDetailType.
-    public init<S: Sequence>(with inputs: S)
-        where S.Iterator.Element: InputDetailType
-    {
-        self.inputs = inputs.map(eq)
+    /// - Parameter inputs: An Array of InputDetailType.
+    public init(from inputs: [InputDetailType]) {
+        self.inputs = inputs
+    }
+    
+    /// Construct with only one InputDetailType.
+    ///
+    /// - Parameter input: An InputDetailType instance.
+    public convenience init(with input: InputDetailType) {
+        self.init(from: [input])
     }
     
     /// To accommodate multiple inputs on one line (e.g. first name/last name),
@@ -37,13 +42,16 @@ open class InputViewBuilder {
     /// - Parameter view: The master UIView.
     /// - Returns: An Array of ViewBuilderComponentType.
     open func builderComponents(for view: UIView) -> [ViewBuilderComponentType] {
-        var components = [ViewBuilderComponentType]()
         let inputs = self.inputs
         let count = inputs.count
         
-        let subviews = inputs.map({
-            self.parentSubview(for: view, using: $0, basedOn: inputs)
-        })
+        /// If there is only one input, use the master UIView directly.
+        if count == 1, let input = inputs.first {
+            return builderComponents(forParentSubview: view, using: input)
+        }
+        
+        var components = [ViewBuilderComponentType]()
+        let subviews = Array(repeating: {_ in UIView()}, for: count)
         
         for (index, (subview, input)) in zip(subviews, inputs).enumerated() {
             let psc = builderComponents(forParentSubview: subview, using: input)
@@ -71,14 +79,17 @@ open class InputViewBuilder {
             
             bottom.constantValue = String(describing: 0)
             
-            // Left constraint for parent subview
+            // Left constraint for parent subview. If this is the first
+            // subview to be added, the previousView will be the parent view,
+            // and the second attribute will be .left.
             let previousView = index == 0 ? view : subviews[index - 1]
+            let secondAttr = index == 0 ? NSLayoutAttribute.left : .right
             
-            let left = BaseLayoutConstraint(item: view,
+            let left = BaseLayoutConstraint(item: subview,
                                             attribute: .left,
                                             relatedBy: .equal,
                                             toItem: previousView,
-                                            attribute: .bottom,
+                                            attribute: secondAttr,
                                             multiplier: 1,
                                             constant: 0)
             
@@ -98,38 +109,16 @@ open class InputViewBuilder {
             
             // Construct builder component for parent subview. With these
             // constraints, all parent subviews should be laid side by side.
-            let svc = ViewBuilderComponent.builder()
+            components.append(ViewBuilderComponent.builder()
                 .with(view: subview)
                 .add(constraint: top)
                 .add(constraint: bottom)
                 .add(constraint: left)
                 .add(constraint: width)
-                .build()
-            
-            components.append(svc)
+                .build())
         }
         
         return components
-    }
-    
-    /// Create a parent subview. If there is only one input, use the master
-    /// UIView directly.
-    ///
-    /// - Parameters:
-    ///   - view: The parent UIView.
-    ///   - input: An InputDetailType instance.
-    ///   - inputs: An Array of InputDetailType.
-    /// - Returns: A UIView instance.
-    fileprivate func parentSubview(for view: UIView,
-                                   using input: InputDetailType,
-                                   basedOn inputs: [InputDetailType])
-        -> UIView
-    {
-        if inputs.count == 1 {
-            return view
-        } else {
-            return UIView()
-        }
     }
     
     /// Get an Array of ViewBuilderComponentType for the parent subview.

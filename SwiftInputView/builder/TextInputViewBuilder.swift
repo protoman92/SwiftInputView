@@ -18,7 +18,9 @@ open class TextInputViewBuilder: InputViewBuilder {
                                          using input: InputDetailType)
         -> [ViewBuilderComponentType]
     {
-        var components = super.builderComponents(for: view)
+        var components = super.builderComponents(forParentSubview: view,
+                                                 using: input)
+        
         components.append(normalInput(for: view, using: input))
         components.append(multilineInput(for: view, using: input))
         return components
