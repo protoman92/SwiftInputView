@@ -11,24 +11,143 @@ import SwiftUIUtilities
 
 /// Protocol for input view builder.
 public protocol InputViewBuilderType: ViewBuilderType {
-    var input: InputDetailType { get }
+    var inputs: [InputDetailType] { get }
 }
 
 /// Base class for building InputView.
 open class InputViewBuilder {
     
-    /// Use this InputDetailType to construct builder components.
-    open let input: InputDetailType
+    /// Use this InputDetailType Array to construct builder components.
+    open let inputs: [InputDetailType]
     
     /// We are not using Builder with this class since we expect subclasses
     /// to accept only one argument.
     ///
-    /// - Parameter input: An InputDetailType instance.
-    public init<I: InputDetailType>(with input: I) {
-        self.input = input
+    /// - Parameter inputs: A Sequence of InputDetailType.
+    public init<S: Sequence>(with inputs: S)
+        where S.Iterator.Element: InputDetailType
+    {
+        self.inputs = inputs.map(eq)
     }
     
+    /// To accommodate multiple inputs on one line (e.g. first name/last name),
+    /// we construct a separate UIView for each input (called parent subviews),
+    /// and lay them horizontally.
+    ///
+    /// - Parameter view: The master UIView.
+    /// - Returns: An Array of ViewBuilderComponentType.
     open func builderComponents(for view: UIView) -> [ViewBuilderComponentType] {
+        var components = [ViewBuilderComponentType]()
+        let inputs = self.inputs
+        let count = inputs.count
+        
+        let subviews = inputs.map({
+            self.parentSubview(for: view, using: $0, basedOn: inputs)
+        })
+        
+        for (index, (subview, input)) in zip(subviews, inputs).enumerated() {
+            let psc = builderComponents(forParentSubview: subview, using: input)
+            subview.populateSubviews(from: psc)
+            
+            // Top constraint for parent subview.
+            let top = BaseLayoutConstraint(item: subview,
+                                           attribute: .top,
+                                           relatedBy: .equal,
+                                           toItem: view,
+                                           attribute: .top,
+                                           multiplier: 1,
+                                           constant: 0)
+            
+            top.constantValue = String(describing: 0)
+            
+            // Bottom constraint for parent subview.
+            let bottom = BaseLayoutConstraint(item: view,
+                                              attribute: .bottom,
+                                              relatedBy: .equal,
+                                              toItem: subview,
+                                              attribute: .bottom,
+                                              multiplier: 1,
+                                              constant: 0)
+            
+            bottom.constantValue = String(describing: 0)
+            
+            // Left constraint for parent subview
+            let previousView = index == 0 ? view : subviews[index - 1]
+            
+            let left = BaseLayoutConstraint(item: view,
+                                            attribute: .left,
+                                            relatedBy: .equal,
+                                            toItem: previousView,
+                                            attribute: .bottom,
+                                            multiplier: 1,
+                                            constant: 0)
+            
+            left.constantValue = String(describing: 0)
+            
+            // Width constraint for parent subview. We need to divide the
+            // width by the number of subviews.
+            let width = BaseLayoutConstraint(item: subview,
+                                             attribute: .width,
+                                             relatedBy: .equal,
+                                             toItem: view,
+                                             attribute: .width,
+                                             multiplier: 1 / CGFloat(count),
+                                             constant: 0)
+            
+            width.constantValue = String(describing: 0)
+            
+            // Construct builder component for parent subview. With these
+            // constraints, all parent subviews should be laid side by side.
+            let svc = ViewBuilderComponent.builder()
+                .with(view: subview)
+                .add(constraint: top)
+                .add(constraint: bottom)
+                .add(constraint: left)
+                .add(constraint: width)
+                .build()
+            
+            components.append(svc)
+        }
+        
+        return components
+    }
+    
+    /// Create a parent subview. If there is only one input, use the master
+    /// UIView directly.
+    ///
+    /// - Parameters:
+    ///   - view: The parent UIView.
+    ///   - input: An InputDetailType instance.
+    ///   - inputs: An Array of InputDetailType.
+    /// - Returns: A UIView instance.
+    fileprivate func parentSubview(for view: UIView,
+                                   using input: InputDetailType,
+                                   basedOn inputs: [InputDetailType])
+        -> UIView
+    {
+        if inputs.count == 1 {
+            return view
+        } else {
+            return UIView()
+        }
+    }
+    
+    /// Get an Array of ViewBuilderComponentType for the parent subview.
+    ///
+    /// For each input, we inflate a UIView and attach it to the master UIView
+    /// by laying them side by side, horizontally. This allows us to have
+    /// multiple inputs on the same line.
+    ///
+    /// If there is only one input, use the master view directly.
+    ///
+    /// - Parameters:
+    ///   - view: The parent subview UIView.
+    ///   - input: An InputDetailType instance.
+    /// - Returns: An Array of ViewBuilderComponentType instance.
+    open func builderComponents(forParentSubview view: UIView,
+                                using input: InputDetailType)
+        -> [ViewBuilderComponentType]
+    {
         let indicator = requiredIndicator(for: view, using: input)
         return [indicator]
     }

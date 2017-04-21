@@ -14,23 +14,13 @@ import UIKit
 /// Use this builder class for text-based inputs.
 open class TextInputViewBuilder: InputViewBuilder {
     
-    /// Instead of base InputDetailType, we only accept TextInputDetailType.
-    ///
-    /// - Parameter input: A TextInputDetailType instance.
-    public override init<I: TextInputDetailType>(with input: I) {
-        super.init(with: input)
-    }
-    
-    override open func builderComponents(for view: UIView)
+    override open func builderComponents(forParentSubview view: UIView,
+                                         using input: InputDetailType)
         -> [ViewBuilderComponentType]
     {
         var components = super.builderComponents(for: view)
-        
-        if let input = self.input as? TextInputDetailType {
-            components.append(normalInput(for: view, using: input))
-            components.append(multilineInput(for: view, using: input))
-        }
-        
+        components.append(normalInput(for: view, using: input))
+        components.append(multilineInput(for: view, using: input))
         return components
     }
     
@@ -45,7 +35,7 @@ open class TextInputViewBuilder: InputViewBuilder {
     /// - Returns: A ViewBuilderComponentType instance.
     fileprivate func inputField<I>(_ inputField: I,
                                 for view: UIView,
-                                using input: TextInputDetailType,
+                                using input: InputDetailType,
                                 dependingOn others: UIView...)
         -> ViewBuilderComponentType
         where I: UIView, I: DynamicFontType
@@ -80,12 +70,12 @@ open class TextInputViewBuilder: InputViewBuilder {
     ///   - others: Other UIView on which this view may depend.
     /// - Returns: A ViewBuilderComponentType instance.
     open func normalInput(for view: UIView,
-                          using input: TextInputDetailType,
+                          using input: InputDetailType,
                           dependingOn others: UIView...)
         -> ViewBuilderComponentType
     {
         // If multiline input, use UITextView instead.
-        if input.isMultilineInput {
+        if let multiline = input.textInputType?.isMultiline, multiline {
             return ViewBuilderComponent.empty
         }
         
@@ -101,16 +91,16 @@ open class TextInputViewBuilder: InputViewBuilder {
     ///   - others: Other UIView on which this view may depend.
     /// - Returns: A ViewBuilderComponentType instance.
     open func multilineInput(for view: UIView,
-                             using input: TextInputDetailType,
+                             using input: InputDetailType,
                              dependingOn others: UIView...)
         -> ViewBuilderComponentType
     {
         // If not multiline input, use UITextField instead.
-        guard input.isMultilineInput else {
+        guard let multiline = input.textInputType?.isMultiline, multiline else {
             return ViewBuilderComponent.empty
         }
         
-        return inputField(PlaceholderTextView(), for: view, using: input)
+        return inputField(UIPlaceholderTextView(), for: view, using: input)
     }
 }
 
@@ -177,10 +167,3 @@ public extension TextInputViewBuilderConfig {
 }
 
 extension TextInputViewBuilderConfig: TextInputViewIdentifierType {}
-
-public protocol TextInputDetailType: InputDetailType {
-    
-    /// Check whether a UITextField or UITextView is appropriate as the
-    /// base input field.
-    var isMultilineInput: Bool { get }
-}
