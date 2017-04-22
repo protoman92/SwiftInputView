@@ -111,9 +111,11 @@ extension TextInputViewBuilder: TextInputViewIdentifierType {}
 /// Configure dynamic subviews for text-based InputView.
 open class TextInputViewBuilderConfig: InputViewBuilderConfig {
     fileprivate var inputTextColor: UIColor
+    fileprivate var inputTintColor: UIColor
     
     override init() {
         inputTextColor = .darkGray
+        inputTintColor = .darkGray
         super.init()
     }
     
@@ -137,6 +139,7 @@ open class TextInputViewBuilderConfig: InputViewBuilderConfig {
     /// - Parameter inputField: An InputFieldType instance.
     fileprivate func configure(inputField: InputFieldType) {
         inputField.textColor = inputTextColor
+        inputField.tintColor = inputTintColor
     }
     
     /// Builder class for TextInputViewBuilderConfig.
@@ -155,6 +158,15 @@ open class TextInputViewBuilderConfig: InputViewBuilderConfig {
         /// - Returns: A TextInputBuilder instance.
         public func with(inputTextColor color: UIColor) -> TextInputBuilder {
             textInputConfig?.inputTextColor = color
+            return self
+        }
+        
+        /// Set the input field's tint color.
+        ///
+        /// - Parameter color: A UIColor instance.
+        /// - Returns: A TextInputBuilder instance.
+        public func with(inputTintColor color: UIColor) -> TextInputBuilder {
+            textInputConfig?.inputTintColor = color
             return self
         }
     }

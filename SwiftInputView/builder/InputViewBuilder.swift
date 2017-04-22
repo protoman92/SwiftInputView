@@ -207,11 +207,13 @@ open class InputViewBuilderConfig {
     /// from each other.
     fileprivate var horizontalSpacing: CGFloat
     
+    fileprivate var inputCornerRadius: CGFloat
     fileprivate var inputBackgroundColor: UIColor
     fileprivate var requiredIndicatorTextColor: UIColor
     
     init() {
         horizontalSpacing = Space.small.value ?? 0
+        inputCornerRadius = Space.small.value ?? 0
         inputBackgroundColor = .clear
         requiredIndicatorTextColor = .red
     }
@@ -250,6 +252,7 @@ open class InputViewBuilderConfig {
         
         // Configure the parent subview.
         view.backgroundColor = inputBackgroundColor
+        view.layer.cornerRadius = inputCornerRadius
         
         // Configure the child views.
         let subviews = view.subviews
@@ -312,12 +315,21 @@ open class InputViewBuilderConfig {
             self.init(config: InputViewBuilderConfig())
         }
         
-        /// Set the horizontalSpacing.
+        /// Set horizontalSpacing.
         ///
         /// - Parameter spacing: A CGFloat value.
         /// - Returns: The current Builder
         public func with(horizontalSpacing spacing: CGFloat) -> BaseBuilder {
             config.horizontalSpacing = spacing
+            return self
+        }
+        
+        /// Set inputCornerRadius.
+        ///
+        /// - Parameter spacing: A CGFloat value.
+        /// - Returns: The current Builder
+        public func with(inputCornerRadius radius: CGFloat) -> BaseBuilder {
+            config.inputCornerRadius = radius
             return self
         }
         
