@@ -13,16 +13,16 @@ PODS:
     - SwiftUIUtilities/Main
   - SwiftUIUtilities/Main (1.1.6):
     - SwiftUtilities/Main
-  - SwiftUtilities/Main (1.2.6):
+  - SwiftUtilities/Main (1.2.7):
     - RxCocoa (~> 3.0)
     - RxSwift (~> 3.0)
-  - SwiftUtilitiesTests (1.2.6):
+  - SwiftUtilitiesTests (1.2.7):
     - RxBlocking (~> 3.0)
     - RxCocoa (~> 3.0)
     - RxSwift (~> 3.0)
     - RxTest (~> 3.0)
-    - SwiftUtilitiesTests/Main (= 1.2.6)
-  - SwiftUtilitiesTests/Main (1.2.6):
+    - SwiftUtilitiesTests/Main (= 1.2.7)
+  - SwiftUtilitiesTests/Main (1.2.7):
     - RxBlocking (~> 3.0)
     - RxCocoa (~> 3.0)
     - RxSwift (~> 3.0)
@@ -39,8 +39,8 @@ SPEC CHECKSUMS:
   RxTest: beb6beb882cf1dcac5fc9fdbd4760a5254e7f3a6
   SwiftPlaceholderTextView: bc58f3c04520f1ae9c3d72c8abb5b207bba218ce
   SwiftUIUtilities: b03b9721914150e0f6c67c5c611ea0ad3535daa1
-  SwiftUtilities: b0c59b2ae8c5dfc2368c8ed4edb8a2d92e9d9d9c
-  SwiftUtilitiesTests: 087edd5ed5a28a1741aa1d5d71b83abbac9f7d40
+  SwiftUtilities: c809181d8bfa772b3936dc5fdbcbfe0e37a57812
+  SwiftUtilitiesTests: 7dcbd4cb1db3e2de02bce48be32ed7804527d395
 
 PODFILE CHECKSUM: f646bee47e7df21948cc6686ad0de79762f4352e
 

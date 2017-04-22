@@ -8,6 +8,17 @@
 
 import SwiftUtilities
 
+/// Implement this protocol on top of InputDetailType to provide information
+/// to populate an input view/
+public protocol InputViewDetailType: InputDetailType {
+    var inputType: InputType { get }
+}
+
+/// Implement this protocol to classify input types. Usually we can use
+/// enums for this purpose. E.g. address/email/number etc.
+public protocol InputType {}
+
+/// Classify text-based input types.
 public protocol TextInputType: InputType {
     
     /// Check whether a UITextField or UITextView is appropriate as the
@@ -21,7 +32,7 @@ public protocol TextInputType: InputType {
     var isSecureInput: Bool { get }
 }
 
-public extension InputDetailType {
+public extension InputViewDetailType {
     public var textInputType: TextInputType? {
         return inputType as? TextInputType
     }

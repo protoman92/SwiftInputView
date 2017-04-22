@@ -19,6 +19,7 @@
 		D310A5771EAAF13700859248 /* InputViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B2E41EA9971900861C4B /* InputViewBuilder.swift */; };
 		D310A5781EAAF13700859248 /* TextInputViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36B832B1EA9E0EB001CF633 /* TextInputViewBuilder.swift */; };
 		D310A57E1EAB098C00859248 /* CustomExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310A57D1EAB098C00859248 /* CustomExtension.swift */; };
+		D310A57F1EAB26EF00859248 /* CustomExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310A57D1EAB098C00859248 /* CustomExtension.swift */; };
 		D319B2E51EA9971900861C4B /* InputViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B2E41EA9971900861C4B /* InputViewBuilder.swift */; };
 		D319B33C1EA9AF7E00861C4B /* UIAdaptableInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B33B1EA9AF7E00861C4B /* UIAdaptableInputView.swift */; };
 		D319B34C1EA9C05D00861C4B /* InputViewIdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B34B1EA9C05D00861C4B /* InputViewIdentifierType.swift */; };
@@ -403,6 +404,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D310A57F1EAB26EF00859248 /* CustomExtension.swift in Sources */,
 				D310A5721EAAF13700859248 /* IncrementalIdentifierType.swift in Sources */,
 				D310A5731EAAF13700859248 /* InputViewIdentifierType.swift in Sources */,
 				D310A5741EAAF13700859248 /* TextInputType.swift in Sources */,

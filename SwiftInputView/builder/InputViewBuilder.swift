@@ -11,27 +11,27 @@ import SwiftUIUtilities
 
 /// Protocol for input view builder.
 public protocol InputViewBuilderType: ViewBuilderType {
-    var inputs: [InputDetailType] { get }
+    var inputs: [InputViewDetailType] { get }
 }
 
 /// Base class for building InputView.
 open class InputViewBuilder {
     
-    /// Use this InputDetailType Array to construct builder components.
-    open let inputs: [InputDetailType]
+    /// Use this InputViewDetailType Array to construct builder components.
+    open let inputs: [InputViewDetailType]
     
     /// We are not using Builder with this class since we expect subclasses
     /// to accept only one argument.
     ///
-    /// - Parameter inputs: An Array of InputDetailType.
-    public init(from inputs: [InputDetailType]) {
+    /// - Parameter inputs: An Array of InputViewDetailType.
+    public init(from inputs: [InputViewDetailType]) {
         self.inputs = inputs
     }
     
-    /// Construct with only one InputDetailType.
+    /// Construct with only one InputViewDetailType.
     ///
-    /// - Parameter input: An InputDetailType instance.
-    public convenience init(with input: InputDetailType) {
+    /// - Parameter input: An InputViewDetailType instance.
+    public convenience init(with input: InputViewDetailType) {
         self.init(from: [input])
     }
     
@@ -134,10 +134,10 @@ open class InputViewBuilder {
     ///
     /// - Parameters:
     ///   - view: The parent subview UIView.
-    ///   - input: An InputDetailType instance.
+    ///   - input: An InputViewDetailType instance.
     /// - Returns: An Array of ViewBuilderComponentType instance.
     open func builderComponents(forParentSubview view: UIView,
-                                using input: InputDetailType)
+                                using input: InputViewDetailType)
         -> [ViewBuilderComponentType]
     {
         let indicator = requiredIndicator(for: view, using: input)
@@ -148,11 +148,11 @@ open class InputViewBuilder {
     ///
     /// - Parameters:
     ///   - view: The parent UIView.
-    ///   - input: An InputDetailType instance.
+    ///   - input: An InputViewDetailType instance.
     ///   - others: Other UIView on which this view may depend.
     /// - Returns: A ViewBuilderComponentType instance.
     open func requiredIndicator(for view: UIView,
-                                using input: InputDetailType,
+                                using input: InputViewDetailType,
                                 dependingOn others: UIView...)
         -> ViewBuilderComponentType
     {

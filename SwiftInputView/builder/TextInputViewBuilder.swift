@@ -15,7 +15,7 @@ import UIKit
 open class TextInputViewBuilder: InputViewBuilder {
     
     override open func builderComponents(forParentSubview view: UIView,
-                                         using input: InputDetailType)
+                                         using input: InputViewDetailType)
         -> [ViewBuilderComponentType]
     {
         var components = super.builderComponents(forParentSubview: view,
@@ -32,12 +32,12 @@ open class TextInputViewBuilder: InputViewBuilder {
     /// - Parameters:
     ///   - inputField: The inputField to be prepared.
     ///   - view: The parent UIView.
-    ///   - input: An TextInputDetailType instance.
+    ///   - input: An TextInputViewDetailType instance.
     ///   - others: Other UIView on which this view may depend.
     /// - Returns: A ViewBuilderComponentType instance.
     fileprivate func inputField<I>(_ inputField: I,
                                 for view: UIView,
-                                using input: InputDetailType,
+                                using input: InputViewDetailType,
                                 dependingOn others: UIView...)
         -> ViewBuilderComponentType
         where I: UIView, I: DynamicFontType
@@ -68,11 +68,11 @@ open class TextInputViewBuilder: InputViewBuilder {
     ///
     /// - Parameters:
     ///   - view: The parent UIView instance.
-    ///   - input: A TextInputDetailType instance.
+    ///   - input: A TextInputViewDetailType instance.
     ///   - others: Other UIView on which this view may depend.
     /// - Returns: A ViewBuilderComponentType instance.
     open func normalInput(for view: UIView,
-                          using input: InputDetailType,
+                          using input: InputViewDetailType,
                           dependingOn others: UIView...)
         -> ViewBuilderComponentType
     {
@@ -89,11 +89,11 @@ open class TextInputViewBuilder: InputViewBuilder {
     ///
     /// - Parameters:
     ///   - view: The parent UIView instance.
-    ///   - input: A TextInputDetailType instance.
+    ///   - input: A TextInputViewDetailType instance.
     ///   - others: Other UIView on which this view may depend.
     /// - Returns: A ViewBuilderComponentType instance.
     open func multilineInput(for view: UIView,
-                             using input: InputDetailType,
+                             using input: InputViewDetailType,
                              dependingOn others: UIView...)
         -> ViewBuilderComponentType
     {
