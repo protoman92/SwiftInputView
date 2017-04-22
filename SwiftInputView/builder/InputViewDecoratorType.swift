@@ -9,32 +9,33 @@
 import UIKit
 
 /// Implement this protocol to provide appearance configurations for input
-/// view.
-public protocol InputViewDecoratorType {
+/// view. These properties are optional, such that we can omit certain
+/// values and the builder config will fall back to default values.
+@objc public protocol InputViewDecoratorType {
     /// This spacing determines how far apart each parent subview should be
     /// from each other.
-    var horizontalSpacing: CGFloat { get }
+    @objc optional var horizontalSpacing: CGFloat { get }
     
     /// Corner radius for each component view.
-    var inputCornerRadius: CGFloat { get }
+    @objc optional var inputCornerRadius: CGFloat { get }
     
     /// Background color for each component view.
-    var inputBackgroundColor: UIColor { get }
+    @objc optional var inputBackgroundColor: UIColor { get }
     
     /// Required indicator text color for each component view.
-    var requiredIndicatorTextColor: UIColor { get }
+    @objc optional var requiredIndicatorTextColor: UIColor { get }
 }
 
 /// Implement this protocol to provide appearance configurations for 
 /// text-based input view.
-public protocol TextInputViewDecoratorType: InputViewDecoratorType {
+@objc public protocol TextInputViewDecoratorType: InputViewDecoratorType {
     
     /// Text color for inputField.
-    var inputTextColor: UIColor { get }
+    @objc optional var inputTextColor: UIColor { get }
     
     /// Tint color for inputField.
-    var inputTintColor: UIColor { get }
+    @objc optional var inputTintColor: UIColor { get }
     
     /// Text color for placeholder.
-    var placeholderTextColor: UIColor { get }
+    @objc optional var placeholderTextColor: UIColor { get }
 }

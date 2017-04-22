@@ -47,16 +47,13 @@ open class TextInputViewBuilderConfig: InputViewBuilderConfig {
     fileprivate func configure(inputField: InputFieldType) {
         inputField.textColor = inputTextColor
         inputField.tintColor = inputTintColor
+        inputField.placeholderTextColor = placeholderTextColor
     }
     
     /// Builder class for TextInputViewBuilderConfig.
     open class TextInputBuilder: BaseBuilder {
         convenience init() {
             self.init(config: TextInputViewBuilderConfig())
-        }
-        
-        var textInputConfig: TextInputViewBuilderConfig? {
-            return super.config as? TextInputViewBuilderConfig
         }
     }
 }
