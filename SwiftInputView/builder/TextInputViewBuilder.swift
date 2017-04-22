@@ -117,8 +117,10 @@ open class TextInputViewBuilderConfig: InputViewBuilderConfig {
         super.init()
     }
     
-    override public func configure(for view: UIView) {
-        super.configure(for: view)
+    /// We override this method to provide individual configurations for
+    /// each parent subview.
+    override open func configure(forParentSubview view: UIView) {
+        super.configure(forParentSubview: view)
         let subviews = view.subviews
         
         guard let inputField = subviews.filter({

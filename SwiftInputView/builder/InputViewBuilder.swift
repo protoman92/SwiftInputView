@@ -54,7 +54,10 @@ open class InputViewBuilder {
         let subviews = Array(repeating: {_ in UIView()}, for: count)
         
         for (index, (subview, input)) in zip(subviews, inputs).enumerated() {
+            let identifier = parentSubviewIdentifier(for: index + 1)
             let psc = builderComponents(forParentSubview: subview, using: input)
+            
+            subview.accessibilityIdentifier = identifier
             subview.populateSubviews(from: psc)
             
             // Top constraint for parent subview.
@@ -199,13 +202,56 @@ extension InputViewBuilder: InputViewBuilderType {}
 
 /// Configure dynamic subviews for InputView.
 open class InputViewBuilderConfig {
+    
+    /// This spacing determines how far apart each parent subview should be
+    /// from each other.
+    fileprivate var horizontalSpacing: CGFloat
+    
+    fileprivate var inputBackgroundColor: UIColor
     fileprivate var requiredIndicatorTextColor: UIColor
     
     init() {
+        horizontalSpacing = Space.small.value ?? 0
+        inputBackgroundColor = .clear
         requiredIndicatorTextColor = .red
     }
     
+    /// If there are multiple inputs, find all parent subviews and configure
+    /// them individually.
+    ///
+    /// - Parameter view: The master UIView.
     public func configure(for view: UIView) {
+        let baseIdentifier = parentSubviewIdentifier
+        
+        let parentSubviews = view.findAll(withBaseIdentifier: baseIdentifier,
+                                          andStartingIndex: 1)
+        
+        let count = parentSubviews.count
+        
+        if count > 0 {
+            parentSubviews.enumerated().forEach({(index, view) in
+                self.configureConstraints(forParentSubview: view,
+                                          at: index,
+                                          withinCount: count)
+                
+                self.configure(forParentSubview: view)
+            })
+        } else {
+            configure(forParentSubview: view)
+        }
+    }
+    
+    /// In case there are multiple inputs, we need to find all parent subviews
+    /// and configure them individually. If there is only one, we can call
+    /// this method directly on the master UIView.
+    ///
+    /// - Parameter view: A UIView instance.
+    open func configure(forParentSubview view: UIView) {
+        
+        // Configure the parent subview.
+        view.backgroundColor = inputBackgroundColor
+        
+        // Configure the child views.
         let subviews = view.subviews
         
         guard let requiredIndicator = subviews.filter({
@@ -215,6 +261,31 @@ open class InputViewBuilderConfig {
         }
         
         configure(requiredInput: requiredIndicator)
+    }
+    
+    /// Configure constraints for each parent subview.
+    ///
+    /// - Parameters:
+    ///   - view: A parent subview UIView.
+    ///   - index: An Int index.
+    ///   - count: An Int index representing the number of parent subviews.
+    fileprivate func configureConstraints(forParentSubview view: UIView,
+                                          at index: Int,
+                                          withinCount count: Int) {
+        let constraints = view.superview?.constraints ?? []
+        let horizontalSpacing = self.horizontalSpacing
+        
+        if index > 0 {
+            constraints.filter({
+                $0.firstAttribute == .left && $0.firstItem as? UIView == view
+            }).first?.constant = horizontalSpacing
+        }
+        
+        // Reduce width to fit the parent view, since we added a horizontal
+        // spacing above.
+        constraints.filter({
+            $0.firstAttribute == .width && $0.firstItem as? UIView == view
+        }).first?.constant = -horizontalSpacing * (1 - 1 / CGFloat(count))
     }
     
     /// Configure required indicator UILabel.
@@ -239,6 +310,24 @@ open class InputViewBuilderConfig {
         
         convenience init() {
             self.init(config: InputViewBuilderConfig())
+        }
+        
+        /// Set the horizontalSpacing.
+        ///
+        /// - Parameter spacing: A CGFloat value.
+        /// - Returns: The current Builder
+        public func with(horizontalSpacing spacing: CGFloat) -> BaseBuilder {
+            config.horizontalSpacing = spacing
+            return self
+        }
+        
+        /// Set the input backgroundColor.
+        ///
+        /// - Parameter color: A UIColor instance.
+        /// - Returns: The current Builder instance.
+        public func with(inputBackgroundColor color: UIColor) -> BaseBuilder {
+            config.inputBackgroundColor = color
+            return self
         }
         
         /// Set the required indicator's text color.

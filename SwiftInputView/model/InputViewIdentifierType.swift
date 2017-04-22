@@ -11,9 +11,23 @@ public protocol InputViewIdentifierType {}
 
 public extension InputViewIdentifierType {
     
+    /// Identifier to get parent subviews.
+    var parentSubviewIdentifier: String {
+        return "parentSubview"
+    }
+    
     /// Identifier to get the required indicator UILabel.
     var requiredIndicatorIdentifier: String {
         return "requiredIndicator"
+    }
+    
+    /// In case there are multiple inputs in one input view, we want to keep
+    /// separate accessibility identifiers.
+    ///
+    /// - Parameter index: The index corresponding to the input's index.
+    /// - Returns: A String value.
+    func parentSubviewIdentifier(for index: Int) -> String {
+        return "\(parentSubviewIdentifier)\(index)"
     }
 }
 

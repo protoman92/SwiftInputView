@@ -9,6 +9,16 @@
 /* Begin PBXBuildFile section */
 		5865616327D0B8CCC8587FF0 /* Pods_SwiftInputView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D367FF93180D221895571196 /* Pods_SwiftInputView.framework */; };
 		7B73954795539FB1DEFCC2AA /* Pods_SwiftInputViewTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89D24A2E90CBA532CEF30A34 /* Pods_SwiftInputViewTests.framework */; };
+		D310A56D1EAAF04700859248 /* IncrementalIdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310A56C1EAAF04700859248 /* IncrementalIdentifierType.swift */; };
+		D310A5711EAAF06300859248 /* IncrementalIdentifierTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310A5701EAAF06300859248 /* IncrementalIdentifierTypeTests.swift */; };
+		D310A5721EAAF13700859248 /* IncrementalIdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310A56C1EAAF04700859248 /* IncrementalIdentifierType.swift */; };
+		D310A5731EAAF13700859248 /* InputViewIdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B34B1EA9C05D00861C4B /* InputViewIdentifierType.swift */; };
+		D310A5741EAAF13700859248 /* TextInputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36B83331EAA6697001CF633 /* TextInputType.swift */; };
+		D310A5751EAAF13700859248 /* TextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36B83351EAA790B001CF633 /* TextInput.swift */; };
+		D310A5761EAAF13700859248 /* UIAdaptableInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B33B1EA9AF7E00861C4B /* UIAdaptableInputView.swift */; };
+		D310A5771EAAF13700859248 /* InputViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B2E41EA9971900861C4B /* InputViewBuilder.swift */; };
+		D310A5781EAAF13700859248 /* TextInputViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36B832B1EA9E0EB001CF633 /* TextInputViewBuilder.swift */; };
+		D310A57E1EAB098C00859248 /* CustomExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310A57D1EAB098C00859248 /* CustomExtension.swift */; };
 		D319B2E51EA9971900861C4B /* InputViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B2E41EA9971900861C4B /* InputViewBuilder.swift */; };
 		D319B33C1EA9AF7E00861C4B /* UIAdaptableInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B33B1EA9AF7E00861C4B /* UIAdaptableInputView.swift */; };
 		D319B34C1EA9C05D00861C4B /* InputViewIdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B34B1EA9C05D00861C4B /* InputViewIdentifierType.swift */; };
@@ -34,6 +44,10 @@
 		89D24A2E90CBA532CEF30A34 /* Pods_SwiftInputViewTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftInputViewTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		985A870994D04E10EA8AD7AC /* Pods-SwiftInputViewTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftInputViewTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftInputViewTests/Pods-SwiftInputViewTests.release.xcconfig"; sourceTree = "<group>"; };
 		B0B55AF8C08E4DDC5E9C6DAB /* Pods-SwiftInputView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftInputView.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftInputView/Pods-SwiftInputView.debug.xcconfig"; sourceTree = "<group>"; };
+		D310A56C1EAAF04700859248 /* IncrementalIdentifierType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IncrementalIdentifierType.swift; path = model/IncrementalIdentifierType.swift; sourceTree = "<group>"; };
+		D310A56F1EAAF06300859248 /* SwiftInputViewTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftInputViewTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		D310A5701EAAF06300859248 /* IncrementalIdentifierTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncrementalIdentifierTypeTests.swift; sourceTree = "<group>"; };
+		D310A57D1EAB098C00859248 /* CustomExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomExtension.swift; sourceTree = "<group>"; };
 		D319B2E41EA9971900861C4B /* InputViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewBuilder.swift; path = builder/InputViewBuilder.swift; sourceTree = "<group>"; };
 		D319B33B1EA9AF7E00861C4B /* UIAdaptableInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIAdaptableInputView.swift; path = input/UIAdaptableInputView.swift; sourceTree = "<group>"; };
 		D319B34B1EA9C05D00861C4B /* InputViewIdentifierType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewIdentifierType.swift; path = model/InputViewIdentifierType.swift; sourceTree = "<group>"; };
@@ -90,6 +104,22 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		D310A56E1EAAF04B00859248 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				D310A5701EAAF06300859248 /* IncrementalIdentifierTypeTests.swift */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		D310A57C1EAB098C00859248 /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				D310A57D1EAB098C00859248 /* CustomExtension.swift */,
+			);
+			path = extension;
+			sourceTree = "<group>";
+		};
 		D319B33A1EA9AF6100861C4B /* input */ = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +131,7 @@
 		D319B34A1EA9C03500861C4B /* model */ = {
 			isa = PBXGroup;
 			children = (
+				D310A56C1EAAF04700859248 /* IncrementalIdentifierType.swift */,
 				D319B34B1EA9C05D00861C4B /* InputViewIdentifierType.swift */,
 				D36B83331EAA6697001CF633 /* TextInputType.swift */,
 				D36B83351EAA790B001CF633 /* TextInput.swift */,
@@ -131,6 +162,7 @@
 		D3D0548D1EA89BDA00515B37 /* SwiftInputView */ = {
 			isa = PBXGroup;
 			children = (
+				D310A57C1EAB098C00859248 /* extension */,
 				D319B34A1EA9C03500861C4B /* model */,
 				D319B33A1EA9AF6100861C4B /* input */,
 				D3F9A7D51EA8FA4E004EA340 /* builder */,
@@ -143,6 +175,8 @@
 		D3D054981EA89BDA00515B37 /* SwiftInputViewTests */ = {
 			isa = PBXGroup;
 			children = (
+				D310A56F1EAAF06300859248 /* SwiftInputViewTests-Bridging-Header.h */,
+				D310A56E1EAAF04B00859248 /* model */,
 				D3D0549B1EA89BDA00515B37 /* Info.plist */,
 			);
 			path = SwiftInputViewTests;
@@ -231,6 +265,7 @@
 					D3D054931EA89BDA00515B37 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = S3V9CCW695;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -353,10 +388,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D310A57E1EAB098C00859248 /* CustomExtension.swift in Sources */,
 				D36B832C1EA9E0EB001CF633 /* TextInputViewBuilder.swift in Sources */,
 				D319B34C1EA9C05D00861C4B /* InputViewIdentifierType.swift in Sources */,
 				D36B83341EAA6697001CF633 /* TextInputType.swift in Sources */,
 				D319B2E51EA9971900861C4B /* InputViewBuilder.swift in Sources */,
+				D310A56D1EAAF04700859248 /* IncrementalIdentifierType.swift in Sources */,
 				D319B33C1EA9AF7E00861C4B /* UIAdaptableInputView.swift in Sources */,
 				D36B83361EAA790B001CF633 /* TextInput.swift in Sources */,
 			);
@@ -366,6 +403,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D310A5721EAAF13700859248 /* IncrementalIdentifierType.swift in Sources */,
+				D310A5731EAAF13700859248 /* InputViewIdentifierType.swift in Sources */,
+				D310A5741EAAF13700859248 /* TextInputType.swift in Sources */,
+				D310A5751EAAF13700859248 /* TextInput.swift in Sources */,
+				D310A5761EAAF13700859248 /* UIAdaptableInputView.swift in Sources */,
+				D310A5771EAAF13700859248 /* InputViewBuilder.swift in Sources */,
+				D310A5781EAAF13700859248 /* TextInputViewBuilder.swift in Sources */,
+				D310A5711EAAF06300859248 /* IncrementalIdentifierTypeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -529,11 +574,14 @@
 			baseConfigurationReference = 7A1804B1E3E171733CB9B2A2 /* Pods-SwiftInputViewTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = S3V9CCW695;
 				INFOPLIST_FILE = SwiftInputViewTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.swiften.SwiftInputViewTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SwiftInputViewTests/SwiftInputViewTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -543,11 +591,13 @@
 			baseConfigurationReference = 985A870994D04E10EA8AD7AC /* Pods-SwiftInputViewTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = S3V9CCW695;
 				INFOPLIST_FILE = SwiftInputViewTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.swiften.SwiftInputViewTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SwiftInputViewTests/SwiftInputViewTests-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
