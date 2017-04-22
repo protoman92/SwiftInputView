@@ -53,8 +53,14 @@ open class InputViewBuilder {
         var components = [ViewBuilderComponentType]()
         let subviews = Array(repeating: {_ in UIView()}, for: count)
         
+        // Get sum of concrete inputViewWidth. For inputs that do not specify
+        // a width, we anchor their width to a fraction of the master view 
+        // minus this value.
+        let inputWidths = inputs.flatMap({$0.inputViewWidth})
+        let concreteWidth = inputWidths.reduce(0, +)
+        
         for (index, (subview, input)) in zip(subviews, inputs).enumerated() {
-            let identifier = parentSubviewIdentifier(for: index + 1)
+            let identifier = parentSubviewId(for: index + 1)
             let psc = builderComponents(forParentSubview: subview, using: input)
             
             subview.accessibilityIdentifier = identifier
@@ -97,18 +103,42 @@ open class InputViewBuilder {
                                             constant: 0)
             
             left.constantValue = String(describing: 0)
+            left.identifier = parentSubviewLeftId
             
             // Width constraint for parent subview. We need to divide the
-            // width by the number of subviews.
-            let width = BaseLayoutConstraint(item: subview,
+            // width by the number of subviews, or set a concrete width if
+            // necessary.
+            let width: BaseLayoutConstraint
+            
+            if let concreteValue = inputWidths.element(at: index) {
+                
+                // Direct width constraint.
+                width = BaseLayoutConstraint(item: subview,
+                                             attribute: .width,
+                                             relatedBy: .equal,
+                                             toItem: nil,
+                                             attribute: .notAnAttribute,
+                                             multiplier: 1,
+                                             constant: concreteValue)
+                
+                width.identifier = parentSubviewWidthId
+            } else {
+                // Since concrete widths are already set, we subtract their
+                // count to calculate the multiplier.
+                let ratio = 1 / CGFloat(count - inputWidths.count)
+                let constant: CGFloat = -(concreteWidth * ratio)
+                
+                width = BaseLayoutConstraint(item: subview,
                                              attribute: .width,
                                              relatedBy: .equal,
                                              toItem: view,
                                              attribute: .width,
-                                             multiplier: 1 / CGFloat(count),
-                                             constant: 0)
-            
-            width.constantValue = String(describing: 0)
+                                             multiplier: ratio,
+                                             constant: constant)
+                
+                width.constantValue = String(describing: -1)
+                width.identifier = parentSubviewWidthRatioId
+            }
             
             // Construct builder component for parent subview. With these
             // constraints, all parent subviews should be laid side by side.
@@ -161,7 +191,7 @@ open class InputViewBuilder {
         }
         
         let indicator = BaseLabel()
-        indicator.accessibilityIdentifier = requiredIndicatorIdentifier
+        indicator.accessibilityIdentifier = requiredIndicatorId
         indicator.fontName = String(describing: 1)
         indicator.fontSize = String(describing: 3)
         
@@ -212,7 +242,7 @@ open class InputViewBuilderConfig {
     fileprivate var requiredIndicatorTextColor: UIColor
     
     init() {
-        horizontalSpacing = Space.small.value ?? 0
+        horizontalSpacing = Space.smaller.value ?? 0
         inputCornerRadius = Space.small.value ?? 0
         inputBackgroundColor = .clear
         requiredIndicatorTextColor = .red
@@ -223,21 +253,16 @@ open class InputViewBuilderConfig {
     ///
     /// - Parameter view: The master UIView.
     public func configure(for view: UIView) {
-        let baseIdentifier = parentSubviewIdentifier
+        let baseIdentifier = parentSubviewId
         
         let parentSubviews = view.findAll(withBaseIdentifier: baseIdentifier,
                                           andStartingIndex: 1)
         
-        let count = parentSubviews.count
-        
-        if count > 0 {
-            parentSubviews.enumerated().forEach({(index, view) in
-                self.configureConstraints(forParentSubview: view,
-                                          at: index,
-                                          withinCount: count)
-                
-                self.configure(forParentSubview: view)
-            })
+        if parentSubviews.isNotEmpty {
+            configureConstraints(forMasterView: view,
+                                 andParentSubviews: parentSubviews)
+            
+            parentSubviews.forEach({self.configure(forParentSubview: $0)})
         } else {
             configure(forParentSubview: view)
         }
@@ -258,7 +283,7 @@ open class InputViewBuilderConfig {
         let subviews = view.subviews
         
         guard let requiredIndicator = subviews.filter({
-            $0.accessibilityIdentifier == requiredIndicatorIdentifier
+            $0.accessibilityIdentifier == requiredIndicatorId
         }).first as? UILabel else {
             return
         }
@@ -269,26 +294,38 @@ open class InputViewBuilderConfig {
     /// Configure constraints for each parent subview.
     ///
     /// - Parameters:
-    ///   - view: A parent subview UIView.
-    ///   - index: An Int index.
-    ///   - count: An Int index representing the number of parent subviews.
-    fileprivate func configureConstraints(forParentSubview view: UIView,
-                                          at index: Int,
-                                          withinCount count: Int) {
-        let constraints = view.superview?.constraints ?? []
+    ///   - view: The master UIView.
+    ///   - subs: An Array of all parent subviews.
+    fileprivate func configureConstraints(forMasterView view: UIView,
+                                          andParentSubviews subs: [UIView]) {
         let horizontalSpacing = self.horizontalSpacing
         
-        if index > 0 {
-            constraints.filter({
-                $0.firstAttribute == .left && $0.firstItem as? UIView == view
-            }).first?.constant = horizontalSpacing
-        }
+        // We include all parent subviews' constraints to access their direct
+        // width constraints, if applicable.
+        let constraints = view.constraints + subs.flatMap({$0.constraints})
+        
+        // We skip the first subview since it should be anchored to the left
+        // of the master view.
+        constraints.filter({
+            $0.identifier == self.parentSubviewLeftId &&
+            $0.secondAttribute == .right
+        }).forEach({$0.constant = horizontalSpacing})
         
         // Reduce width to fit the parent view, since we added a horizontal
-        // spacing above.
+        // spacing above. Only do this for relative width constraint, not
+        // direct width (i.e. inputs that have explicit widths)
+        let concreteWidthCount = constraints.filter({
+            $0.identifier == self.parentSubviewWidthId
+        }).count
+        
+        let subCount = subs.count
+        let nonConcrete = Swift.max(subCount - concreteWidthCount, 1)
+        let multiplier = (CGFloat(subCount - 1)) / CGFloat(nonConcrete)
+        let offset = horizontalSpacing * multiplier
+        
         constraints.filter({
-            $0.firstAttribute == .width && $0.firstItem as? UIView == view
-        }).first?.constant = -horizontalSpacing * (1 - 1 / CGFloat(count))
+            $0.identifier == self.parentSubviewWidthRatioId
+        }).forEach({$0.constant -= offset})
     }
     
     /// Configure required indicator UILabel.

@@ -12,12 +12,12 @@ public protocol InputViewIdentifierType {}
 public extension InputViewIdentifierType {
     
     /// Identifier to get parent subviews.
-    var parentSubviewIdentifier: String {
+    var parentSubviewId: String {
         return "parentSubview"
     }
     
     /// Identifier to get the required indicator UILabel.
-    var requiredIndicatorIdentifier: String {
+    var requiredIndicatorId: String {
         return "requiredIndicator"
     }
     
@@ -26,8 +26,23 @@ public extension InputViewIdentifierType {
     ///
     /// - Parameter index: The index corresponding to the input's index.
     /// - Returns: A String value.
-    func parentSubviewIdentifier(for index: Int) -> String {
-        return "\(parentSubviewIdentifier)\(index)"
+    func parentSubviewId(for index: Int) -> String {
+        return "\(parentSubviewId)\(index)"
+    }
+    
+    /// Use this to access direct width constraint.
+    var parentSubviewWidthId: String {
+        return "parentSubviewWidth"
+    }
+    
+    /// Use this to access width ratio constraint.
+    var parentSubviewWidthRatioId: String {
+        return "parentSubviewWidthRatio"
+    }
+    
+    /// Use this to access left constraint.
+    var parentSubviewLeftId: String {
+        return "parentSubviewLeft"
     }
 }
 
@@ -37,7 +52,7 @@ public protocol TextInputViewIdentifierType: InputViewIdentifierType {}
 public extension TextInputViewIdentifierType {
     
     /// Identifier to get the input field.
-    var inputFieldIdentifier: String {
+    var inputFieldId: String {
         return "inputField"
     }
 }

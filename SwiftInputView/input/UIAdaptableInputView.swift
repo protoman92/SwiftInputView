@@ -30,7 +30,7 @@ public extension UIAdaptableInputView {
     
     /// Get all parent subviews using a base identifier.
     fileprivate var parentSubviews: [UIView] {
-        let id = parentSubviewIdentifier
+        let id = parentSubviewId
         var views = findAll(withBaseIdentifier: id, andStartingIndex: 1)
         
         // We need to add the current view as well, in case there is only

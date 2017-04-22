@@ -42,7 +42,7 @@ open class TextInputViewBuilder: InputViewBuilder {
         -> ViewBuilderComponentType
         where I: UIView, I: DynamicFontType
     {
-        inputField.accessibilityIdentifier = inputFieldIdentifier
+        inputField.accessibilityIdentifier = inputFieldId
         inputField.fontName = String(describing: 1)
         inputField.fontSize = String(describing: 5)
         
@@ -126,7 +126,7 @@ open class TextInputViewBuilderConfig: InputViewBuilderConfig {
         let subviews = view.subviews
         
         guard let inputField = subviews.filter({
-            $0.accessibilityIdentifier == inputFieldIdentifier
+            $0.accessibilityIdentifier == inputFieldId
         }).first as? InputFieldType else {
             return
         }

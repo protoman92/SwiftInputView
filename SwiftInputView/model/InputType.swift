@@ -1,5 +1,5 @@
 //
-//  TextInputType.swift
+//  InputType.swift
 //  SwiftInputView
 //
 //  Created by Hai Pham on 4/22/17.
@@ -11,7 +11,15 @@ import SwiftUtilities
 /// Implement this protocol on top of InputDetailType to provide information
 /// to populate an input view/
 public protocol InputViewDetailType: InputDetailType {
+    
+    /// We can use this input type to supply view information. For e.g., if
+    /// this is an instance of TextInputType, we can check the type of
+    /// keyboard to be used, or whether the input is multiline.
     var inputType: InputType { get }
+    
+    /// The input view's width. For e.g., input field for phone extension
+    /// should be smaller than others.
+    var inputViewWidth: CGFloat? { get }
 }
 
 /// Implement this protocol to classify input types. Usually we can use
@@ -33,6 +41,9 @@ public protocol TextInputType: InputType {
 }
 
 public extension InputViewDetailType {
+    
+    /// Optionally cast to TextInputType. If we are using a text-based input,
+    /// this is expected to be non-nil.
     public var textInputType: TextInputType? {
         return inputType as? TextInputType
     }
