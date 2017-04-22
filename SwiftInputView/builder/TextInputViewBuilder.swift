@@ -121,8 +121,8 @@ open class TextInputViewBuilderConfig: InputViewBuilderConfig {
     
     /// We override this method to provide individual configurations for
     /// each parent subview.
-    override open func configure(forParentSubview view: UIView) {
-        super.configure(forParentSubview: view)
+    override open func configureAppearance(forParentSubview view: UIView) {
+        super.configureAppearance(forParentSubview: view)
         let subviews = view.subviews
         
         guard let inputField = subviews.filter({
@@ -132,6 +132,18 @@ open class TextInputViewBuilderConfig: InputViewBuilderConfig {
         }
         
         configure(inputField: inputField)
+    }
+    
+    /// Override to provide logic config for text-based inputView.
+    override open func configureLogic(forParentSubview view: UIView) {
+        super.configureLogic(forParentSubview: view)
+        
+        guard let view = view as? TextInputViewComponentType else {
+            return
+        }
+        
+        // We setup the inputField here, e.g. wire up text listeners.
+        view.setupInputField()
     }
     
     /// Configure an InputFieldType instance.

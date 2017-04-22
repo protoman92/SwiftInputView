@@ -35,6 +35,19 @@ open class InputViewBuilder {
         self.init(from: [input])
     }
     
+    /// Return nil if the value is neither an InputViewDetailType instance
+    /// nor an Array of that type.
+    public convenience init(with value: Any) {
+        if let value = value as? InputViewDetailType {
+            self.init(with: value)
+        } else if let value = value as? [InputViewDetailType] {
+            self.init(from: value)
+        } else {
+            debugException()
+            self.init(from: [])
+        }
+    }
+    
     /// To accommodate multiple inputs on one line (e.g. first name/last name),
     /// we construct a separate UIView for each input (called parent subviews),
     /// and lay them horizontally.
@@ -51,7 +64,7 @@ open class InputViewBuilder {
         }
         
         var components = [ViewBuilderComponentType]()
-        let subviews = Array(repeating: {_ in UIView()}, for: count)
+        let subs = Array(repeating: {_ in UIInputComponentView()}, for: count)
         
         // Get sum of concrete inputViewWidth. For inputs that do not specify
         // a width, we anchor their width to a fraction of the master view 
@@ -59,7 +72,7 @@ open class InputViewBuilder {
         let inputWidths = inputs.flatMap({$0.inputViewWidth})
         let concreteWidth = inputWidths.reduce(0, +)
         
-        for (index, (subview, input)) in zip(subviews, inputs).enumerated() {
+        for (index, (subview, input)) in zip(subs, inputs).enumerated() {
             let identifier = parentSubviewId(for: index + 1)
             let psc = builderComponents(forParentSubview: subview, using: input)
             
@@ -91,7 +104,7 @@ open class InputViewBuilder {
             // Left constraint for parent subview. If this is the first
             // subview to be added, the previousView will be the parent view,
             // and the second attribute will be .left.
-            let previousView = index == 0 ? view : subviews[index - 1]
+            let previousView = index == 0 ? view : subs[index - 1]
             let secondAttr = index == 0 ? NSLayoutAttribute.left : .right
             
             let left = BaseLayoutConstraint(item: subview,
@@ -110,7 +123,7 @@ open class InputViewBuilder {
             // necessary.
             let width: BaseLayoutConstraint
             
-            if let concreteValue = inputWidths.element(at: index) {
+            if let concreteValue = input.inputViewWidth {
                 
                 // Direct width constraint.
                 width = BaseLayoutConstraint(item: subview,
@@ -186,7 +199,7 @@ open class InputViewBuilder {
                                 dependingOn others: UIView...)
         -> ViewBuilderComponentType
     {
-        if !input.isRequired {
+        if !input.displayRequiredIndicator {
             return ViewBuilderComponent.empty
         }
         
@@ -262,9 +275,13 @@ open class InputViewBuilderConfig {
             configureConstraints(forMasterView: view,
                                  andParentSubviews: parentSubviews)
             
-            parentSubviews.forEach({self.configure(forParentSubview: $0)})
+            parentSubviews.forEach({
+                self.configureAppearance(forParentSubview: $0)
+                self.configureLogic(forParentSubview: $0)
+            })
         } else {
-            configure(forParentSubview: view)
+            configureAppearance(forParentSubview: view)
+            configureLogic(forParentSubview: view)
         }
     }
     
@@ -272,8 +289,10 @@ open class InputViewBuilderConfig {
     /// and configure them individually. If there is only one, we can call
     /// this method directly on the master UIView.
     ///
+    /// This method only configures the view's appearance.
+    ///
     /// - Parameter view: A UIView instance.
-    open func configure(forParentSubview view: UIView) {
+    open func configureAppearance(forParentSubview view: UIView) {
         
         // Configure the parent subview.
         view.backgroundColor = inputBackgroundColor
@@ -290,6 +309,12 @@ open class InputViewBuilderConfig {
         
         configure(requiredInput: requiredIndicator)
     }
+    
+    /// Configure business logic for a parent subview, or the master view if
+    /// there is only one input.
+    ///
+    /// - Parameter view: A UIView instance.
+    open func configureLogic(forParentSubview view: UIView) {}
     
     /// Configure constraints for each parent subview.
     ///

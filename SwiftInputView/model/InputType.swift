@@ -7,6 +7,7 @@
 //
 
 import SwiftUtilities
+import SwiftUIUtilities
 
 /// Implement this protocol on top of InputDetailType to provide information
 /// to populate an input view/
@@ -20,6 +21,22 @@ public protocol InputViewDetailType: InputDetailType {
     /// The input view's width. For e.g., input field for phone extension
     /// should be smaller than others.
     var inputViewWidth: CGFloat? { get }
+    
+    /// The input view's height.
+    var inputViewHeight: CGFloat? { get }
+    
+    /// Check if required indicator should be displayed, even if the input
+    /// is required - e.g. when an explicit input width is specified and it
+    /// is not large enough to display the required indicator text.
+    var shouldDisplayRequiredIndicator: Bool { get }
+}
+
+public extension InputViewDetailType {
+    
+    /// Only display required indicator if both conditions pass.
+    public var displayRequiredIndicator: Bool {
+        return isRequired && shouldDisplayRequiredIndicator
+    }
 }
 
 /// Implement this protocol to classify input types. Usually we can use
@@ -40,11 +57,28 @@ public protocol TextInputType: InputType {
     var isSecureInput: Bool { get }
 }
 
+public extension TextInputType {
+    
+    /// Get the suggested height for an input. For e.g. multiline inputs
+    /// should be larger than the rest.
+    public var suggestedInputHeight: CGFloat? {
+        return (isMultiline ? Size.huge : .medium).value
+    }
+}
+
 public extension InputViewDetailType {
     
     /// Optionally cast to TextInputType. If we are using a text-based input,
     /// this is expected to be non-nil.
     public var textInputType: TextInputType? {
         return inputType as? TextInputType
+    }
+}
+
+public extension Sequence where Iterator.Element: InputViewDetailType {
+    
+    /// Get the largest height in a Sequence of InputViewDetailType.
+    public var largestHeight: CGFloat {
+        return flatMap({$0.inputViewHeight}).max() ?? 0
     }
 }

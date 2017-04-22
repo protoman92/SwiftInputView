@@ -16,11 +16,28 @@ import UIKit
 /// InputViewBuilderConfig.
 public final class UIAdaptableInputView: UIView {
     
+    fileprivate lazy var presenter: Presenter = Presenter(view: self)
+    
     override open func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
         
         // Disable this to avoid unwanted constraints.
         translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    /// Presenter class for UIAdaptableInputView.
+    fileprivate class Presenter: BaseViewPresenter {
+        fileprivate let disposeBag = DisposeBag()
+        
+        fileprivate init(view: UIAdaptableInputView) {
+            super.init(view: view)
+        }
+    }
+}
+
+extension UIAdaptableInputView: TextInputViewComponentType {
+    public var disposeBag: DisposeBag {
+        return presenter.disposeBag
     }
 }
 
@@ -31,12 +48,8 @@ public extension UIAdaptableInputView {
     /// Get all parent subviews using a base identifier.
     fileprivate var parentSubviews: [UIView] {
         let id = parentSubviewId
-        var views = findAll(withBaseIdentifier: id, andStartingIndex: 1)
-        
-        // We need to add the current view as well, in case there is only
-        // one input.
-        views.append(self)
-        return views
+        let views = findAll(withBaseIdentifier: id, andStartingIndex: 1)
+        return views.isNotEmpty ? views : [self]
     }
     
     /// Get all InputFieldType instances.
