@@ -40,11 +40,15 @@ open class TextInputViewBuilder: InputViewBuilder {
                                 using input: InputViewDetailType,
                                 dependingOn others: UIView...)
         -> ViewBuilderComponentType
-        where I: UIView, I: DynamicFontType
+        where I: UIView, I: DynamicFontType & InputFieldType
     {
         inputField.accessibilityIdentifier = inputFieldId
         inputField.fontName = String(describing: 1)
         inputField.fontSize = String(describing: 5)
+        
+        if let textInput = input as? TextInputViewDetailType {
+            inputField.placeholder = textInput.placeholder
+        }
         
         // Add constraints to fit.
         let constraints = FitConstraintSet.builder()
@@ -107,91 +111,3 @@ open class TextInputViewBuilder: InputViewBuilder {
 }
 
 extension TextInputViewBuilder: TextInputViewIdentifierType {}
-
-/// Configure dynamic subviews for text-based InputView.
-open class TextInputViewBuilderConfig: InputViewBuilderConfig {
-    fileprivate var inputTextColor: UIColor
-    fileprivate var inputTintColor: UIColor
-    
-    override init() {
-        inputTextColor = .darkGray
-        inputTintColor = .darkGray
-        super.init()
-    }
-    
-    /// We override this method to provide individual configurations for
-    /// each parent subview.
-    override open func configureAppearance(forParentSubview view: UIView) {
-        super.configureAppearance(forParentSubview: view)
-        let subviews = view.subviews
-        
-        guard let inputField = subviews.filter({
-            $0.accessibilityIdentifier == inputFieldId
-        }).first as? InputFieldType else {
-            return
-        }
-        
-        configure(inputField: inputField)
-    }
-    
-    /// Override to provide logic config for text-based inputView.
-    override open func configureLogic(forParentSubview view: UIView) {
-        super.configureLogic(forParentSubview: view)
-        
-        guard let view = view as? TextInputViewComponentType else {
-            return
-        }
-        
-        // We setup the inputField here, e.g. wire up text listeners.
-        view.setupInputField()
-    }
-    
-    /// Configure an InputFieldType instance.
-    ///
-    /// - Parameter inputField: An InputFieldType instance.
-    fileprivate func configure(inputField: InputFieldType) {
-        inputField.textColor = inputTextColor
-        inputField.tintColor = inputTintColor
-    }
-    
-    /// Builder class for TextInputViewBuilderConfig.
-    open class TextInputBuilder: BaseBuilder {
-        convenience init() {
-            self.init(config: TextInputViewBuilderConfig())
-        }
-        
-        var textInputConfig: TextInputViewBuilderConfig? {
-            return super.config as? TextInputViewBuilderConfig
-        }
-        
-        /// Set the input field's text color.
-        ///
-        /// - Parameter color: A UIColor instance.
-        /// - Returns: A TextInputBuilder instance.
-        public func with(inputTextColor color: UIColor) -> TextInputBuilder {
-            textInputConfig?.inputTextColor = color
-            return self
-        }
-        
-        /// Set the input field's tint color.
-        ///
-        /// - Parameter color: A UIColor instance.
-        /// - Returns: A TextInputBuilder instance.
-        public func with(inputTintColor color: UIColor) -> TextInputBuilder {
-            textInputConfig?.inputTintColor = color
-            return self
-        }
-    }
-}
-
-public extension TextInputViewBuilderConfig {
-    
-    /// Get a TextInputBuilder instance.
-    ///
-    /// - Returns: A TextInputBuilder instance.
-    public static func textInputBuilder() -> TextInputBuilder {
-        return TextInputBuilder()
-    }
-}
-
-extension TextInputViewBuilderConfig: TextInputViewIdentifierType {}

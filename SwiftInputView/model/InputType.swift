@@ -10,7 +10,7 @@ import SwiftUtilities
 import SwiftUIUtilities
 
 /// Implement this protocol on top of InputDetailType to provide information
-/// to populate an input view/
+/// to populate an input view.
 public protocol InputViewDetailType: InputDetailType {
     
     /// We can use this input type to supply view information. For e.g., if
@@ -37,6 +37,15 @@ public extension InputViewDetailType {
     public var displayRequiredIndicator: Bool {
         return isRequired && shouldDisplayRequiredIndicator
     }
+}
+
+
+/// Implement this protocol on top of InputViewDetailType to provide
+/// information for text-based inputs.
+public protocol TextInputViewDetailType: InputViewDetailType {
+    
+    /// Get the placeholder text for this input.
+    var placeholder: String? { get }
 }
 
 /// Implement this protocol to classify input types. Usually we can use
