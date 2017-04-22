@@ -56,17 +56,6 @@ open class InputViewBuilderConfig {
         // Configure the parent subview.
         view.backgroundColor = inputBackgroundColor
         view.layer.cornerRadius = inputCornerRadius
-        
-        // Configure the child views.
-        let subviews = view.subviews
-        
-        guard let requiredIndicator = subviews.filter({
-            $0.accessibilityIdentifier == requiredIndicatorId
-        }).first as? UILabel else {
-            return
-        }
-        
-        configure(requiredInput: requiredIndicator)
     }
     
     /// Configure business logic for a parent subview, or the master view if
@@ -110,14 +99,6 @@ open class InputViewBuilderConfig {
         constraints.filter({
             $0.identifier == self.parentSubviewWidthRatioId
         }).forEach({$0.constant -= offset})
-    }
-    
-    /// Configure required indicator UILabel.
-    ///
-    /// - Parameter indicator: A UILabel instance.
-    fileprivate func configure(requiredInput indicator: UILabel) {
-        indicator.text = "input.title.required".localized
-        indicator.textColor = requiredIndicatorTextColor
     }
     
     /// Builder class for InputViewBuilderConfig.
@@ -166,11 +147,6 @@ extension InputViewBuilderConfig: InputViewDecoratorType {
     public var inputBackgroundColor: UIColor {
         return decorator?.inputBackgroundColor ?? .clear
     }
-    
-    public var requiredIndicatorTextColor: UIColor {
-        return decorator?.requiredIndicatorTextColor ?? .red
-    }
-
 }
 
 extension InputViewBuilderConfig: InputViewIdentifierType {}

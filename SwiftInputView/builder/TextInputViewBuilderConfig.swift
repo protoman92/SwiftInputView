@@ -20,13 +20,19 @@ open class TextInputViewBuilderConfig: InputViewBuilderConfig {
         super.configureAppearance(forParentSubview: view)
         let subviews = view.subviews
         
-        guard let inputField = subviews.filter({
-            $0.accessibilityIdentifier == inputFieldId
-        }).first as? InputFieldType else {
+        guard
+            let inputField = subviews.filter({
+                $0.accessibilityIdentifier == inputFieldId
+            }).first as? InputFieldType,
+            let requiredIndicator = subviews.filter({
+                $0.accessibilityIdentifier == requiredIndicatorId
+            }).first as? UILabel
+        else {
             return
         }
         
         configure(inputField: inputField)
+        configure(requiredInput: requiredIndicator)
     }
     
     /// Override to provide logic config for text-based inputView.
@@ -50,6 +56,14 @@ open class TextInputViewBuilderConfig: InputViewBuilderConfig {
         inputField.placeholderTextColor = placeholderTextColor
     }
     
+    /// Configure required indicator UILabel.
+    ///
+    /// - Parameter indicator: A UILabel instance.
+    fileprivate func configure(requiredInput indicator: UILabel) {
+        indicator.text = "input.title.required".localized
+        indicator.textColor = requiredIndicatorTextColor
+    }
+    
     /// Builder class for TextInputViewBuilderConfig.
     open class TextInputBuilder: BaseBuilder {
         convenience init() {
@@ -71,6 +85,10 @@ public extension TextInputViewBuilderConfig {
 extension TextInputViewBuilderConfig: TextInputViewDecoratorType {
     public var textInputDecorator: TextInputViewDecoratorType? {
         return decorator as? TextInputViewDecoratorType
+    }
+    
+    public var requiredIndicatorTextColor: UIColor {
+        return textInputDecorator?.requiredIndicatorTextColor ?? .red
     }
     
     public var inputTextColor: UIColor {

@@ -16,11 +16,6 @@ public extension InputViewIdentifierType {
         return "parentSubview"
     }
     
-    /// Identifier to get the required indicator UILabel.
-    var requiredIndicatorId: String {
-        return "requiredIndicator"
-    }
-    
     /// In case there are multiple inputs in one input view, we want to keep
     /// separate accessibility identifiers.
     ///
@@ -54,5 +49,10 @@ public extension TextInputViewIdentifierType {
     /// Identifier to get the input field.
     var inputFieldId: String {
         return "inputField"
+    }
+    
+    /// Identifier to get the required indicator UILabel.
+    var requiredIndicatorId: String {
+        return "requiredIndicator"
     }
 }

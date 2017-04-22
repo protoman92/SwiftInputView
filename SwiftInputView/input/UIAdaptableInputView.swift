@@ -57,13 +57,14 @@ public extension UIAdaptableInputView {
         let parentSubviews = self.parentSubviews
         
         return parentSubviews
-            .map({$0.subviews})
-            .reduce([], +)
+            .flatMap({$0.subviews})
             .flatMap({$0 as? InputFieldType})
     }
 }
 
 public extension Reactive where Base: UIAdaptableInputView {
+    
+    /// Use this Observable to observe text changes.
     public var text: Observable<String?> {
         return base.inputFields
             .map({$0.rxText})

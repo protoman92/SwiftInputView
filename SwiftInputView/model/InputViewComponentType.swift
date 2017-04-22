@@ -21,7 +21,12 @@ public protocol InputViewComponentType: InputViewIdentifierType {
     var subviews: [UIView] { get }
 }
 
-public extension InputViewComponentType {
+/// Protocol for component views that hold text-based inputs.
+public protocol TextInputViewComponentType:
+    InputViewComponentType,
+    TextInputViewIdentifierType {}
+
+public extension TextInputViewComponentType {
     
     /// Get the requiredIndicator label. It can be nil if we are calling this
     /// property from a UIAdaptableInputView that has more than one input,
@@ -32,14 +37,6 @@ public extension InputViewComponentType {
             $0.accessibilityIdentifier == requiredIndicatorId
         }).first as? UILabel
     }
-}
-
-/// Protocol for component views that hold text-based inputs.
-public protocol TextInputViewComponentType:
-    InputViewComponentType,
-    TextInputViewIdentifierType {}
-
-public extension TextInputViewComponentType {
     
     /// Get the main input field. This can be nil in case we are using a
     /// UIAdaptableInputView with more than one input.

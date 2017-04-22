@@ -21,14 +21,14 @@ import UIKit
     
     /// Background color for each component view.
     @objc optional var inputBackgroundColor: UIColor { get }
-    
-    /// Required indicator text color for each component view.
-    @objc optional var requiredIndicatorTextColor: UIColor { get }
 }
 
 /// Implement this protocol to provide appearance configurations for 
 /// text-based input view.
 @objc public protocol TextInputViewDecoratorType: InputViewDecoratorType {
+    
+    /// Required indicator text color for each component view.
+    @objc optional var requiredIndicatorTextColor: UIColor { get }
     
     /// Text color for inputField.
     @objc optional var inputTextColor: UIColor { get }

@@ -183,59 +183,7 @@ open class InputViewBuilder {
                                 using input: InputViewDetailType)
         -> [ViewBuilderComponentType]
     {
-        let indicator = requiredIndicator(for: view, using: input)
-        return [indicator]
-    }
-
-    /// Return a component for the required indicator.
-    ///
-    /// - Parameters:
-    ///   - view: The parent UIView.
-    ///   - input: An InputViewDetailType instance.
-    ///   - others: Other UIView on which this view may depend.
-    /// - Returns: A ViewBuilderComponentType instance.
-    open func requiredIndicator(for view: UIView,
-                                using input: InputViewDetailType,
-                                dependingOn others: UIView...)
-        -> ViewBuilderComponentType
-    {
-        if !input.displayRequiredIndicator {
-            return ViewBuilderComponent.empty
-        }
-        
-        let indicator = BaseLabel()
-        indicator.accessibilityIdentifier = requiredIndicatorId
-        indicator.fontName = String(describing: 1)
-        indicator.fontSize = String(describing: 3)
-        
-        // Right constraint.
-        let rightConstraint = BaseLayoutConstraint(item: view,
-                                                   attribute: .right,
-                                                   relatedBy: .equal,
-                                                   toItem: indicator,
-                                                   attribute: .right,
-                                                   multiplier: 1,
-                                                   constant: 0)
-        
-        rightConstraint.constantValue = String(describing: 5)
-        
-        // Vertical constraint
-        let verticalConstraint = BaseLayoutConstraint(item: view,
-                                                      attribute: .centerY,
-                                                      relatedBy: .equal,
-                                                      toItem: indicator,
-                                                      attribute: .centerY,
-                                                      multiplier: 1,
-                                                      constant: 0)
-        
-        verticalConstraint.constantValue = String(describing: 0)
-        
-        // Return component
-        return ViewBuilderComponent.builder()
-            .with(view: indicator)
-            .add(constraint: rightConstraint)
-            .add(constraint: verticalConstraint)
-            .build()
+        return []
     }
 }
 
