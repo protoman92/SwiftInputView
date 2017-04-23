@@ -16,23 +16,22 @@ open class TextInputViewBuilderConfig: InputViewBuilderConfig {
 
     /// We override this method to provide individual configurations for
     /// each parent subview.
-    override open func configureAppearance(forParentSubview view: UIView) {
-        super.configureAppearance(forParentSubview: view)
+    override open func configureAppearance(forParentSubview view: UIView,
+                                           at index: Int) {
+        super.configureAppearance(forParentSubview: view, at: index)
         let subviews = view.subviews
         
-        guard
-            let inputField = subviews.filter({
-                $0.accessibilityIdentifier == inputFieldId
-            }).first as? InputFieldType,
-            let requiredIndicator = subviews.filter({
-                $0.accessibilityIdentifier == requiredIndicatorId
-            }).first as? UILabel
-        else {
-            return
+        if let inputField = subviews.filter({
+            $0.accessibilityIdentifier == inputFieldId
+        }).first as? InputFieldType {
+            configure(inputField: inputField, at: index)
         }
         
-        configure(inputField: inputField)
-        configure(requiredInput: requiredIndicator)
+        if let requiredIndicator = subviews.filter({
+            $0.accessibilityIdentifier == requiredIndicatorId
+        }).first as? UILabel {
+            configure(requiredInput: requiredIndicator, at: index)
+        }
     }
     
     /// Override to provide logic config for text-based inputView.
@@ -49,19 +48,22 @@ open class TextInputViewBuilderConfig: InputViewBuilderConfig {
     
     /// Configure an InputFieldType instance.
     ///
-    /// - Parameter inputField: An InputFieldType instance.
-    fileprivate func configure(inputField: InputFieldType) {
-        inputField.textColor = inputTextColor
-        inputField.tintColor = inputTintColor
-        inputField.placeholderTextColor = placeholderTextColor
+    /// - Parameters:
+    ///   - inputField: An InputFieldType instance.
+    ///   - index: The index of the parent subview.
+    fileprivate func configure(inputField: InputFieldType, at index: Int) {
+        inputField.textColor = inputTextColor(for: index)
+        inputField.tintColor = inputTintColor(for: index)
+        inputField.placeholderTextColor = placeholderTextColor(for: index)
+        inputField.textAlignment = inputTextAlignment(for: index)
     }
     
     /// Configure required indicator UILabel.
     ///
     /// - Parameter indicator: A UILabel instance.
-    fileprivate func configure(requiredInput indicator: UILabel) {
+    fileprivate func configure(requiredInput indicator: UILabel, at index: Int) {
         indicator.text = "input.title.required".localized
-        indicator.textColor = requiredIndicatorTextColor
+        indicator.textColor = requiredIndicatorTextColor(for: index)
     }
     
     /// Builder class for TextInputViewBuilderConfig.
@@ -82,25 +84,54 @@ public extension TextInputViewBuilderConfig {
     }
 }
 
-extension TextInputViewBuilderConfig: TextInputViewDecoratorType {
-    public var textInputDecorator: TextInputViewDecoratorType? {
-        return decorator as? TextInputViewDecoratorType
+extension TextInputViewBuilderConfig {
+    func textInputDecorator(for index: Int) -> TextInputViewDecoratorType? {
+        return decorators.element(at: index) as? TextInputViewDecoratorType
     }
     
-    public var requiredIndicatorTextColor: UIColor {
-        return textInputDecorator?.requiredIndicatorTextColor ?? .red
+    /// Get required indicator text color using a decorator instance.
+    ///
+    /// - Parameter index: The index at which the decorator is found.
+    /// - Returns: A UIColor instance.
+    func requiredIndicatorTextColor(for index: Int) -> UIColor {
+        let decorator = textInputDecorator(for: index)
+        return decorator?.requiredIndicatorTextColor ?? .red
     }
     
-    public var inputTextColor: UIColor {
-        return textInputDecorator?.inputTextColor ?? .darkGray
+    /// Get input text color using a decorator instance.
+    ///
+    /// - Parameter index: The index at which the decorator is found.
+    /// - Returns: A UIColor instance.
+    func inputTextColor(for index: Int) -> UIColor {
+        let decorator = textInputDecorator(for: index)
+        return decorator?.inputTextColor ?? .darkGray
     }
     
-    public var inputTintColor: UIColor {
-        return textInputDecorator?.inputTintColor ?? .darkGray
+    /// Get input tint color using a decorator instance.
+    ///
+    /// - Parameter index: The index at which the decorator is found.
+    /// - Returns: A UIColor instance.
+    func inputTintColor(for index: Int) -> UIColor {
+        let decorator = textInputDecorator(for: index)
+        return decorator?.inputTintColor ?? .darkGray
     }
     
-    public var placeholderTextColor: UIColor {
-        return textInputDecorator?.inputTintColor ?? .lightGray
+    /// Get input text alignment using a decorator instance.
+    ///
+    /// - Parameter index: The index at which the decorator is found.
+    /// - Returns: A NSTextAlignment instance.
+    func inputTextAlignment(for index: Int) -> NSTextAlignment {
+        let decorator = textInputDecorator(for: index)
+        return decorator?.inputTextAlignment ?? .left
+    }
+    
+    /// Get placeholder text color using a decorator instance.
+    ///
+    /// - Parameter index: The index at which the decorator is found.
+    /// - Returns: A UIColor instance.
+    func placeholderTextColor(for index: Int) -> UIColor {
+        let decorator = textInputDecorator(for: index)
+        return decorator?.placeholderTextColor ?? .lightGray
     }
 }
 

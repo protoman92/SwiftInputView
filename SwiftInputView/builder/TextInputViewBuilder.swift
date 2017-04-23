@@ -23,20 +23,15 @@ open class TextInputViewBuilder: InputViewBuilder {
         
         let normalInput = self.normalInput(for: view, using: input)
         let multilineInput = self.multilineInput(for: view, using: input)
-        let inputField: UIView?
         
         // We need the get the inputField to pass to required indicator
         // builder since the indicator's top constraint has to be anchored
         // to the inputField's top.
-        if let multiline = input.textInputType?.isMultiline, multiline {
-            inputField = multilineInput.viewToBeAdded
-        } else {
-            inputField = normalInput.viewToBeAdded
-        }
-        
-        let indicator = requiredIndicator(for: view,
-                                          using: input,
-                                          dependingOn: inputField)
+        let indicator = requiredIndicator(
+            for: view,
+            using: input,
+            dependingOn: normalInput, multilineInput
+        )
         
         components.append(normalInput)
         components.append(multilineInput)
@@ -124,16 +119,19 @@ open class TextInputViewBuilder: InputViewBuilder {
     /// - Parameters:
     ///   - view: The parent UIView.
     ///   - input: An InputViewDetailType instance.
-    ///   - others: Other UIView instances on which this view may depend.
+    ///   - others: Other ViewBuilderComponentType instances.
     /// - Returns: A ViewBuilderComponentType instance.
     open func requiredIndicator(for view: UIView,
                                 using input: InputViewDetailType,
-                                dependingOn others: UIView?...)
+                                dependingOn others: ViewBuilderComponentType...)
         -> ViewBuilderComponentType
     {
         guard
             input.displayRequiredIndicator,
-            let inputField = others.filter({$0 is InputFieldType}).first
+            let inputField = others.flatMap({
+                $0.viewToBeAdded as? InputFieldType
+            }).first,
+            let placeholderView = inputField.placeholderView
         else {
             return ViewBuilderComponent.empty
         }
@@ -142,17 +140,6 @@ open class TextInputViewBuilder: InputViewBuilder {
         indicator.accessibilityIdentifier = requiredIndicatorId
         indicator.fontName = String(describing: 1)
         indicator.fontSize = String(describing: 3)
-        
-        // Top constraint
-        let top = BaseLayoutConstraint(item: indicator,
-                                       attribute: .top,
-                                       relatedBy: .equal,
-                                       toItem: inputField,
-                                       attribute: .top,
-                                       multiplier: 1,
-                                       constant: 0)
-        
-        top.constantValue = String(describing: 0)
         
         // Right constraint.
         let right = BaseLayoutConstraint(item: view,
@@ -165,19 +152,11 @@ open class TextInputViewBuilder: InputViewBuilder {
         
         right.constantValue = String(describing: 5)
         
-        // Bottom constraint
-        let bottom = BaseLayoutConstraint(item: view,
-                                          attribute: .bottom,
-                                          relatedBy: .equal,
-                                          toItem: indicator,
-                                          attribute: .bottom,
-                                          multiplier: 1,
-                                          constant: 0)
-        
-        bottom.constantValue = String(describing: 0)
-        
-        // Vertical constraint
-        let vertical = BaseLayoutConstraint(item: view,
+        // Vertical constraint. We need to align vertically to the
+        // placeholderView so that even if the inputField is multiline (i.e.
+        // its height to larger than the rest), the required indicator is
+        // still anchored to the centerY of the first line of text.
+        let vertical = BaseLayoutConstraint(item: placeholderView,
                                             attribute: .centerY,
                                             relatedBy: .equal,
                                             toItem: indicator,
@@ -190,10 +169,8 @@ open class TextInputViewBuilder: InputViewBuilder {
         // Return component
         return ViewBuilderComponent.builder()
             .with(view: indicator)
-            .add(constraint: top)
-            //            .add(constraint: bottom)
             .add(constraint: right)
-            //            .add(constraint: vertical)
+            .add(constraint: vertical)
             .build()
     }
 }

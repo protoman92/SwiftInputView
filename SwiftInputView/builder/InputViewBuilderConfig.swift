@@ -14,11 +14,16 @@ import SwiftUIUtilities
 /// Configure dynamic subviews for InputView.
 open class InputViewBuilderConfig {
     
-    /// This decorator instance contains the information needed to change
-    /// view appearances.
-    var decorator: InputViewDecoratorType?
+    /// These decorator instances contain the information needed to change
+    /// view appearances. There should be one decorator for each parent 
+    /// subview.
+    ///
+    /// Usually, we can make enum instances that implement InputViewDetailType 
+    /// to implement InputViewDecoratorType as well, so that each input can
+    /// customize its own appearance.
+    var decorators: [InputViewDecoratorType]
     
-    init() {}
+    init() { decorators = [] }
     
     /// If there are multiple inputs, find all parent subviews and configure
     /// them individually.
@@ -34,12 +39,12 @@ open class InputViewBuilderConfig {
             configureConstraints(forMasterView: view,
                                  andParentSubviews: parentSubviews)
             
-            parentSubviews.forEach({
-                self.configureAppearance(forParentSubview: $0)
-                self.configureLogic(forParentSubview: $0)
-            })
+            for (index, subview) in parentSubviews.enumerated() {
+                configureAppearance(forParentSubview: subview, at: index)
+                configureLogic(forParentSubview: subview)
+            }
         } else {
-            configureAppearance(forParentSubview: view)
+            configureAppearance(forParentSubview: view, at: 0)
             configureLogic(forParentSubview: view)
         }
     }
@@ -50,12 +55,14 @@ open class InputViewBuilderConfig {
     ///
     /// This method only configures the view's appearance.
     ///
-    /// - Parameter view: A UIView instance.
-    open func configureAppearance(forParentSubview view: UIView) {
+    /// - Parameters:
+    ///   - view: The master UIView.
+    ///   - index: The index of the parent subview.
+    open func configureAppearance(forParentSubview view: UIView, at index: Int) {
         
         // Configure the parent subview.
-        view.backgroundColor = inputBackgroundColor
-        view.layer.cornerRadius = inputCornerRadius
+        view.backgroundColor = inputBackgroundColor(for: index)
+        view.layer.cornerRadius = inputCornerRadius(for: index)
     }
     
     /// Configure business logic for a parent subview, or the master view if
@@ -117,12 +124,76 @@ open class InputViewBuilderConfig {
             self.init(config: InputViewBuilderConfig())
         }
         
-        /// Set decorator.
+        /// Add a decorator.
         ///
         /// - Parameter decorator: A InputViewDecoratorType instance.
-        /// - Returns: The current Builder
+        /// - Returns: The current Builder instance.
+        public func add(decorator: InputViewDecoratorType) -> BaseBuilder {
+            config.decorators.append(decorator)
+            return self
+        }
+        
+        /// Add decorators.
+        ///
+        /// - Parameter decorators: A vararg of InputViewDecoratorType.
+        /// - Returns: The current Builder instance.
+        public func add(decorators: InputViewDecoratorType...) -> BaseBuilder {
+            config.decorators.append(contentsOf: decorators)
+            return self
+        }
+        
+        /// Add decorators.
+        ///
+        /// - Parameter decorators: A Sequence of InputViewDecoratorType.
+        /// - Returns: The current Builder instance.
+        public func add<S: Sequence>(decorators: S)
+            -> BaseBuilder
+            where S.Iterator.Element: InputViewDecoratorType
+        {
+            config.decorators.append(contentsOf: decorators.map(eq))
+            return self
+        }
+        
+        /// Set a single decorator.
+        ///
+        /// - Parameter decorator: An InputViewDecoratorInstance.
+        /// - Returns: The current Builder instance.
         public func with(decorator: InputViewDecoratorType) -> BaseBuilder {
-            config.decorator = decorator
+            config.decorators = [decorator]
+            return self
+        }
+        
+        /// Set decorators.
+        ///
+        /// - Parameter decorators: A Sequence of InputViewDecoratorType.
+        /// - Returns: The current Builder instance.
+        public func with<S: Sequence>(decorators: S) -> BaseBuilder
+            where S.Iterator.Element: InputViewDecoratorType
+        {
+            config.decorators = decorators.map(eq)
+            return self
+        }
+        
+        /// Set decorators.
+        ///
+        /// - Parameter decorators: An Array of InputViewDecoratorType.
+        /// - Returns: The current Builder instance.
+        public func with(decorators: [InputViewDecoratorType]) -> BaseBuilder {
+            config.decorators = decorators.map(eq)
+            return self
+        }
+        
+        /// Cast and set decorators.
+        ///
+        /// - Parameter decorators: An object of type Any.
+        /// - Returns: The current Builder instance.
+        public func with(_ someType: Any) -> BaseBuilder {
+            if let item = someType as? InputViewDecoratorType {
+                return with(decorator: item)
+            } else if let items = someType as? [InputViewDecoratorType] {
+                return with(decorators: items)
+            }
+            
             return self
         }
         
@@ -135,16 +206,30 @@ open class InputViewBuilderConfig {
     }
 }
 
-extension InputViewBuilderConfig: InputViewDecoratorType {
-    public var horizontalSpacing: CGFloat {
-        return (decorator?.horizontalSpacing ?? Space.small.value) ?? 0
+extension InputViewBuilderConfig {
+    
+    /// We only take the largest horizontal spacing. Usually this value is
+    /// constant for all decorator instances.
+    var horizontalSpacing: CGFloat {
+        let spacing = decorators.flatMap({$0.horizontalSpacing}).max()
+        return (spacing ?? Space.smaller.value) ?? 0
     }
     
-    public var inputCornerRadius: CGFloat {
+    /// Get input corner radius using a decorator instance.
+    ///
+    /// - Parameter index: The index at which the decorator is found.
+    /// - Returns: A CGFloat value.
+    func inputCornerRadius(for index: Int) -> CGFloat {
+        let decorator = decorators.element(at: index)
         return (decorator?.inputCornerRadius ?? Space.small.value) ?? 0
     }
     
-    public var inputBackgroundColor: UIColor {
+    /// Get input background color using a decorator instance.
+    ///
+    /// - Parameter index: The index at which the decorator is found.
+    /// - Returns: A UIColor value.
+    func inputBackgroundColor(for index: Int) -> UIColor {
+        let decorator = decorators.element(at: index)
         return decorator?.inputBackgroundColor ?? .clear
     }
 }
