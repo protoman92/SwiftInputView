@@ -11,6 +11,8 @@ import SwiftUIUtilities
 
 /// Protocol for input view builder.
 public protocol InputViewBuilderType: ViewBuilderType {
+    init(from inputs: [InputViewDetailType])
+    
     var inputs: [InputViewDetailType] { get }
 }
 
@@ -24,7 +26,7 @@ open class InputViewBuilder {
     /// to accept only one argument.
     ///
     /// - Parameter inputs: An Array of InputViewDetailType.
-    public init(from inputs: [InputViewDetailType]) {
+    public required init(from inputs: [InputViewDetailType]) {
         self.inputs = inputs
     }
     
@@ -60,7 +62,7 @@ open class InputViewBuilder {
         
         /// If there is only one input, use the master UIView directly.
         if count == 1, let input = inputs.first {
-            return builderComponents(forParentSubview: view, using: input)
+            return input.viewBuilderComponent().builderComponents(for: view)
         }
         
         var components = [ViewBuilderComponentType]()
@@ -74,8 +76,8 @@ open class InputViewBuilder {
         
         for (index, (subview, input)) in zip(subs, inputs).enumerated() {
             let identifier = parentSubviewId(for: index + 1)
-            let psc = builderComponents(forParentSubview: subview, using: input)
-            
+            let builderComponent = input.viewBuilderComponent()
+            let psc = builderComponent.builderComponents(for: subview)
             subview.accessibilityIdentifier = identifier
             subview.populateSubviews(from: psc)
             
@@ -165,25 +167,6 @@ open class InputViewBuilder {
         }
         
         return components
-    }
-    
-    /// Get an Array of ViewBuilderComponentType for the parent subview.
-    ///
-    /// For each input, we inflate a UIView and attach it to the master UIView
-    /// by laying them side by side, horizontally. This allows us to have
-    /// multiple inputs on the same line.
-    ///
-    /// If there is only one input, use the master view directly.
-    ///
-    /// - Parameters:
-    ///   - view: The parent subview UIView.
-    ///   - input: An InputViewDetailType instance.
-    /// - Returns: An Array of ViewBuilderComponentType instance.
-    open func builderComponents(forParentSubview view: UIView,
-                                using input: InputViewDetailType)
-        -> [ViewBuilderComponentType]
-    {
-        return []
     }
 }
 

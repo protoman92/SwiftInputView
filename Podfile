@@ -7,9 +7,6 @@ target 'SwiftInputView' do
 
   # Pods for SwiftInputView
   pod 'SwiftPlaceholderTextView'
-#    pod 'RxSwift'
-#    pod 'RxCocoa'
-#    pod 'SwiftUIUtilities'
 
   target 'SwiftInputViewTests' do
     inherit! :search_paths

@@ -1,26 +1,22 @@
 //
-//  TextInputViewBuilder.swift
+//  TextInputViewBuilderComponent.swift
 //  SwiftInputView
 //
-//  Created by Hai Pham on 4/21/17.
+//  Created by Hai Pham on 4/24/17.
 //  Copyright © 2017 Swiften. All rights reserved.
 //
 
-import SwiftUIUtilities
-import SwiftUtilities
 import SwiftPlaceholderTextView
-import UIKit
+import SwiftUtilities
+import SwiftUIUtilities
 
-/// Use this builder class for text-based inputs.
-open class TextInputViewBuilder: InputViewBuilder {
-    
-    override open func builderComponents(forParentSubview view: UIView,
+/// Handle text-based inputs.
+open class TextInputViewBuilderComponent: InputViewBuilderComponent {
+    override open func builderComponents(for view: UIView,
                                          using input: InputViewDetailType)
         -> [ViewBuilderComponentType]
     {
-        var components = super.builderComponents(forParentSubview: view,
-                                                 using: input)
-        
+        var components = super.builderComponents(for: view, using: input)
         let normalInput = self.normalInput(for: view, using: input)
         let multilineInput = self.multilineInput(for: view, using: input)
         
@@ -78,7 +74,7 @@ open class TextInputViewBuilder: InputViewBuilder {
             .build()
     }
     
-    /// Get a normal input component i.e. non-multiline. We can use a 
+    /// Get a normal input component i.e. non-multiline. We can use a
     /// UITextField for this.
     ///
     /// - Parameters:
@@ -139,7 +135,7 @@ open class TextInputViewBuilder: InputViewBuilder {
         let indicator = BaseLabel()
         indicator.accessibilityIdentifier = requiredIndicatorId
         indicator.fontName = String(describing: 1)
-        indicator.fontSize = String(describing: 3)
+        indicator.fontSize = String(describing: 4)
         
         // Right constraint.
         let right = BaseLayoutConstraint(item: view,
@@ -175,4 +171,4 @@ open class TextInputViewBuilder: InputViewBuilder {
     }
 }
 
-extension TextInputViewBuilder: TextInputViewIdentifierType {}
+extension TextInputViewBuilderComponent: TextInputViewIdentifierType {}

@@ -53,7 +53,7 @@ public extension UIAdaptableInputView {
     }
     
     /// Get all InputFieldType instances.
-    fileprivate var inputFields: [InputFieldType] {
+    public var inputFields: [InputFieldType] {
         let parentSubviews = self.parentSubviews
         
         return parentSubviews

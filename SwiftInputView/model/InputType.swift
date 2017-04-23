@@ -13,6 +13,10 @@ import SwiftUIUtilities
 /// to populate an input view.
 public protocol InputViewDetailType: InputDetailType {
     
+    /// Get a InputViewBuilderComponentType type to dynamically construct a 
+    /// builder instance.
+    var viewBuilderComponentType: InputViewBuilderComponentType.Type { get }
+    
     /// We can use this input type to supply view information. For e.g., if
     /// this is an instance of TextInputType, we can check the type of
     /// keyboard to be used, or whether the input is multiline.
@@ -36,6 +40,13 @@ public extension InputViewDetailType {
     /// Only display required indicator if both conditions pass.
     public var displayRequiredIndicator: Bool {
         return isRequired && shouldDisplayRequiredIndicator
+    }
+    
+    /// Create a InputViewBuilderComponentType instance.
+    ///
+    /// - Returns: An InputViewBuilderComponentType instance.
+    public func viewBuilderComponent() -> InputViewBuilderComponentType {
+        return viewBuilderComponentType.init(with: self)
     }
 }
 

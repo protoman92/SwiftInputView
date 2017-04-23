@@ -20,23 +20,18 @@ public protocol InputViewDecoratorType {
     
     /// Background color for each component view.
     var inputBackgroundColor: UIColor? { get }
+    
+    /// Get a InputViewConfigComponentType type to dynamically construct a
+    /// config instance.
+    var configComponentType: InputViewConfigComponentType.Type { get }
 }
 
-/// Implement this protocol to provide appearance configurations for 
-/// text-based input view.
-public protocol TextInputViewDecoratorType: InputViewDecoratorType {
+public extension InputViewDecoratorType {
     
-    /// Required indicator text color for each component view.
-    var requiredIndicatorTextColor: UIColor? { get }
-    
-    var inputTextAlignment: NSTextAlignment? { get }
-    
-    /// Text color for inputField.
-    var inputTextColor: UIColor? { get }
-    
-    /// Tint color for inputField.
-    var inputTintColor: UIColor? { get }
-    
-    /// Text color for placeholder.
-    var placeholderTextColor: UIColor? { get }
+    /// Create an InputViewConfigComponentType instance.
+    ///
+    /// - Returns: An InputViewConfigComponentType instance.
+    public func configComponent() -> InputViewConfigComponentType {
+        return configComponentType.init(with: self)
+    }
 }
