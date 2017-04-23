@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
     s.dependency 'SwiftPlaceholderTextView/Main'
 
     s.subspec 'Main' do |main|
-        main.source_files = "SwiftPlaceholderTextView/**/*.{swift,xib}"
+        main.source_files = "SwiftInputView/**/*.{swift,xib}"
     end
 
 end

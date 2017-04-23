@@ -1,6 +1,6 @@
 //
 //  InputViewComponentType.swift
-//  TestApplication
+//  SwiftInputView
 //
 //  Created by Hai Pham on 4/22/17.
 //  Copyright © 2017 Swiften. All rights reserved.
@@ -73,11 +73,9 @@ public extension TextInputViewComponentType {
         }
         
         if let text = text, text.isNotEmpty, indicator.alpha == 1 {
-            indicator.alpha = 0
-//            indicator.toggleVisible(toBe: false, withDuration: 0)
+            indicator.toggleVisible(toBe: false)
         } else if let text = text, text.isEmpty, indicator.alpha < 1 {
-            indicator.alpha = 1
-//            indicator.toggleVisible(toBe: true, withDuration: 0)
+            indicator.toggleVisible(toBe: true, withDuration: 0)
         }
     }
 }
