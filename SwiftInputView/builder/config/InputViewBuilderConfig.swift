@@ -13,7 +13,11 @@ import SwiftUIUtilities
 
 /// Protocol for input view builder config.
 public protocol InputViewBuilderConfigType: ViewBuilderConfigType {
-    init(from decorators: [InputViewDecoratorType])
+    init<S: Sequence>(from decorators: S)
+        where S.Iterator.Element: InputViewDecoratorType
+    
+    init<S: Sequence>(from decorators: S)
+        where S.Iterator.Element == InputViewDecoratorType
     
     /// These decorator instances contain the information needed to change
     /// view appearances. There should be one decorator for each parent
@@ -32,9 +36,38 @@ open class InputViewBuilderConfig {
     /// We are not using Builder with this class since we expect subclasses
     /// to accept only one argument.
     ///
-    /// - Parameter inputs: An Array of InputViewDecoratorType.
-    public required init(from decorators: [InputViewDecoratorType]) {
-        self.decorators = decorators
+    /// - Parameter inputs: An Sequence of InputViewDecoratorType subclass.
+    public required init<S: Sequence>(from decorators: S)
+        where S.Iterator.Element: InputViewDecoratorType
+    {
+        self.decorators = decorators.map(eq)
+    }
+    
+    /// Construct with a Sequence of InputViewDecoratorType.
+    ///
+    /// - Parameter inputs: A Sequence of InputViewDecoratorType.
+    public required init<S: Sequence>(from decorators: S)
+        where S.Iterator.Element == InputViewDecoratorType
+    {
+        self.decorators = decorators.map(eq)
+    }
+    
+    /// Construct with only one InputViewDecoratorType.
+    ///
+    /// - Parameter input: An InputViewDecoratorType instance.
+    public convenience init(with input: InputViewDecoratorType) {
+        self.init(from: [input])
+    }
+    
+    public convenience init(with value: Any) {
+        if let value = value as? InputViewDecoratorType {
+            self.init(with: value)
+        } else if let value = value as? [InputViewDecoratorType] {
+            self.init(from: value)
+        } else {
+            debugException()
+            self.init(from: [])
+        }
     }
     
     /// If there are multiple inputs, find all parent subviews and configure

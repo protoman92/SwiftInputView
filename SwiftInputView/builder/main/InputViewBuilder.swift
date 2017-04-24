@@ -11,7 +11,11 @@ import SwiftUIUtilities
 
 /// Protocol for input view builder.
 public protocol InputViewBuilderType: ViewBuilderType {
-    init(from inputs: [InputViewDetailType])
+    init<S: Sequence>(from inputs: S)
+        where S.Iterator.Element: InputViewDetailType
+    
+    init<S: Sequence>(from inputs: S)
+        where S.Iterator.Element == InputViewDetailType
     
     var inputs: [InputViewDetailType] { get }
 }
@@ -25,9 +29,20 @@ open class InputViewBuilder {
     /// We are not using Builder with this class since we expect subclasses
     /// to accept only one argument.
     ///
-    /// - Parameter inputs: An Array of InputViewDetailType.
-    public required init(from inputs: [InputViewDetailType]) {
-        self.inputs = inputs
+    /// - Parameter inputs: A Sequence of InputViewDetailType subclass.
+    public required init<S: Sequence>(from inputs: S)
+        where S.Iterator.Element: InputViewDetailType
+    {
+        self.inputs = inputs.map(eq)
+    }
+    
+    /// Construct with a Sequence of InputViewDetailType.
+    ///
+    /// - Parameter inputs: A Sequence of InputViewDetailType.
+    public required init<S: Sequence>(from inputs: S)
+        where S.Iterator.Element == InputViewDetailType
+    {
+        self.inputs = inputs.map(eq)
     }
     
     /// Construct with only one InputViewDetailType.
@@ -37,8 +52,6 @@ open class InputViewBuilder {
         self.init(from: [input])
     }
     
-    /// Return nil if the value is neither an InputViewDetailType instance
-    /// nor an Array of that type.
     public convenience init(with value: Any) {
         if let value = value as? InputViewDetailType {
             self.init(with: value)
