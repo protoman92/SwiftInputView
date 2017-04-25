@@ -33,7 +33,9 @@ public extension TextInputViewComponentType {
     /// or the input is not required (thus it is not inflated in the first
     /// place)
     public var requiredIndicator: UILabel? {
-        return subviews.subviews(withAccessibilityIdentifier: requiredIndicatorId).first as? UILabel
+        return subviews.filter({
+            $0.accessibilityIdentifier == requiredIndicatorId
+        }).first as? UILabel
     }
     
     /// Get the main input field. This can be nil in case we are using a
