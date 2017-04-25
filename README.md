@@ -8,3 +8,7 @@ To install, add:
 into the main project's **Podfile**.
 
 Check out **TestApplication-iOS** at [https://github.com/protoman92/TestApplication-iOS.git] for a demo.
+
+For a combination of **InputData** and **UIAdaptableInputView**, check out:
+
+- **SwiftInputListView**: [https://github.com/protoman92/SwiftInputListView.git]
