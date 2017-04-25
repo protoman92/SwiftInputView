@@ -43,7 +43,7 @@
 		D38D1E811EAD30C600289A12 /* InputViewConfigComponentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1E7E1EAD2CC400289A12 /* InputViewConfigComponentType.swift */; };
 		D38D1E831EAD312800289A12 /* TextInputViewConfigComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1E821EAD312800289A12 /* TextInputViewConfigComponent.swift */; };
 		D38D1EB11EAD367C00289A12 /* TextInputViewDecoratorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1EB01EAD367C00289A12 /* TextInputViewDecoratorType.swift */; };
-		D38D1EB41EAD36C600289A12 /* pod-publish.txt in Resources */ = {isa = PBXBuildFile; fileRef = D38D1EB21EAD36C600289A12 /* pod-publish.txt */; };
+		D38D1EB41EAD36C600289A12 /* pod-publish in Resources */ = {isa = PBXBuildFile; fileRef = D38D1EB21EAD36C600289A12 /* pod-publish */; };
 		D38D1EB51EAD36C600289A12 /* SwiftInputView.podspec in Resources */ = {isa = PBXBuildFile; fileRef = D38D1EB31EAD36C600289A12 /* SwiftInputView.podspec */; };
 		D3D054951EA89BDA00515B37 /* SwiftInputView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D0548B1EA89BDA00515B37 /* SwiftInputView.framework */; };
 		D3D0549C1EA89BDA00515B37 /* SwiftInputView.h in Headers */ = {isa = PBXBuildFile; fileRef = D3D0548E1EA89BDA00515B37 /* SwiftInputView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -72,9 +72,9 @@
 		D31997981EABD48A00DDF7C9 /* InputViewComponentType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewComponentType.swift; path = builder/component/InputViewComponentType.swift; sourceTree = "<group>"; };
 		D319979A1EABD4AE00DDF7C9 /* InputViewDecoratorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewDecoratorType.swift; path = builder/decorator/InputViewDecoratorType.swift; sourceTree = "<group>"; };
 		D319B2E41EA9971900861C4B /* InputViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewBuilder.swift; path = builder/main/InputViewBuilder.swift; sourceTree = "<group>"; };
-		D319B33B1EA9AF7E00861C4B /* UIAdaptableInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIAdaptableInputView.swift; path = input/UIAdaptableInputView.swift; sourceTree = "<group>"; };
+		D319B33B1EA9AF7E00861C4B /* UIAdaptableInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIAdaptableInputView.swift; path = view/UIAdaptableInputView.swift; sourceTree = "<group>"; };
 		D319B34B1EA9C05D00861C4B /* InputViewIdentifierType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewIdentifierType.swift; path = builder/main/InputViewIdentifierType.swift; sourceTree = "<group>"; };
-		D32656D61EAB4A6900151436 /* UIInputComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIInputComponentView.swift; path = input/UIInputComponentView.swift; sourceTree = "<group>"; };
+		D32656D61EAB4A6900151436 /* UIInputComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIInputComponentView.swift; path = view/UIInputComponentView.swift; sourceTree = "<group>"; };
 		D329CB311EAD99D2005D512E /* ViewBuildingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewBuildingTests.swift; path = builder/ViewBuildingTests.swift; sourceTree = "<group>"; };
 		D367FF93180D221895571196 /* Pods_SwiftInputView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftInputView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D36B83331EAA6697001CF633 /* InputType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputType.swift; path = model/InputType.swift; sourceTree = "<group>"; };
@@ -84,7 +84,7 @@
 		D38D1E7E1EAD2CC400289A12 /* InputViewConfigComponentType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewConfigComponentType.swift; path = builder/component/InputViewConfigComponentType.swift; sourceTree = "<group>"; };
 		D38D1E821EAD312800289A12 /* TextInputViewConfigComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextInputViewConfigComponent.swift; path = builder/component/TextInputViewConfigComponent.swift; sourceTree = "<group>"; };
 		D38D1EB01EAD367C00289A12 /* TextInputViewDecoratorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextInputViewDecoratorType.swift; path = builder/decorator/TextInputViewDecoratorType.swift; sourceTree = "<group>"; };
-		D38D1EB21EAD36C600289A12 /* pod-publish.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "pod-publish.txt"; sourceTree = "<group>"; };
+		D38D1EB21EAD36C600289A12 /* pod-publish */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "pod-publish"; sourceTree = "<group>"; };
 		D38D1EB31EAD36C600289A12 /* SwiftInputView.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SwiftInputView.podspec; sourceTree = "<group>"; };
 		D3D0548B1EA89BDA00515B37 /* SwiftInputView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftInputView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3D0548E1EA89BDA00515B37 /* SwiftInputView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftInputView.h; sourceTree = "<group>"; };
@@ -151,13 +151,13 @@
 			path = extension;
 			sourceTree = "<group>";
 		};
-		D319B33A1EA9AF6100861C4B /* input */ = {
+		D319B33A1EA9AF6100861C4B /* view */ = {
 			isa = PBXGroup;
 			children = (
 				D319B33B1EA9AF7E00861C4B /* UIAdaptableInputView.swift */,
 				D32656D61EAB4A6900151436 /* UIInputComponentView.swift */,
 			);
-			name = input;
+			name = view;
 			sourceTree = "<group>";
 		};
 		D319B34A1EA9C03500861C4B /* model */ = {
@@ -219,7 +219,7 @@
 		D3D054811EA89BDA00515B37 = {
 			isa = PBXGroup;
 			children = (
-				D38D1EB21EAD36C600289A12 /* pod-publish.txt */,
+				D38D1EB21EAD36C600289A12 /* pod-publish */,
 				D38D1EB31EAD36C600289A12 /* SwiftInputView.podspec */,
 				D3D0548D1EA89BDA00515B37 /* SwiftInputView */,
 				D3D054981EA89BDA00515B37 /* SwiftInputViewTests */,
@@ -243,7 +243,7 @@
 			children = (
 				D310A57C1EAB098C00859248 /* extension */,
 				D319B34A1EA9C03500861C4B /* model */,
-				D319B33A1EA9AF6100861C4B /* input */,
+				D319B33A1EA9AF6100861C4B /* view */,
 				D3F9A7D51EA8FA4E004EA340 /* builder */,
 				D3D0548E1EA89BDA00515B37 /* SwiftInputView.h */,
 				D3D0548F1EA89BDA00515B37 /* Info.plist */,
@@ -376,7 +376,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D38D1EB51EAD36C600289A12 /* SwiftInputView.podspec in Resources */,
-				D38D1EB41EAD36C600289A12 /* pod-publish.txt in Resources */,
+				D38D1EB41EAD36C600289A12 /* pod-publish in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

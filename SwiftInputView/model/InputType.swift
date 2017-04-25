@@ -11,23 +11,18 @@ import SwiftUIUtilities
 
 /// Implement this protocol on top of InputDetailType to provide information
 /// to populate an input view.
-public protocol InputViewDetailType: InputDetailType {
+///
+/// The default builder class we are using is InputViewBuilder, and the config 
+/// class should be InputViewBuilderConfig.
+public protocol InputViewDetailType: InputDetailType, InputViewDecoratorType {
     
-    /// Get a InputViewBuilderComponentType type to dynamically construct a 
-    /// builder instance.
+    /// Get a InputViewBuilderComponentType type to dynamically construct a
     var viewBuilderComponentType: InputViewBuilderComponentType.Type { get }
     
     /// We can use this input type to supply view information. For e.g., if
     /// this is an instance of TextInputType, we can check the type of
     /// keyboard to be used, or whether the input is multiline.
     var inputType: InputType { get }
-    
-    /// The input view's width. For e.g., input field for phone extension
-    /// should be smaller than others.
-    var inputViewWidth: CGFloat? { get }
-    
-    /// The input view's height.
-    var inputViewHeight: CGFloat? { get }
     
     /// Check if required indicator should be displayed, even if the input
     /// is required - e.g. when an explicit input width is specified and it

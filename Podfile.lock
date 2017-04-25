@@ -6,23 +6,23 @@ PODS:
   - RxSwift (3.4.0)
   - RxTest (3.4.0):
     - RxSwift (~> 3.4)
-  - SwiftPlaceholderTextView (1.1.5):
-    - SwiftPlaceholderTextView/Main (= 1.1.5)
+  - SwiftPlaceholderTextView (1.1.6):
+    - SwiftPlaceholderTextView/Main (= 1.1.6)
     - SwiftUIUtilities/Main
-  - SwiftPlaceholderTextView/Main (1.1.5):
+  - SwiftPlaceholderTextView/Main (1.1.6):
     - SwiftUIUtilities/Main
-  - SwiftUIUtilities/Main (1.2.1):
+  - SwiftUIUtilities/Main (1.2.9):
     - SwiftUtilities/Main
-  - SwiftUtilities/Main (1.3.2):
+  - SwiftUtilities/Main (1.3.7):
     - RxCocoa (~> 3.0)
     - RxSwift (~> 3.0)
-  - SwiftUtilitiesTests (1.3.2):
+  - SwiftUtilitiesTests (1.3.7):
     - RxBlocking (~> 3.0)
     - RxCocoa (~> 3.0)
     - RxSwift (~> 3.0)
     - RxTest (~> 3.0)
-    - SwiftUtilitiesTests/Main (= 1.3.2)
-  - SwiftUtilitiesTests/Main (1.3.2):
+    - SwiftUtilitiesTests/Main (= 1.3.7)
+  - SwiftUtilitiesTests/Main (1.3.7):
     - RxBlocking (~> 3.0)
     - RxCocoa (~> 3.0)
     - RxSwift (~> 3.0)
@@ -37,10 +37,10 @@ SPEC CHECKSUMS:
   RxCocoa: d14ef6b6029e1ddc6e966508c09289090de68ff9
   RxSwift: 3789a1af753002a14edecdb698a2424624296a9c
   RxTest: beb6beb882cf1dcac5fc9fdbd4760a5254e7f3a6
-  SwiftPlaceholderTextView: 09b57180d4031b514148861ddda244dbf02881b7
-  SwiftUIUtilities: e5546484b6da4897ef1504a4801e487b3f2ec10e
-  SwiftUtilities: 155f4e33ef675ef21796b67aaad9e9ea16188a7d
-  SwiftUtilitiesTests: 3afe5ba026485c10a4846aee3b8982a0aaf39d45
+  SwiftPlaceholderTextView: 77850bab1c569d7663a21bceeaf70c6ac01e42e2
+  SwiftUIUtilities: 86c598b671badd6aea84c41bd1450bf83d060ac4
+  SwiftUtilities: 86922f1fde600d7e2f8d236e09098f717d0f1502
+  SwiftUtilitiesTests: f1d9589b6444a7ac4b83981d020e2ef8782eea1a
 
 PODFILE CHECKSUM: 38decefa6d2dcaa05b16925c3af018a31309388e
 

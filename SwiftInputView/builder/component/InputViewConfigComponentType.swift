@@ -24,6 +24,8 @@ public protocol InputViewConfigComponentType: ViewBuilderConfigType {
 }
 
 open class InputViewConfigComponent {
+    
+    /// Use this decorator to provide appearance configurations.
     public let decorator: InputViewDecoratorType
     
     public required init(with decorator: InputViewDecoratorType) {
@@ -56,6 +58,14 @@ extension InputViewConfigComponent: InputViewConfigComponentType {}
 extension InputViewConfigComponent: InputViewDecoratorType {
     public var configComponentType: InputViewConfigComponentType.Type {
         return decorator.configComponentType
+    }
+    
+    public var inputViewWidth: CGFloat? {
+        return decorator.inputViewWidth
+    }
+    
+    public var inputViewHeight: CGFloat? {
+        return decorator.inputViewHeight
     }
     
     public var horizontalSpacing: CGFloat? {
