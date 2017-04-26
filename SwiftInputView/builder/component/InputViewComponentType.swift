@@ -73,7 +73,7 @@ public extension TextInputViewComponentType {
         
         if let text = text, text.isNotEmpty, indicator.alpha == 1 {
             indicator.toggleVisible(toBe: false)
-        } else if let text = text, text.isEmpty, indicator.alpha < 1 {
+        } else if (text == nil || text!.isEmpty) && indicator.alpha < 1 {
             indicator.toggleVisible(toBe: true, withDuration: 0)
         }
     }
