@@ -29,8 +29,8 @@ public protocol InputViewDecoratorType {
     var inputBackgroundColor: UIColor? { get }
     
     /// Get a InputViewConfigComponentType type to dynamically construct a
-    /// config instance.
-    var configComponentType: InputViewConfigComponentType.Type { get }
+    /// config instance. Use a default type if this returns nil.
+    var configComponentType: InputViewConfigComponentType.Type? { get }
 }
 
 public extension InputViewDecoratorType {
@@ -39,6 +39,7 @@ public extension InputViewDecoratorType {
     ///
     /// - Returns: An InputViewConfigComponentType instance.
     public func configComponent() -> InputViewConfigComponentType {
-        return configComponentType.init(with: self)
+        let type = configComponentType ?? TextInputViewConfigComponent.self
+        return type.init(with: self)
     }
 }

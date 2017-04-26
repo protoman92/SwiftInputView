@@ -116,39 +116,21 @@ enum InputDetail: Int {
 }
 
 extension InputDetail: InputViewDetailType {
-
-    public var identifier: String {
-        return String(describing: rawValue)
-    }
-    
-    public var isRequired: Bool {
-        return rawValue.isEven
-    }
-
-    var viewBuilderComponentType: InputViewBuilderComponentType.Type {
-        return TextInputViewBuilderComponent.self
-    }
-    
-    var inputType: InputType {
-        return TextInput.default
-    }
-    
-    var inputViewWidth: CGFloat? {
+    var viewBuilderComponentType: InputViewBuilderComponentType.Type? {
         return nil
     }
     
-    var inputViewHeight: CGFloat? {
-        return nil
-    }
-    
-    var shouldDisplayRequiredIndicator: Bool {
-        return rawValue % 4 == 0
-    }
+    var identifier: String { return String(describing: rawValue) }
+    var isRequired: Bool { return rawValue.isEven }
+    var inputType: InputType { return TextInput.default }
+    var inputViewWidth: CGFloat? { return nil }
+    var inputViewHeight: CGFloat? { return nil }
+    var shouldDisplayRequiredIndicator: Bool { return rawValue % 4 == 0 }
 }
 
 extension InputDetail: TextInputViewDecoratorType {
-    var configComponentType: InputViewConfigComponentType.Type {
-        return TextInputViewConfigComponent.self
+    var configComponentType: InputViewConfigComponentType.Type? {
+        return nil
     }
     
     var inputBackgroundColor: UIColor? { return .gray }

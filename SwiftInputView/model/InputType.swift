@@ -17,7 +17,9 @@ import SwiftUIUtilities
 public protocol InputViewDetailType: InputDetailType, InputViewDecoratorType {
     
     /// Get a InputViewBuilderComponentType type to dynamically construct a
-    var viewBuilderComponentType: InputViewBuilderComponentType.Type { get }
+    /// InputViewBuilderComponentType instance. Use a default type if this
+    /// is nil.
+    var viewBuilderComponentType: InputViewBuilderComponentType.Type? { get }
     
     /// We can use this input type to supply view information. For e.g., if
     /// this is an instance of TextInputType, we can check the type of
@@ -41,7 +43,8 @@ public extension InputViewDetailType {
     ///
     /// - Returns: An InputViewBuilderComponentType instance.
     public func viewBuilderComponent() -> InputViewBuilderComponentType {
-        return viewBuilderComponentType.init(with: self)
+        let type = viewBuilderComponentType ?? TextInputViewBuilderComponent.self
+        return type.init(with: self)
     }
 }
 

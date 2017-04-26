@@ -56,7 +56,7 @@ extension InputViewConfigComponent: InputViewIdentifierType {}
 extension InputViewConfigComponent: InputViewConfigComponentType {}
 
 extension InputViewConfigComponent: InputViewDecoratorType {
-    public var configComponentType: InputViewConfigComponentType.Type {
+    public var configComponentType: InputViewConfigComponentType.Type? {
         return decorator.configComponentType
     }
     
