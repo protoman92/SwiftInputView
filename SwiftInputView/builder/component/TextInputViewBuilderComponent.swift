@@ -51,8 +51,6 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
         where I: UIView, I: DynamicFontType & InputFieldType
     {
         inputField.accessibilityIdentifier = inputFieldId
-        inputField.fontName = String(describing: 1)
-        inputField.fontSize = String(describing: 5)
         
         if let textInput = input as? TextInputViewDetailType {
             inputField.placeholder = textInput.placeholder
@@ -135,8 +133,6 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
         
         let indicator = UIBaseLabel()
         indicator.accessibilityIdentifier = requiredIndicatorId
-        indicator.fontName = String(describing: 1)
-        indicator.fontSize = String(describing: 4)
         
         // Right constraint.
         let right = BaseLayoutConstraint(item: view,

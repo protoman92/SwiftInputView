@@ -19,12 +19,15 @@ class ViewBuildingTests: XCTestCase {
         // Setup
         let allInputs = (0..<tries).map({_ in InputDetail.randomValues})
         let allBuilders = allInputs.map(InputViewBuilder.init)
-        let allConfigs = allInputs.map(InputViewBuilderConfig.init)
+        let allConfigs = allInputs
+            .map({$0.map({$0.decorator})})
+            .map(InputViewBuilderConfig.init)
         
         let view = UIAdaptableInputView()
         
         let testBuilder: (UIView, InputDetail) -> Void = {
             let componentViews = $0.0.subviews
+            let decorator = $0.1.decorator as! TextInputViewDecoratorType
             
             let inputField = componentViews.filter({
                 $0.accessibilityIdentifier == self.inputFieldId
@@ -35,11 +38,11 @@ class ViewBuildingTests: XCTestCase {
             if let inputField = inputField as? InputFieldType {
                 XCTAssertEqual(inputField.autocorrectionType, .no)
                 
-                if let iTextColor = $0.1.inputTextColor {
+                if let iTextColor = decorator.inputTextColor {
                     XCTAssertEqual(inputField.textColor, iTextColor)
                 }
                 
-                if let iTintColor = $0.1.inputTintColor {
+                if let iTintColor = decorator.inputTintColor {
                     XCTAssertEqual(inputField.tintColor, iTintColor)
                 }
             }
@@ -52,9 +55,9 @@ class ViewBuildingTests: XCTestCase {
                 XCTAssertTrue(indicator is UILabel)
                 
                 if let indicator = indicator as? UILabel {
-                    XCTAssertEqual(indicator.text, $0.1.requiredIndicatorText)
+                    XCTAssertEqual(indicator.text, decorator.requiredIndicatorText)
                     
-                    if let riTextColor = $0.1.requiredIndicatorTextColor {
+                    if let riTextColor = decorator.requiredIndicatorTextColor {
                         XCTAssertEqual(indicator.textColor, riTextColor)
                     }
                 }
@@ -116,30 +119,25 @@ enum InputDetail: Int {
 }
 
 extension InputDetail: InputViewDetailType {
-    var viewBuilderComponentType: InputViewBuilderComponentType.Type? {
+    public var viewBuilderComponentType: InputViewBuilderComponentType.Type? {
         return nil
     }
-    
+
     var identifier: String { return String(describing: rawValue) }
     var isRequired: Bool { return rawValue.isEven }
     var inputType: InputType { return TextInput.default }
-    var inputViewWidth: CGFloat? { return nil }
-    var inputViewHeight: CGFloat? { return nil }
     var shouldDisplayRequiredIndicator: Bool { return rawValue % 4 == 0 }
+    var decorator: InputViewDecoratorType { return InputDecorator.shared }
 }
 
-extension InputDetail: TextInputViewDecoratorType {
-    var configComponentType: InputViewConfigComponentType.Type? {
-        return nil
-    }
+class InputDecorator: TextInputViewDecoratorType {
+    static var shared = InputDecorator()
     
-    var inputBackgroundColor: UIColor? { return .gray }
-    var inputCornerRadius: CGFloat? { return 5 }
-    var inputTextColor: UIColor? { return .white }
-    var inputTintColor: UIColor? { return .white }
-    var inputTextAlignment: NSTextAlignment? { return .natural }
-    var horizontalSpacing: CGFloat? { return nil }
-    var requiredIndicatorTextColor: UIColor? { return .white }
-    var requiredIndicatorText: String? { return "*R" }
-    var placeholderTextColor: UIColor? { return .lightGray }
+    var inputBackgroundColor: UIColor { return .gray }
+    var inputCornerRadius: CGFloat { return 5 }
+    var inputTextColor: UIColor { return .white }
+    var inputTintColor: UIColor { return .white }
+    var requiredIndicatorTextColor: UIColor { return .white }
+    var requiredIndicatorText: String { return "*R" }
+    var placeholderTextColor: UIColor { return .lightGray }
 }

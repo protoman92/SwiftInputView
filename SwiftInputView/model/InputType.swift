@@ -14,7 +14,7 @@ import SwiftUIUtilities
 ///
 /// The default builder class we are using is InputViewBuilder, and the config 
 /// class should be InputViewBuilderConfig.
-public protocol InputViewDetailType: InputDetailType, InputViewDecoratorType {
+public protocol InputViewDetailType: InputDetailType {
     
     /// Get a InputViewBuilderComponentType type to dynamically construct a
     /// InputViewBuilderComponentType instance. Use a default type if this
@@ -30,6 +30,13 @@ public protocol InputViewDetailType: InputDetailType, InputViewDecoratorType {
     /// is required - e.g. when an explicit input width is specified and it
     /// is not large enough to display the required indicator text.
     var shouldDisplayRequiredIndicator: Bool { get }
+    
+    /// Get a decorator instance to pass to config phase. Instead of asking
+    /// this type to implement InputViewDecoratorType, we can use this to
+    /// allow optional properties for the decorators (since we will most
+    /// likely be using enums for InputViewDetailType, which are not objc
+    /// compliant).
+    var decorator: InputViewDecoratorType { get }
 }
 
 public extension InputViewDetailType {
@@ -97,6 +104,6 @@ public extension Sequence where Iterator.Element: InputViewDetailType {
     
     /// Get the largest height in a Sequence of InputViewDetailType.
     public var largestHeight: CGFloat {
-        return flatMap({$0.inputViewHeight}).max() ?? 0
+        return flatMap({$0.decorator.inputViewHeight}).max() ?? 0
     }
 }

@@ -17,7 +17,7 @@ import SwiftUIUtilities
 /// Using this strategy, even if an input view has multiple inputs, each of
 /// those inputs will still be individually configured. For e.g., we can
 /// put a choice input and a text input in the same master view.
-public protocol InputViewConfigComponentType: ViewBuilderConfigType {
+@objc public protocol InputViewConfigComponentType: ViewBuilderConfigType {
     init(with decorator: InputViewDecoratorType)
     
     var decorator: InputViewDecoratorType { get }
@@ -28,7 +28,7 @@ open class InputViewConfigComponent {
     /// Use this decorator to provide appearance configurations.
     public let decorator: InputViewDecoratorType
     
-    public required init(with decorator: InputViewDecoratorType) {
+    @objc public required init(with decorator: InputViewDecoratorType) {
         self.decorator = decorator
     }
     
@@ -42,7 +42,7 @@ open class InputViewConfigComponent {
     /// - Parameters view: A UIView instance.
     open func configureAppearance(for view: UIView) {
         view.backgroundColor = inputBackgroundColor
-        view.layer.cornerRadius = inputCornerRadius ?? 0
+        view.layer.cornerRadius = inputCornerRadius
     }
     
     /// Configure business logic for a parent subview, or the master view if
@@ -56,27 +56,16 @@ extension InputViewConfigComponent: InputViewIdentifierType {}
 extension InputViewConfigComponent: InputViewConfigComponentType {}
 
 extension InputViewConfigComponent: InputViewDecoratorType {
-    public var configComponentType: InputViewConfigComponentType.Type? {
-        return decorator.configComponentType
-    }
     
-    public var inputViewWidth: CGFloat? {
-        return decorator.inputViewWidth
-    }
-    
-    public var inputViewHeight: CGFloat? {
-        return decorator.inputViewHeight
-    }
-    
-    public var horizontalSpacing: CGFloat? {
+    public var horizontalSpacing: CGFloat {
         return (decorator.horizontalSpacing ?? Space.smaller.value) ?? 0
     }
     
-    public var inputCornerRadius: CGFloat? {
+    public var inputCornerRadius: CGFloat {
         return (decorator.inputCornerRadius ?? Space.small.value) ?? 0
     }
     
-    public var inputBackgroundColor: UIColor? {
+    public var inputBackgroundColor: UIColor {
         return decorator.inputBackgroundColor ?? .clear
     }
 }

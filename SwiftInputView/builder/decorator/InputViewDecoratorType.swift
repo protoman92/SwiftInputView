@@ -10,27 +10,28 @@ import UIKit
 
 /// Implement this protocol to provide appearance configurations for input
 /// view.
-public protocol InputViewDecoratorType {
+@objc public protocol InputViewDecoratorType {
+    
     /// The input view's width. For e.g., input field for phone extension
     /// should be smaller than others.
-    var inputViewWidth: CGFloat? { get }
+    @objc optional var inputViewWidth: CGFloat { get }
     
     /// The input view's height.
-    var inputViewHeight: CGFloat? { get }
+    @objc optional var inputViewHeight: CGFloat { get }
     
     /// This spacing determines how far apart each parent subview should be
     /// from each other.
-    var horizontalSpacing: CGFloat? { get }
+    @objc optional var horizontalSpacing: CGFloat { get }
     
     /// Corner radius for each component view.
-    var inputCornerRadius: CGFloat? { get }
+    @objc optional var inputCornerRadius: CGFloat { get }
     
     /// Background color for each component view.
-    var inputBackgroundColor: UIColor? { get }
+    @objc optional var inputBackgroundColor: UIColor { get }
     
     /// Get a InputViewConfigComponentType type to dynamically construct a
     /// config instance. Use a default type if this returns nil.
-    var configComponentType: InputViewConfigComponentType.Type? { get }
+    @objc optional var configComponentType: InputViewConfigComponentType.Type { get }
 }
 
 public extension InputViewDecoratorType {

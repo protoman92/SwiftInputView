@@ -45,7 +45,7 @@ open class TextInputViewConfigComponent: InputViewConfigComponent {
     fileprivate func configure(inputField: InputFieldType) {
         inputField.autocorrectionType = .no
         inputField.textColor = inputTextColor
-        inputField.textAlignment = inputTextAlignment ?? .natural
+        inputField.textAlignment = inputTextAlignment
         inputField.tintColor = inputTintColor
         inputField.placeholderTextColor = placeholderTextColor
     }
@@ -62,31 +62,52 @@ open class TextInputViewConfigComponent: InputViewConfigComponent {
 extension TextInputViewConfigComponent: TextInputViewIdentifierType {}
 
 extension TextInputViewConfigComponent {
-    var textDecorator: TextInputViewDecoratorType? {
+    
+    fileprivate var textDecorator: TextInputViewDecoratorType? {
         return decorator as? TextInputViewDecoratorType
     }
     
-    public var requiredIndicatorTextColor: UIColor? {
+    public var isSecureTextEntry: Bool {
+        return textDecorator?.isSecureTextEntry ?? false
+    }
+    
+    public var inputFieldFontName: String {
+        return textDecorator?.inputFieldFontName ?? ""
+    }
+    
+    public var inputFieldFontSize: CGFloat {
+        return textDecorator?.inputFieldFontSize ?? 0
+    }
+    
+    public var requiredIndicatorFontName: String {
+        return textDecorator?.requiredIndicatorFontName ?? ""
+    }
+    
+    public var requiredIndicatorFontSize: CGFloat {
+        return textDecorator?.requiredIndicatorFontSize ?? 0
+    }
+    
+    public var requiredIndicatorTextColor: UIColor {
         return textDecorator?.requiredIndicatorTextColor ?? .red
     }
     
-    public var requiredIndicatorText: String? {
+    public var requiredIndicatorText: String {
         return textDecorator?.requiredIndicatorText ?? "input.title.required"
     }
     
-    public var inputTextColor: UIColor? {
+    public var inputTextColor: UIColor {
         return textDecorator?.inputTextColor ?? .darkGray
     }
     
-    public var inputTintColor: UIColor? {
+    public var inputTintColor: UIColor {
         return textDecorator?.inputTintColor ?? .darkGray
     }
     
-    public var inputTextAlignment: NSTextAlignment? {
+    public var inputTextAlignment: NSTextAlignment {
         return textDecorator?.inputTextAlignment ?? .left
     }
     
-    public var placeholderTextColor: UIColor? {
+    public var placeholderTextColor: UIColor {
         return textDecorator?.placeholderTextColor ?? .lightGray
     }
 }
