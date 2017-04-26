@@ -48,6 +48,8 @@ open class TextInputViewConfigComponent: InputViewConfigComponent {
         inputField.textAlignment = inputTextAlignment
         inputField.tintColor = inputTintColor
         inputField.placeholderTextColor = placeholderTextColor
+        inputField.font = inputFieldFont
+        inputField.isSecureTextEntry = isSecureTextEntry
     }
     
     /// Configure required indicator UILabel.
@@ -56,6 +58,7 @@ open class TextInputViewConfigComponent: InputViewConfigComponent {
     fileprivate func configure(requiredInput indicator: UILabel) {
         indicator.text = requiredIndicatorText
         indicator.textColor = requiredIndicatorTextColor
+        indicator.font = requiredIndicatorFont
     }
 }
 
