@@ -7,6 +7,7 @@ target 'SwiftInputView' do
 
   # Pods for SwiftInputView
   pod 'SwiftPlaceholderTextView'
+  pod 'SwiftReactiveTextField/Main'
 
   target 'SwiftInputViewTests' do
     inherit! :search_paths

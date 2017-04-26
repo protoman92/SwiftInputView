@@ -47,8 +47,8 @@ public extension TextInputViewComponentType {
     }
     
     /// Get the inputField's rxText ControlProperty.
-    public var rxText: ControlProperty<String?>? {
-        return inputField?.rxText
+    public var rxText: Observable<String?> {
+        return inputField?.rxText ?? Observable.empty()
     }
     
     /// Setup the inputField. There is at least one thing we want to do here:
@@ -58,8 +58,7 @@ public extension TextInputViewComponentType {
     public func setupInputField() {
         let disposeBag = self.disposeBag
         
-        rxText?.asObservable()
-            .doOnNext(toggleRequiredIndicator)
+        rxText.doOnNext(toggleRequiredIndicator)
             .subscribe()
             .addDisposableTo(disposeBag)
     }

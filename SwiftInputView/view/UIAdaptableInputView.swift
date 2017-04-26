@@ -68,7 +68,7 @@ public extension Reactive where Base: UIAdaptableInputView {
     public var text: Observable<String?> {
         return base.inputFields
             .map({$0.rxText})
-            .flatMap({$0?.asObservable()})
+            .flatMap({$0})
             .mergeAsObservable()
     }
 }

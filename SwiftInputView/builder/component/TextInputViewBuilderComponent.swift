@@ -7,6 +7,7 @@
 //
 
 import SwiftPlaceholderTextView
+import SwiftReactiveTextField
 import SwiftUtilities
 import SwiftUIUtilities
 
@@ -89,7 +90,7 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
             return ViewBuilderComponent.empty
         }
         
-        return inputField(BaseTextField(), for: view, using: input)
+        return inputField(UIReactiveTextField(), for: view, using: input)
     }
     
     /// Get a multiline input component i.e. non-multiline. We can use a
@@ -132,7 +133,7 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
             return ViewBuilderComponent.empty
         }
         
-        let indicator = BaseLabel()
+        let indicator = UIBaseLabel()
         indicator.accessibilityIdentifier = requiredIndicatorId
         indicator.fontName = String(describing: 1)
         indicator.fontSize = String(describing: 4)
