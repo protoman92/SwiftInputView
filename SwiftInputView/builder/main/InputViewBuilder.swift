@@ -138,7 +138,7 @@ open class InputViewBuilder {
             // necessary.
             let width: BaseLayoutConstraint
             
-            if let concreteValue = input.decorator.inputViewWidth {
+            if let vWidth = input.decorator.inputViewWidth, vWidth > 0 {
                 
                 // Direct width constraint.
                 width = BaseLayoutConstraint(item: subview,
@@ -147,7 +147,7 @@ open class InputViewBuilder {
                                              toItem: nil,
                                              attribute: .notAnAttribute,
                                              multiplier: 1,
-                                             constant: concreteValue)
+                                             constant: vWidth)
                 
                 width.identifier = parentSubviewWidthId
             } else {

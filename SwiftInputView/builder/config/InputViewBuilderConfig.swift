@@ -113,7 +113,7 @@ open class InputViewBuilderConfig {
         // of the master view.
         constraints.filter({
             $0.identifier == self.parentSubviewLeftId &&
-                $0.secondAttribute == .right
+            $0.secondAttribute == .right
         }).forEach({$0.constant = horizontalSpacing})
         
         // Reduce width to fit the parent view, since we added a horizontal
