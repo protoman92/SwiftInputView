@@ -14,10 +14,10 @@ import UIKit
     
     /// The input view's width. For e.g., input field for phone extension
     /// should be smaller than others.
-    @objc optional var inputViewWidth: CGFloat { get }
+    @objc optional var inputWidth: CGFloat { get }
     
     /// The input view's height.
-    @objc optional var inputViewHeight: CGFloat { get }
+    @objc optional var inputHeight: CGFloat { get }
     
     /// This spacing determines how far apart each parent subview should be
     /// from each other.

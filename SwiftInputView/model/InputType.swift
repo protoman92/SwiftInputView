@@ -104,6 +104,6 @@ public extension Sequence where Iterator.Element: InputViewDetailType {
     
     /// Get the largest height in a Sequence of InputViewDetailType.
     public var largestHeight: CGFloat {
-        return flatMap({$0.decorator.inputViewHeight}).max() ?? 0
+        return flatMap({$0.decorator.inputHeight}).max() ?? 0
     }
 }
