@@ -24,7 +24,7 @@ open class TextInputViewConfigComponent: InputViewConfigComponent {
         if let requiredIndicator = subviews.filter({
             $0.accessibilityIdentifier == requiredIndicatorId
         }).first as? UILabel {
-            configure(requiredInput: requiredIndicator)
+            configure(requiredIndicator: requiredIndicator)
         }
     }
     
@@ -55,7 +55,7 @@ open class TextInputViewConfigComponent: InputViewConfigComponent {
     /// Configure required indicator UILabel.
     ///
     /// - Parameter indicator: A UILabel instance.
-    fileprivate func configure(requiredInput indicator: UILabel) {
+    fileprivate func configure(requiredIndicator indicator: UILabel) {
         indicator.text = requiredIndicatorText
         indicator.textColor = requiredIndicatorTextColor
         indicator.font = requiredIndicatorFont

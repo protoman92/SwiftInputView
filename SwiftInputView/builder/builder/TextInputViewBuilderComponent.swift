@@ -44,9 +44,9 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
     ///   - view: The parent UIView.
     ///   - input: An TextInputViewDetailType instance.
     /// - Returns: A ViewBuilderComponentType instance.
-    fileprivate func inputField<I>(_ inputField: I,
-                                for view: UIView,
-                                using input: InputViewDetailType)
+    func inputField<I>(_ inputField: I,
+                    for view: UIView,
+                    using input: InputViewDetailType)
         -> ViewBuilderComponentType
         where I: UIView, I: DynamicFontType & InputFieldType
     {

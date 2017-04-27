@@ -1,5 +1,5 @@
 //
-//  InputViewBuilderComponentType.swift
+//  InputViewBuilderComponent.swift
 //  SwiftInputView
 //
 //  Created by Hai Pham on 4/24/17.

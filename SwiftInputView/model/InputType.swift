@@ -28,7 +28,10 @@ public protocol InputViewDetailType: InputDetailType {
     
     /// Check if required indicator should be displayed, even if the input
     /// is required - e.g. when an explicit input width is specified and it
-    /// is not large enough to display the required indicator text.
+    /// is not large enough to display the required indicator text. This value
+    /// is required here instead of in a decorator because we need it to
+    /// determine whether to construct the required indicator in the first
+    /// place.
     var shouldDisplayRequiredIndicator: Bool { get }
     
     /// Get a decorator instance to pass to config phase. Instead of asking

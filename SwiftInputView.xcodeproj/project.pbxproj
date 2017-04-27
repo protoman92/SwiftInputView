@@ -12,7 +12,7 @@
 		D310A56D1EAAF04700859248 /* IncrementalIdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310A56C1EAAF04700859248 /* IncrementalIdentifierType.swift */; };
 		D310A5711EAAF06300859248 /* IncrementalIdentifierTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310A5701EAAF06300859248 /* IncrementalIdentifierTypeTests.swift */; };
 		D310A5721EAAF13700859248 /* IncrementalIdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310A56C1EAAF04700859248 /* IncrementalIdentifierType.swift */; };
-		D310A5731EAAF13700859248 /* InputViewIdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B34B1EA9C05D00861C4B /* InputViewIdentifierType.swift */; };
+		D310A5731EAAF13700859248 /* InputViewIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B34B1EA9C05D00861C4B /* InputViewIdentifier.swift */; };
 		D310A5741EAAF13700859248 /* InputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36B83331EAA6697001CF633 /* InputType.swift */; };
 		D310A5751EAAF13700859248 /* TextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36B83351EAA790B001CF633 /* TextInput.swift */; };
 		D310A5761EAAF13700859248 /* UIAdaptableInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B33B1EA9AF7E00861C4B /* UIAdaptableInputView.swift */; };
@@ -22,27 +22,30 @@
 		D31997921EABD3F700DDF7C9 /* InputViewBuilderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31997911EABD3F700DDF7C9 /* InputViewBuilderConfig.swift */; };
 		D31997961EABD46600DDF7C9 /* InputViewBuilderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31997911EABD3F700DDF7C9 /* InputViewBuilderConfig.swift */; };
 		D31997991EABD48A00DDF7C9 /* InputViewComponentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31997981EABD48A00DDF7C9 /* InputViewComponentType.swift */; };
-		D319979B1EABD4AE00DDF7C9 /* InputViewDecoratorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319979A1EABD4AE00DDF7C9 /* InputViewDecoratorType.swift */; };
+		D319979B1EABD4AE00DDF7C9 /* InputViewDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319979A1EABD4AE00DDF7C9 /* InputViewDecorator.swift */; };
 		D319979C1EABD4FE00DDF7C9 /* InputViewComponentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31997981EABD48A00DDF7C9 /* InputViewComponentType.swift */; };
-		D319979D1EABD50100DDF7C9 /* InputViewDecoratorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319979A1EABD4AE00DDF7C9 /* InputViewDecoratorType.swift */; };
+		D319979D1EABD50100DDF7C9 /* InputViewDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319979A1EABD4AE00DDF7C9 /* InputViewDecorator.swift */; };
 		D319B2E51EA9971900861C4B /* InputViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B2E41EA9971900861C4B /* InputViewBuilder.swift */; };
 		D319B33C1EA9AF7E00861C4B /* UIAdaptableInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B33B1EA9AF7E00861C4B /* UIAdaptableInputView.swift */; };
-		D319B34C1EA9C05D00861C4B /* InputViewIdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B34B1EA9C05D00861C4B /* InputViewIdentifierType.swift */; };
+		D319B34C1EA9C05D00861C4B /* InputViewIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319B34B1EA9C05D00861C4B /* InputViewIdentifier.swift */; };
 		D32656D71EAB4A6900151436 /* UIInputComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32656D61EAB4A6900151436 /* UIInputComponentView.swift */; };
 		D32656D81EAB4B5F00151436 /* UIInputComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32656D61EAB4A6900151436 /* UIInputComponentView.swift */; };
 		D329CB321EAD99D2005D512E /* ViewBuildingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329CB311EAD99D2005D512E /* ViewBuildingTests.swift */; };
 		D329CB331EADAFC2005D512E /* TextInputViewConfigComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1E821EAD312800289A12 /* TextInputViewConfigComponent.swift */; };
-		D329CB341EADAFC2005D512E /* TextInputViewDecoratorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1EB01EAD367C00289A12 /* TextInputViewDecoratorType.swift */; };
+		D329CB341EADAFC2005D512E /* TextInputViewDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1EB01EAD367C00289A12 /* TextInputViewDecorator.swift */; };
+		D3696CCF1EB1D8B7007B7496 /* ClickableInputViewBuilderComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3696CCE1EB1D8B7007B7496 /* ClickableInputViewBuilderComponent.swift */; };
+		D3696CD11EB1DAAB007B7496 /* ClickableInputViewConfigComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3696CD01EB1DAAB007B7496 /* ClickableInputViewConfigComponent.swift */; };
+		D3696CD31EB1DDD2007B7496 /* ClickableInputViewDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3696CD21EB1DDD2007B7496 /* ClickableInputViewDecorator.swift */; };
 		D36B83341EAA6697001CF633 /* InputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36B83331EAA6697001CF633 /* InputType.swift */; };
 		D36B83361EAA790B001CF633 /* TextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36B83351EAA790B001CF633 /* TextInput.swift */; };
-		D38D1E4E1EAD204700289A12 /* InputViewBuilderComponentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1E4D1EAD204700289A12 /* InputViewBuilderComponentType.swift */; };
-		D38D1E4F1EAD206F00289A12 /* InputViewBuilderComponentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1E4D1EAD204700289A12 /* InputViewBuilderComponentType.swift */; };
+		D38D1E4E1EAD204700289A12 /* InputViewBuilderComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1E4D1EAD204700289A12 /* InputViewBuilderComponent.swift */; };
+		D38D1E4F1EAD206F00289A12 /* InputViewBuilderComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1E4D1EAD204700289A12 /* InputViewBuilderComponent.swift */; };
 		D38D1E551EAD22B600289A12 /* TextInputViewBuilderComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1E541EAD22B600289A12 /* TextInputViewBuilderComponent.swift */; };
-		D38D1E7F1EAD2CC400289A12 /* InputViewConfigComponentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1E7E1EAD2CC400289A12 /* InputViewConfigComponentType.swift */; };
+		D38D1E7F1EAD2CC400289A12 /* InputViewConfigComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1E7E1EAD2CC400289A12 /* InputViewConfigComponent.swift */; };
 		D38D1E801EAD30C600289A12 /* TextInputViewBuilderComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1E541EAD22B600289A12 /* TextInputViewBuilderComponent.swift */; };
-		D38D1E811EAD30C600289A12 /* InputViewConfigComponentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1E7E1EAD2CC400289A12 /* InputViewConfigComponentType.swift */; };
+		D38D1E811EAD30C600289A12 /* InputViewConfigComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1E7E1EAD2CC400289A12 /* InputViewConfigComponent.swift */; };
 		D38D1E831EAD312800289A12 /* TextInputViewConfigComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1E821EAD312800289A12 /* TextInputViewConfigComponent.swift */; };
-		D38D1EB11EAD367C00289A12 /* TextInputViewDecoratorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1EB01EAD367C00289A12 /* TextInputViewDecoratorType.swift */; };
+		D38D1EB11EAD367C00289A12 /* TextInputViewDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D1EB01EAD367C00289A12 /* TextInputViewDecorator.swift */; };
 		D38D1EB41EAD36C600289A12 /* pod-publish in Resources */ = {isa = PBXBuildFile; fileRef = D38D1EB21EAD36C600289A12 /* pod-publish */; };
 		D38D1EB51EAD36C600289A12 /* SwiftInputView.podspec in Resources */ = {isa = PBXBuildFile; fileRef = D38D1EB31EAD36C600289A12 /* SwiftInputView.podspec */; };
 		D3D054951EA89BDA00515B37 /* SwiftInputView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D0548B1EA89BDA00515B37 /* SwiftInputView.framework */; };
@@ -70,20 +73,23 @@
 		D310A57D1EAB098C00859248 /* CustomExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomExtension.swift; sourceTree = "<group>"; };
 		D31997911EABD3F700DDF7C9 /* InputViewBuilderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewBuilderConfig.swift; path = builder/config/InputViewBuilderConfig.swift; sourceTree = "<group>"; };
 		D31997981EABD48A00DDF7C9 /* InputViewComponentType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewComponentType.swift; path = builder/component/InputViewComponentType.swift; sourceTree = "<group>"; };
-		D319979A1EABD4AE00DDF7C9 /* InputViewDecoratorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewDecoratorType.swift; path = builder/decorator/InputViewDecoratorType.swift; sourceTree = "<group>"; };
+		D319979A1EABD4AE00DDF7C9 /* InputViewDecorator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewDecorator.swift; path = builder/decorator/InputViewDecorator.swift; sourceTree = "<group>"; };
 		D319B2E41EA9971900861C4B /* InputViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewBuilder.swift; path = builder/builder/InputViewBuilder.swift; sourceTree = "<group>"; };
 		D319B33B1EA9AF7E00861C4B /* UIAdaptableInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIAdaptableInputView.swift; path = view/UIAdaptableInputView.swift; sourceTree = "<group>"; };
-		D319B34B1EA9C05D00861C4B /* InputViewIdentifierType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewIdentifierType.swift; path = builder/builder/InputViewIdentifierType.swift; sourceTree = "<group>"; };
+		D319B34B1EA9C05D00861C4B /* InputViewIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewIdentifier.swift; path = builder/builder/InputViewIdentifier.swift; sourceTree = "<group>"; };
 		D32656D61EAB4A6900151436 /* UIInputComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIInputComponentView.swift; path = view/UIInputComponentView.swift; sourceTree = "<group>"; };
 		D329CB311EAD99D2005D512E /* ViewBuildingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewBuildingTests.swift; path = builder/ViewBuildingTests.swift; sourceTree = "<group>"; };
 		D367FF93180D221895571196 /* Pods_SwiftInputView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftInputView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3696CCE1EB1D8B7007B7496 /* ClickableInputViewBuilderComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClickableInputViewBuilderComponent.swift; path = builder/builder/ClickableInputViewBuilderComponent.swift; sourceTree = "<group>"; };
+		D3696CD01EB1DAAB007B7496 /* ClickableInputViewConfigComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClickableInputViewConfigComponent.swift; path = builder/config/ClickableInputViewConfigComponent.swift; sourceTree = "<group>"; };
+		D3696CD21EB1DDD2007B7496 /* ClickableInputViewDecorator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClickableInputViewDecorator.swift; path = builder/decorator/ClickableInputViewDecorator.swift; sourceTree = "<group>"; };
 		D36B83331EAA6697001CF633 /* InputType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputType.swift; path = model/InputType.swift; sourceTree = "<group>"; };
 		D36B83351EAA790B001CF633 /* TextInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextInput.swift; path = model/TextInput.swift; sourceTree = "<group>"; };
-		D38D1E4D1EAD204700289A12 /* InputViewBuilderComponentType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewBuilderComponentType.swift; path = builder/component/InputViewBuilderComponentType.swift; sourceTree = "<group>"; };
-		D38D1E541EAD22B600289A12 /* TextInputViewBuilderComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextInputViewBuilderComponent.swift; path = builder/component/TextInputViewBuilderComponent.swift; sourceTree = "<group>"; };
-		D38D1E7E1EAD2CC400289A12 /* InputViewConfigComponentType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewConfigComponentType.swift; path = builder/component/InputViewConfigComponentType.swift; sourceTree = "<group>"; };
-		D38D1E821EAD312800289A12 /* TextInputViewConfigComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextInputViewConfigComponent.swift; path = builder/component/TextInputViewConfigComponent.swift; sourceTree = "<group>"; };
-		D38D1EB01EAD367C00289A12 /* TextInputViewDecoratorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextInputViewDecoratorType.swift; path = builder/decorator/TextInputViewDecoratorType.swift; sourceTree = "<group>"; };
+		D38D1E4D1EAD204700289A12 /* InputViewBuilderComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewBuilderComponent.swift; path = builder/builder/InputViewBuilderComponent.swift; sourceTree = "<group>"; };
+		D38D1E541EAD22B600289A12 /* TextInputViewBuilderComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextInputViewBuilderComponent.swift; path = builder/builder/TextInputViewBuilderComponent.swift; sourceTree = "<group>"; };
+		D38D1E7E1EAD2CC400289A12 /* InputViewConfigComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputViewConfigComponent.swift; path = builder/config/InputViewConfigComponent.swift; sourceTree = "<group>"; };
+		D38D1E821EAD312800289A12 /* TextInputViewConfigComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextInputViewConfigComponent.swift; path = builder/config/TextInputViewConfigComponent.swift; sourceTree = "<group>"; };
+		D38D1EB01EAD367C00289A12 /* TextInputViewDecorator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextInputViewDecorator.swift; path = builder/decorator/TextInputViewDecorator.swift; sourceTree = "<group>"; };
 		D38D1EB21EAD36C600289A12 /* pod-publish */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "pod-publish"; sourceTree = "<group>"; };
 		D38D1EB31EAD36C600289A12 /* SwiftInputView.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SwiftInputView.podspec; sourceTree = "<group>"; };
 		D3D0548B1EA89BDA00515B37 /* SwiftInputView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftInputView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -182,28 +188,28 @@
 			isa = PBXGroup;
 			children = (
 				D31997981EABD48A00DDF7C9 /* InputViewComponentType.swift */,
-				D38D1E4D1EAD204700289A12 /* InputViewBuilderComponentType.swift */,
-				D38D1E541EAD22B600289A12 /* TextInputViewBuilderComponent.swift */,
-				D38D1E7E1EAD2CC400289A12 /* InputViewConfigComponentType.swift */,
-				D38D1E821EAD312800289A12 /* TextInputViewConfigComponent.swift */,
 			);
 			name = component;
 			sourceTree = "<group>";
 		};
-		D38D1E511EAD213A00289A12 /* main */ = {
+		D38D1E511EAD213A00289A12 /* builder */ = {
 			isa = PBXGroup;
 			children = (
-				D319B34B1EA9C05D00861C4B /* InputViewIdentifierType.swift */,
 				D319B2E41EA9971900861C4B /* InputViewBuilder.swift */,
+				D38D1E4D1EAD204700289A12 /* InputViewBuilderComponent.swift */,
+				D319B34B1EA9C05D00861C4B /* InputViewIdentifier.swift */,
+				D38D1E541EAD22B600289A12 /* TextInputViewBuilderComponent.swift */,
+				D3696CCE1EB1D8B7007B7496 /* ClickableInputViewBuilderComponent.swift */,
 			);
-			name = main;
+			name = builder;
 			sourceTree = "<group>";
 		};
 		D38D1E521EAD217300289A12 /* decorator */ = {
 			isa = PBXGroup;
 			children = (
-				D38D1EB01EAD367C00289A12 /* TextInputViewDecoratorType.swift */,
-				D319979A1EABD4AE00DDF7C9 /* InputViewDecoratorType.swift */,
+				D319979A1EABD4AE00DDF7C9 /* InputViewDecorator.swift */,
+				D38D1EB01EAD367C00289A12 /* TextInputViewDecorator.swift */,
+				D3696CD21EB1DDD2007B7496 /* ClickableInputViewDecorator.swift */,
 			);
 			name = decorator;
 			sourceTree = "<group>";
@@ -212,6 +218,9 @@
 			isa = PBXGroup;
 			children = (
 				D31997911EABD3F700DDF7C9 /* InputViewBuilderConfig.swift */,
+				D38D1E7E1EAD2CC400289A12 /* InputViewConfigComponent.swift */,
+				D38D1E821EAD312800289A12 /* TextInputViewConfigComponent.swift */,
+				D3696CD01EB1DAAB007B7496 /* ClickableInputViewConfigComponent.swift */,
 			);
 			name = config;
 			sourceTree = "<group>";
@@ -268,7 +277,7 @@
 				D38D1E501EAD20EE00289A12 /* component */,
 				D38D1E531EAD21CE00289A12 /* config */,
 				D38D1E521EAD217300289A12 /* decorator */,
-				D38D1E511EAD213A00289A12 /* main */,
+				D38D1E511EAD213A00289A12 /* builder */,
 			);
 			name = builder;
 			sourceTree = "<group>";
@@ -472,14 +481,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D38D1EB11EAD367C00289A12 /* TextInputViewDecoratorType.swift in Sources */,
-				D38D1E7F1EAD2CC400289A12 /* InputViewConfigComponentType.swift in Sources */,
+				D38D1EB11EAD367C00289A12 /* TextInputViewDecorator.swift in Sources */,
+				D38D1E7F1EAD2CC400289A12 /* InputViewConfigComponent.swift in Sources */,
+				D3696CD11EB1DAAB007B7496 /* ClickableInputViewConfigComponent.swift in Sources */,
 				D310A57E1EAB098C00859248 /* CustomExtension.swift in Sources */,
-				D319B34C1EA9C05D00861C4B /* InputViewIdentifierType.swift in Sources */,
-				D38D1E4E1EAD204700289A12 /* InputViewBuilderComponentType.swift in Sources */,
+				D319B34C1EA9C05D00861C4B /* InputViewIdentifier.swift in Sources */,
+				D3696CD31EB1DDD2007B7496 /* ClickableInputViewDecorator.swift in Sources */,
+				D38D1E4E1EAD204700289A12 /* InputViewBuilderComponent.swift in Sources */,
+				D3696CCF1EB1D8B7007B7496 /* ClickableInputViewBuilderComponent.swift in Sources */,
 				D31997991EABD48A00DDF7C9 /* InputViewComponentType.swift in Sources */,
 				D36B83341EAA6697001CF633 /* InputType.swift in Sources */,
-				D319979B1EABD4AE00DDF7C9 /* InputViewDecoratorType.swift in Sources */,
+				D319979B1EABD4AE00DDF7C9 /* InputViewDecorator.swift in Sources */,
 				D32656D71EAB4A6900151436 /* UIInputComponentView.swift in Sources */,
 				D319B2E51EA9971900861C4B /* InputViewBuilder.swift in Sources */,
 				D38D1E551EAD22B600289A12 /* TextInputViewBuilderComponent.swift in Sources */,
@@ -496,17 +508,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				D329CB331EADAFC2005D512E /* TextInputViewConfigComponent.swift in Sources */,
-				D329CB341EADAFC2005D512E /* TextInputViewDecoratorType.swift in Sources */,
+				D329CB341EADAFC2005D512E /* TextInputViewDecorator.swift in Sources */,
 				D38D1E801EAD30C600289A12 /* TextInputViewBuilderComponent.swift in Sources */,
-				D38D1E811EAD30C600289A12 /* InputViewConfigComponentType.swift in Sources */,
-				D38D1E4F1EAD206F00289A12 /* InputViewBuilderComponentType.swift in Sources */,
-				D319979D1EABD50100DDF7C9 /* InputViewDecoratorType.swift in Sources */,
+				D38D1E811EAD30C600289A12 /* InputViewConfigComponent.swift in Sources */,
+				D38D1E4F1EAD206F00289A12 /* InputViewBuilderComponent.swift in Sources */,
+				D319979D1EABD50100DDF7C9 /* InputViewDecorator.swift in Sources */,
 				D319979C1EABD4FE00DDF7C9 /* InputViewComponentType.swift in Sources */,
 				D31997961EABD46600DDF7C9 /* InputViewBuilderConfig.swift in Sources */,
 				D32656D81EAB4B5F00151436 /* UIInputComponentView.swift in Sources */,
 				D310A57F1EAB26EF00859248 /* CustomExtension.swift in Sources */,
 				D310A5721EAAF13700859248 /* IncrementalIdentifierType.swift in Sources */,
-				D310A5731EAAF13700859248 /* InputViewIdentifierType.swift in Sources */,
+				D310A5731EAAF13700859248 /* InputViewIdentifier.swift in Sources */,
 				D310A5741EAAF13700859248 /* InputType.swift in Sources */,
 				D310A5751EAAF13700859248 /* TextInput.swift in Sources */,
 				D310A5761EAAF13700859248 /* UIAdaptableInputView.swift in Sources */,
