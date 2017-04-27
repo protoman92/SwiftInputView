@@ -84,7 +84,7 @@ open class InputViewBuilder {
         // Get sum of concrete inputViewWidth. For inputs that do not specify
         // a width, we anchor their width to a fraction of the master view 
         // minus this value.
-        let widths = inputs.flatMap({$0.decorator.inputWidth}).filter({$0 > 0})
+        let widths = inputs.flatMap({$0.inputWidth}).filter({$0 > 0})
         let concreteWidth = widths.reduce(0, +)
         
         for (index, (subview, input)) in zip(subs, inputs).enumerated() {
@@ -138,7 +138,7 @@ open class InputViewBuilder {
             // necessary.
             let width: BaseLayoutConstraint
             
-            if let vWidth = input.decorator.inputWidth, vWidth > 0 {
+            if let vWidth = input.inputWidth, vWidth > 0 {
                 
                 // Direct width constraint.
                 width = BaseLayoutConstraint(item: subview,

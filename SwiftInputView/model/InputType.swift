@@ -37,6 +37,19 @@ public protocol InputViewDetailType: InputDetailType {
     /// likely be using enums for InputViewDetailType, which are not objc
     /// compliant).
     var decorator: InputViewDecoratorType { get }
+    
+    /// The input view's width. For e.g., input field for phone extension
+    /// should be smaller than others. We ask for inputWidth here because
+    /// this value will be used during view building phase (since we need to
+    /// create constraints).
+    ///
+    /// Return nil to use default value (i.e. multiplier ratio constraint
+    /// instead of concrete width constraint)
+    var inputWidth: CGFloat? { get }
+    
+    /// The input view's height. Return nil to use default value (i.e.
+    /// textInputType.suggestedInputHeight).
+    var inputHeight: CGFloat? { get }
 }
 
 public extension InputViewDetailType {
@@ -104,6 +117,8 @@ public extension Sequence where Iterator.Element: InputViewDetailType {
     
     /// Get the largest height in a Sequence of InputViewDetailType.
     public var largestHeight: CGFloat {
-        return flatMap({$0.decorator.inputHeight}).max() ?? 0
+        return flatMap({
+            $0.inputHeight ?? $0.textInputType?.suggestedInputHeight
+        }).max() ?? 0
     }
 }

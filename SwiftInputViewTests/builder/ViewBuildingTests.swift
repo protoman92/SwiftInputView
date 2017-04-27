@@ -128,6 +128,8 @@ extension InputDetail: InputViewDetailType {
     var inputType: InputType { return TextInput.default }
     var shouldDisplayRequiredIndicator: Bool { return rawValue % 4 == 0 }
     var decorator: InputViewDecoratorType { return InputDecorator.shared }
+    var inputWidth: CGFloat? { return nil }
+    var inputHeight: CGFloat? { return nil }
 }
 
 class InputDecorator: TextInputViewDecoratorType {
