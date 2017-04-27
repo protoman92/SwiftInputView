@@ -113,12 +113,22 @@ public extension InputViewDetailType {
     }
 }
 
-public extension Sequence where Iterator.Element: InputViewDetailType {
+public extension Sequence where Iterator.Element == InputViewDetailType {
     
     /// Get the largest height in a Sequence of InputViewDetailType.
     public var largestHeight: CGFloat {
         return flatMap({
             $0.inputHeight ?? $0.textInputType?.suggestedInputHeight
         }).max() ?? 0
+    }
+}
+
+public extension Sequence where Iterator.Element: InputViewDetailType {
+    
+    /// Get the largest height in a Sequence of InputViewDetailType. We need
+    /// to cast each element to InputViewDetailType, and then use the
+    /// resulting Sequence's largestHeight property.
+    public var largestHeight: CGFloat {
+        return map({$0 as InputViewDetailType}).largestHeight
     }
 }
