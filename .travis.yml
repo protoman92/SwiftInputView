@@ -1,0 +1,11 @@
+osx_image: xcode8.3
+language: objective-c
+xcode_workspace: SwiftInputView.xcworkspace
+xcode_scheme: SwiftInputView
+xcode_sdk: iphonesimulator10.1
+before_install:
+    - pod repo update
+
+script:
+    - set -o pipefail && xcodebuild test -sdk iphonesimulator -workspace SwiftInputView.xcworkspace  -scheme SwiftInputView  CODE_SIGNING_REQUIRED=NO -destination 'platform=iOS Simulator,name=iPhone 7 Plus,OS=10.2'
+	- pod lib lint

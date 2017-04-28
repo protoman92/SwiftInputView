@@ -6,14 +6,14 @@ PODS:
   - RxSwift (3.4.0)
   - RxTest (3.4.0):
     - RxSwift (~> 3.4)
-  - SwiftPlaceholderTextView (1.2.0):
-    - SwiftPlaceholderTextView/Main (= 1.2.0)
+  - SwiftPlaceholderTextView (1.2.1):
+    - SwiftPlaceholderTextView/Main (= 1.2.1)
     - SwiftUIUtilities/Main
-  - SwiftPlaceholderTextView/Main (1.2.0):
+  - SwiftPlaceholderTextView/Main (1.2.1):
     - SwiftUIUtilities/Main
   - SwiftReactiveTextField/Main (1.0.3):
     - SwiftUIUtilities/Main
-  - SwiftUIUtilities/Main (1.3.6):
+  - SwiftUIUtilities/Main (1.4.1):
     - SwiftUtilities/Main
   - SwiftUtilities/Main (1.3.9):
     - RxCocoa (~> 3.0)
@@ -40,9 +40,9 @@ SPEC CHECKSUMS:
   RxCocoa: d14ef6b6029e1ddc6e966508c09289090de68ff9
   RxSwift: 3789a1af753002a14edecdb698a2424624296a9c
   RxTest: beb6beb882cf1dcac5fc9fdbd4760a5254e7f3a6
-  SwiftPlaceholderTextView: e1c0bc6be6854bb9ab093d7fbc5706c64fab9c1f
+  SwiftPlaceholderTextView: 6ee05e26d7ad3bde683c5a54f954cf7b591cc754
   SwiftReactiveTextField: e219e42256a5bd28f8e4cf2cc2758d7749283661
-  SwiftUIUtilities: 440527414fc9784e2bf37e94b242eb285ecf9f7f
+  SwiftUIUtilities: 3e8b708eda5ed04c92a6f59c43fbaf3a39055d2d
   SwiftUtilities: 8f929973652bbe9df450f1afc2a6bee49b5b2f83
   SwiftUtilitiesTests: 6ae18dd0152acdef56f9b3582a85125f507aefd2
 
