@@ -6,6 +6,7 @@
 //  Copyright © 2017 Swiften. All rights reserved.
 //
 
+import SwiftBaseViews
 import SwiftPlaceholderTextView
 import SwiftReactiveTextField
 import SwiftUtilities
@@ -135,13 +136,13 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
         indicator.accessibilityIdentifier = requiredIndicatorId
         
         // Right constraint.
-        let right = BaseLayoutConstraint(item: view,
-                                         attribute: .right,
-                                         relatedBy: .equal,
-                                         toItem: indicator,
-                                         attribute: .right,
-                                         multiplier: 1,
-                                         constant: 0)
+        let right = NSBaseLayoutConstraint(item: view,
+                                           attribute: .right,
+                                           relatedBy: .equal,
+                                           toItem: indicator,
+                                           attribute: .right,
+                                           multiplier: 1,
+                                           constant: 0)
         
         right.constantValue = String(describing: 5)
         
@@ -149,13 +150,13 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
         // placeholderView so that even if the inputField is multiline (i.e.
         // its height to larger than the rest), the required indicator is
         // still anchored to the centerY of the first line of text.
-        let vertical = BaseLayoutConstraint(item: placeholderView,
-                                            attribute: .centerY,
-                                            relatedBy: .equal,
-                                            toItem: indicator,
-                                            attribute: .centerY,
-                                            multiplier: 1,
-                                            constant: 0)
+        let vertical = NSBaseLayoutConstraint(item: placeholderView,
+                                              attribute: .centerY,
+                                              relatedBy: .equal,
+                                              toItem: indicator,
+                                              attribute: .centerY,
+                                              multiplier: 1,
+                                              constant: 0)
         
         vertical.constantValue = String(describing: 0)
         

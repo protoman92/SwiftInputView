@@ -6,6 +6,7 @@
 //  Copyright © 2017 Swiften. All rights reserved.
 //
 
+import SwiftBaseViews
 import SwiftUtilities
 import SwiftUIUtilities
 
@@ -95,24 +96,24 @@ open class InputViewBuilder {
             subview.populateSubviews(from: psc)
             
             // Top constraint for parent subview.
-            let top = BaseLayoutConstraint(item: subview,
-                                           attribute: .top,
-                                           relatedBy: .equal,
-                                           toItem: view,
-                                           attribute: .top,
-                                           multiplier: 1,
-                                           constant: 0)
+            let top = NSBaseLayoutConstraint(item: subview,
+                                             attribute: .top,
+                                             relatedBy: .equal,
+                                             toItem: view,
+                                             attribute: .top,
+                                             multiplier: 1,
+                                             constant: 0)
             
             top.constantValue = String(describing: 0)
             
             // Bottom constraint for parent subview.
-            let bottom = BaseLayoutConstraint(item: view,
-                                              attribute: .bottom,
-                                              relatedBy: .equal,
-                                              toItem: subview,
-                                              attribute: .bottom,
-                                              multiplier: 1,
-                                              constant: 0)
+            let bottom = NSBaseLayoutConstraint(item: view,
+                                                attribute: .bottom,
+                                                relatedBy: .equal,
+                                                toItem: subview,
+                                                attribute: .bottom,
+                                                multiplier: 1,
+                                                constant: 0)
             
             bottom.constantValue = String(describing: 0)
             
@@ -122,13 +123,13 @@ open class InputViewBuilder {
             let previousView = index == 0 ? view : subs[index - 1]
             let secondAttr = index == 0 ? NSLayoutAttribute.left : .right
             
-            let left = BaseLayoutConstraint(item: subview,
-                                            attribute: .left,
-                                            relatedBy: .equal,
-                                            toItem: previousView,
-                                            attribute: secondAttr,
-                                            multiplier: 1,
-                                            constant: 0)
+            let left = NSBaseLayoutConstraint(item: subview,
+                                              attribute: .left,
+                                              relatedBy: .equal,
+                                              toItem: previousView,
+                                              attribute: secondAttr,
+                                              multiplier: 1,
+                                              constant: 0)
             
             left.constantValue = String(describing: 0)
             left.identifier = parentSubviewLeftId
@@ -136,12 +137,12 @@ open class InputViewBuilder {
             // Width constraint for parent subview. We need to divide the
             // width by the number of subviews, or set a concrete width if
             // necessary.
-            let width: BaseLayoutConstraint
+            let width: NSBaseLayoutConstraint
             
             if let vWidth = input.inputWidth, vWidth > 0 {
                 
                 // Direct width constraint.
-                width = BaseLayoutConstraint(item: subview,
+                width = NSBaseLayoutConstraint(item: subview,
                                              attribute: .width,
                                              relatedBy: .equal,
                                              toItem: nil,
@@ -156,13 +157,13 @@ open class InputViewBuilder {
                 let ratio = 1 / CGFloat(count - widths.count)
                 let constant: CGFloat = -(concreteWidth * ratio)
                 
-                width = BaseLayoutConstraint(item: subview,
-                                             attribute: .width,
-                                             relatedBy: .equal,
-                                             toItem: view,
-                                             attribute: .width,
-                                             multiplier: ratio,
-                                             constant: constant)
+                width = NSBaseLayoutConstraint(item: subview,
+                                               attribute: .width,
+                                               relatedBy: .equal,
+                                               toItem: view,
+                                               attribute: .width,
+                                               multiplier: ratio,
+                                               constant: constant)
                 
                 width.constantValue = String(describing: -1)
                 width.identifier = parentSubviewWidthRatioId

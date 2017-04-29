@@ -6,13 +6,13 @@ target 'SwiftInputView' do
   use_frameworks!
 
   # Pods for SwiftInputView
-  pod 'SwiftPlaceholderTextView'
+  pod 'SwiftPlaceholderTextView/Main'
   pod 'SwiftReactiveTextField/Main'
 
   target 'SwiftInputViewTests' do
     inherit! :search_paths
     # Pods for testing
-    pod 'SwiftUtilitiesTests'
+    pod 'SwiftUtilitiesTests/Main'
     
   end
 

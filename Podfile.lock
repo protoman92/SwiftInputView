@@ -6,46 +6,40 @@ PODS:
   - RxSwift (3.4.0)
   - RxTest (3.4.0):
     - RxSwift (~> 3.4)
-  - SwiftPlaceholderTextView (1.2.1):
-    - SwiftPlaceholderTextView/Main (= 1.2.1)
+  - SwiftBaseViews/Main (1.0.0):
     - SwiftUIUtilities/Main
-  - SwiftPlaceholderTextView/Main (1.2.1):
-    - SwiftUIUtilities/Main
-  - SwiftReactiveTextField/Main (1.0.3):
-    - SwiftUIUtilities/Main
-  - SwiftUIUtilities/Main (1.4.1):
+  - SwiftPlaceholderTextView/Main (1.2.3):
+    - SwiftBaseViews/Main
+  - SwiftReactiveTextField/Main (1.0.5):
+    - SwiftBaseViews/Main
+  - SwiftUIUtilities/Main (1.4.7):
     - SwiftUtilities/Main
-  - SwiftUtilities/Main (1.3.9):
+  - SwiftUtilities/Main (1.4.0):
     - RxCocoa (~> 3.0)
     - RxSwift (~> 3.0)
-  - SwiftUtilitiesTests (1.3.9):
-    - RxBlocking (~> 3.0)
-    - RxCocoa (~> 3.0)
-    - RxSwift (~> 3.0)
-    - RxTest (~> 3.0)
-    - SwiftUtilitiesTests/Main (= 1.3.9)
-  - SwiftUtilitiesTests/Main (1.3.9):
+  - SwiftUtilitiesTests/Main (1.4.0):
     - RxBlocking (~> 3.0)
     - RxCocoa (~> 3.0)
     - RxSwift (~> 3.0)
     - RxTest (~> 3.0)
 
 DEPENDENCIES:
-  - SwiftPlaceholderTextView
+  - SwiftPlaceholderTextView/Main
   - SwiftReactiveTextField/Main
-  - SwiftUtilitiesTests
+  - SwiftUtilitiesTests/Main
 
 SPEC CHECKSUMS:
   RxBlocking: 1797b8c1a3ad7b08965145e6e2294c2e101515aa
   RxCocoa: d14ef6b6029e1ddc6e966508c09289090de68ff9
   RxSwift: 3789a1af753002a14edecdb698a2424624296a9c
   RxTest: beb6beb882cf1dcac5fc9fdbd4760a5254e7f3a6
-  SwiftPlaceholderTextView: 6ee05e26d7ad3bde683c5a54f954cf7b591cc754
-  SwiftReactiveTextField: e219e42256a5bd28f8e4cf2cc2758d7749283661
-  SwiftUIUtilities: 3e8b708eda5ed04c92a6f59c43fbaf3a39055d2d
-  SwiftUtilities: 8f929973652bbe9df450f1afc2a6bee49b5b2f83
-  SwiftUtilitiesTests: 6ae18dd0152acdef56f9b3582a85125f507aefd2
+  SwiftBaseViews: 12d86d10a8741557fa99d4d73b77df7c041887d9
+  SwiftPlaceholderTextView: 8e8b47aa3ef65f822789664c57bf838182b41be8
+  SwiftReactiveTextField: 6d41d4c57f9de6661e885267fd15436f7dd159a3
+  SwiftUIUtilities: 1361fb9146c337a92d24b6bad8cfe2eaebdf80bd
+  SwiftUtilities: a006686fcd793e828c3130295f3f0f30409cd8d6
+  SwiftUtilitiesTests: 1d56cc2d948f8a1f7329e8d5f2d318e8e86014c9
 
-PODFILE CHECKSUM: b0a7097b3864d523901d6120f400680a9878fdf1
+PODFILE CHECKSUM: 1910c7addc0165b68f5f45e1a9322ee7edf7b183
 
 COCOAPODS: 1.2.1

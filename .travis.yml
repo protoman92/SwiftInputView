@@ -8,4 +8,3 @@ before_install:
 
 script:
     - set -o pipefail && xcodebuild test -sdk iphonesimulator -workspace SwiftInputView.xcworkspace  -scheme SwiftInputView  CODE_SIGNING_REQUIRED=NO -destination 'platform=iOS Simulator,name=iPhone 7 Plus,OS=10.2'
-	- pod lib lint
