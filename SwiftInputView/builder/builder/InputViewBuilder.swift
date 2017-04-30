@@ -12,11 +12,10 @@ import SwiftUIUtilities
 
 /// Protocol for input view builder.
 public protocol InputViewBuilderType: ViewBuilderType {
-    init<S: Sequence>(from inputs: S)
-        where S.Iterator.Element: InputViewDetailType
     
-    init<S: Sequence>(from inputs: S)
-        where S.Iterator.Element == InputViewDetailType
+    init<S: Sequence>(from inputs: S) where S.Iterator.Element: InputViewDetailType
+    
+    init<S: Sequence>(from inputs: S) where S.Iterator.Element == InputViewDetailType
     
     var inputs: [InputViewDetailType] { get }
 }
@@ -53,6 +52,10 @@ open class InputViewBuilder {
         self.init(from: [input])
     }
     
+    /// Construct with an Any object, but we need to detect its actual type 
+    /// first.
+    ///
+    /// - Parameter value: An object of type Any.
     public convenience init(with value: Any) {
         if let value = value as? InputViewDetailType {
             self.init(with: value)
@@ -63,7 +66,11 @@ open class InputViewBuilder {
             self.init(from: [])
         }
     }
-    
+}
+
+// MARK: - ViewBuilderType
+extension InputViewBuilder {
+
     /// To accommodate multiple inputs on one line (e.g. first name/last name),
     /// we construct a separate UIView for each input (called parent subviews),
     /// and lay them horizontally.
@@ -181,6 +188,80 @@ open class InputViewBuilder {
         }
         
         return components
+    }
+}
+
+// MARK: - ViewBuilderConfigType.
+extension InputViewBuilder {
+    
+    /// We only take the largest horizontal spacing. Usually this value is
+    /// constant for all decorator instances.
+    var horizontalSpacing: CGFloat {
+        let spacing = inputs.flatMap({$0.decorator.horizontalSpacing}).max()
+        return (spacing ?? Space.smaller.value) ?? 0
+    }
+    
+    /// If there are multiple inputs, find all parent subviews and configure
+    /// them individually.
+    ///
+    /// - Parameter view: The master UIView.
+    public func configure(for view: UIView) {
+        let baseIdentifier = parentSubviewId
+        
+        let parentSubviews = view.findAll(withBaseIdentifier: baseIdentifier,
+                                          andStartingIndex: 1)
+        
+        if parentSubviews.isNotEmpty {
+            configureConstraints(forMasterView: view,
+                                 andParentSubviews: parentSubviews)
+            
+            for (index, subview) in parentSubviews.enumerated() {
+                guard let input = inputs.element(at: index) else {
+                    continue
+                }
+                
+                input.viewBuilderComponent().configure(for: subview)
+            }
+        } else if let input = inputs.first {
+            input.viewBuilderComponent().configure(for: view)
+        }
+    }
+    
+    /// Configure constraints for each parent subview.
+    ///
+    /// - Parameters:
+    ///   - view: The master UIView.
+    ///   - subs: An Array of all parent subviews.
+    fileprivate func configureConstraints(forMasterView view: UIView,
+                                          andParentSubviews subs: [UIView]) {
+        let horizontalSpacing = self.horizontalSpacing
+        
+        // We include all parent subviews' constraints to access their direct
+        // width constraints, if applicable.
+        let constraints = view.constraints + subs.flatMap({$0.constraints})
+        
+        // We skip the first subview since it should be anchored to the left
+        // of the master view.
+        constraints.filter({
+            $0.identifier == self.parentSubviewLeftId &&
+            $0.secondAttribute == .right
+        }).forEach({$0.constant = horizontalSpacing})
+        
+        // Reduce width to fit the parent view, since we added a horizontal
+        // spacing above. Only do this for relative width constraint, not
+        // direct width (i.e. inputs that have explicit widths)
+        let concreteWidthCount = constraints.filter({
+            $0.identifier == self.parentSubviewWidthId
+        }).count
+        
+        let subCount = subs.count
+        let nonConcrete = Swift.max(subCount - concreteWidthCount, 1)
+        let multiplier = (CGFloat(subCount - 1)) / CGFloat(nonConcrete)
+        let offset = horizontalSpacing * multiplier
+        
+        constraints.filter({
+            $0.identifier == self.parentSubviewWidthRatioId
+        }).forEach({$0.constant -= offset})
     }
 }
 

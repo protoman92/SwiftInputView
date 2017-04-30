@@ -14,6 +14,14 @@ import SwiftUIUtilities
 
 /// Handle text-based inputs.
 open class TextInputViewBuilderComponent: InputViewBuilderComponent {
+    
+    /// Get an Array of ViewBuilderComponentType, using an InputViewDetailType
+    /// and an InputViewDecoratorType instance.
+    ///
+    /// - Parameters:
+    ///   - view: The parent subview instance.
+    ///   - input: An InputViewDetailType instance.
+    /// - Returns: An Array of ViewBuilderComponentType instances.
     override open func builderComponents(for view: UIView,
                                          using input: InputViewDetailType)
         -> [ViewBuilderComponentType]
@@ -28,6 +36,7 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
         let indicator = requiredIndicator(
             for: view,
             using: input,
+            using: self,
             dependingOn: normalInput, multilineInput
         )
         
@@ -52,12 +61,6 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
         where I: UIView, I: DynamicFontType & InputFieldType
     {
         inputField.accessibilityIdentifier = inputFieldId
-        inputField.placeholder = input.placeholder
-        
-        if let textInput = input.textInputType {
-            inputField.isSecureTextEntry = textInput.isSecureInput
-            inputField.keyboardType = textInput.keyboardType ?? .default
-        }
         
         // Add constraints to fit.
         let constraints = FitConstraintSet.builder()
@@ -121,6 +124,7 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
     /// - Returns: A ViewBuilderComponentType instance.
     open func requiredIndicator(for view: UIView,
                                 using input: InputViewDetailType,
+                                using decorator: TextInputViewDecoratorType,
                                 dependingOn others: ViewBuilderComponentType...)
         -> ViewBuilderComponentType
     {
@@ -135,6 +139,7 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
         }
         
         let indicator = UIBaseLabel()
+        
         indicator.accessibilityIdentifier = requiredIndicatorId
         
         // Right constraint.
@@ -171,4 +176,113 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
     }
 }
 
+extension TextInputViewBuilderComponent {
+    override open func configureAppearance(for view: UIView) {
+        super.configureAppearance(for: view)
+        let subviews = view.subviews
+        
+        if let inputField = subviews.filter({
+            $0.accessibilityIdentifier == inputFieldId
+        }).first as? InputFieldType {
+            configure(inputField: inputField, using: self)
+        }
+        
+        if let requiredIndicator = subviews.filter({
+            $0.accessibilityIdentifier == requiredIndicatorId
+        }).first as? UILabel {
+            configure(requiredIndicator: requiredIndicator, using: self)
+        }
+    }
+    
+    override open func configureLogic(for view: UIView) {
+        super.configureLogic(for: view)
+        
+        guard let view = view as? TextInputViewComponentType else {
+            return
+        }
+        
+        // We setup the inputField here, e.g. wire up text listeners.
+        view.setupInputField()
+    }
+    
+    /// Configure an InputFieldType instance.
+    ///
+    /// - Parameters:
+    ///   - inputField: An InputFieldType instance.
+    ///   - decorator: A TextInputViewDecoratorType instance.
+    fileprivate func configure(inputField: InputFieldType,
+                               using decorator: TextInputViewDecoratorType) {
+        inputField.autocorrectionType = .no
+        inputField.placeholder = input.placeholder
+        inputField.textColor = decorator.inputTextColor
+        inputField.textAlignment = decorator.inputTextAlignment ?? .natural
+        inputField.tintColor = decorator.inputTintColor
+        inputField.placeholderTextColor = decorator.placeholderTextColor
+        inputField.font = decorator.inputFieldFont
+        
+        if let textInput = input.textInputType {
+            inputField.isSecureTextEntry = textInput.isSecureInput
+            inputField.keyboardType = textInput.keyboardType ?? .default
+        }
+    }
+    
+    /// Configure required indicator UILabel.
+    ///
+    /// - Parameters:
+    ///   - indicator: A UILabel instance.
+    ///   - decorator: A TextInputViewDecoratorType instance.
+    fileprivate func configure(requiredIndicator indicator: UILabel,
+                               using decorator: TextInputViewDecoratorType) {
+        indicator.text = decorator.requiredIndicatorText
+        indicator.textColor = decorator.requiredIndicatorTextColor
+        indicator.font = decorator.requiredIndicatorFont
+    }
+}
+
 extension TextInputViewBuilderComponent: TextInputViewIdentifierType {}
+
+extension TextInputViewBuilderComponent: TextInputViewDecoratorType {
+    fileprivate var textDecorator: TextInputViewDecoratorType? {
+        return decorator as? TextInputViewDecoratorType
+    }
+    
+    public var inputFieldFontName: String {
+        return textDecorator?.inputFieldFontName ?? ""
+    }
+    
+    public var inputFieldFontSize: CGFloat {
+        return textDecorator?.inputFieldFontSize ?? 0
+    }
+    
+    public var requiredIndicatorFontName: String {
+        return textDecorator?.requiredIndicatorFontName ?? ""
+    }
+    
+    public var requiredIndicatorFontSize: CGFloat {
+        return textDecorator?.requiredIndicatorFontSize ?? 0
+    }
+    
+    public var requiredIndicatorTextColor: UIColor {
+        return textDecorator?.requiredIndicatorTextColor ?? .red
+    }
+    
+    public var requiredIndicatorText: String {
+        return textDecorator?.requiredIndicatorText ?? "input.title.required"
+    }
+    
+    public var inputTextColor: UIColor {
+        return textDecorator?.inputTextColor ?? .darkGray
+    }
+    
+    public var inputTintColor: UIColor {
+        return textDecorator?.inputTintColor ?? .darkGray
+    }
+    
+    public var inputTextAlignment: NSTextAlignment {
+        return textDecorator?.inputTextAlignment ?? .left
+    }
+    
+    public var placeholderTextColor: UIColor {
+        return textDecorator?.placeholderTextColor ?? .lightGray
+    }
+}

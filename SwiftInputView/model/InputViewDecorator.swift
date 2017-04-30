@@ -21,19 +21,4 @@ import UIKit
     
     /// Background color for each component view.
     @objc optional var inputBackgroundColor: UIColor { get }
-    
-    /// Get a InputViewConfigComponentType type to dynamically construct a
-    /// config instance. Use a default type if this returns nil.
-    @objc optional var configComponentType: InputViewConfigComponentType.Type { get }
-}
-
-public extension InputViewDecoratorType {
-    
-    /// Create an InputViewConfigComponentType instance.
-    ///
-    /// - Returns: An InputViewConfigComponentType instance.
-    public func configComponent() -> InputViewConfigComponentType {
-        let type = configComponentType ?? TextInputViewConfigComponent.self
-        return type.init(with: self)
-    }
 }

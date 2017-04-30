@@ -19,9 +19,6 @@ class ViewBuildingTests: XCTestCase {
         // Setup
         let allInputs = (0..<tries).map({_ in InputDetail.randomValues})
         let allBuilders = allInputs.map(InputViewBuilder.init)
-        let allConfigs = allInputs
-            .map({$0.map({$0.decorator})})
-            .map(InputViewBuilderConfig.init)
         
         let view = UIAdaptableInputView()
         
@@ -64,15 +61,13 @@ class ViewBuildingTests: XCTestCase {
             }
         }
         
-        // When
-        
-        // Then
-        for (builder, config) in zip(allBuilders, allConfigs) {
+        // When & Then
+        for builder in allBuilders {
             let components = builder.builderComponents(for: view)
             let inputs = builder.inputs.flatMap({$0 as? InputDetail})
             
             view.populateSubviews(from: components)
-            config.configure(for: view)
+            builder.configure(for: view)
             
             if inputs.count == 1, let input = inputs.first {
                 XCTAssertTrue(components.count > inputs.count)

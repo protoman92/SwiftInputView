@@ -16,7 +16,6 @@ import UIKit
 /// input type, we should define a InputViewBuilder subclass and 
 /// InputViewBuilderConfig.
 public final class UIAdaptableInputView: UIView {
-    
     fileprivate lazy var presenter: Presenter = Presenter(view: self)
     
     override open func willMove(toSuperview newSuperview: UIView?) {
