@@ -130,6 +130,7 @@ extension InputDetail: InputViewDetailType {
     var decorator: InputViewDecoratorType { return InputDecorator.shared }
     var inputWidth: CGFloat? { return nil }
     var inputHeight: CGFloat? { return nil }
+    var placeholder: String? { return nil }
 }
 
 class InputDecorator: TextInputViewDecoratorType {

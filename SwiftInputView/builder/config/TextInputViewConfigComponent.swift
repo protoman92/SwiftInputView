@@ -49,7 +49,6 @@ open class TextInputViewConfigComponent: InputViewConfigComponent {
         inputField.tintColor = inputTintColor
         inputField.placeholderTextColor = placeholderTextColor
         inputField.font = inputFieldFont
-        inputField.isSecureTextEntry = isSecureTextEntry
     }
     
     /// Configure required indicator UILabel.
@@ -68,10 +67,6 @@ extension TextInputViewConfigComponent {
     
     fileprivate var textDecorator: TextInputViewDecoratorType? {
         return decorator as? TextInputViewDecoratorType
-    }
-    
-    public var isSecureTextEntry: Bool {
-        return textDecorator?.isSecureTextEntry ?? false
     }
     
     public var inputFieldFontName: String {

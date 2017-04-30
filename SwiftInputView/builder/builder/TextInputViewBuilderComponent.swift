@@ -52,9 +52,11 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
         where I: UIView, I: DynamicFontType & InputFieldType
     {
         inputField.accessibilityIdentifier = inputFieldId
+        inputField.placeholder = input.placeholder
         
-        if let textInput = input as? TextInputViewDetailType {
-            inputField.placeholder = textInput.placeholder
+        if let textInput = input.textInputType {
+            inputField.isSecureTextEntry = textInput.isSecureInput
+            inputField.keyboardType = textInput.keyboardType ?? .default
         }
         
         // Add constraints to fit.

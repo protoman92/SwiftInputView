@@ -21,10 +21,6 @@ import UIKit
     /// returns nil.
     @objc optional var inputFieldFontSize: CGFloat { get }
     
-    /// Check if the inputField requires input mask (e.g. password field).
-    /// Defaults to false.
-    @objc optional var isSecureTextEntry: Bool { get }
-    
     /// Get the font name to pass to required indicator. Use a default value 
     /// if this returns nil.
     @objc optional var requiredIndicatorFontName: String { get }

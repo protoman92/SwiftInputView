@@ -53,6 +53,9 @@ public protocol InputViewDetailType: InputDetailType {
     /// The input view's height. Return nil to use default value (i.e.
     /// textInputType.suggestedInputHeight).
     var inputHeight: CGFloat? { get }
+    
+    /// Get the placeholder text for this input.
+    var placeholder: String? { get }
 }
 
 public extension InputViewDetailType {
@@ -69,15 +72,6 @@ public extension InputViewDetailType {
         let type = viewBuilderComponentType ?? TextInputViewBuilderComponent.self
         return type.init(with: self)
     }
-}
-
-
-/// Implement this protocol on top of InputViewDetailType to provide
-/// information for text-based inputs.
-public protocol TextInputViewDetailType: InputViewDetailType {
-    
-    /// Get the placeholder text for this input.
-    var placeholder: String? { get }
 }
 
 /// Implement this protocol to classify input types. Usually we can use
