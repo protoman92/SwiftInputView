@@ -15,6 +15,8 @@ import SwiftUIUtilities
 /// Handle text-based inputs.
 open class TextInputViewBuilderComponent: InputViewBuilderComponent {
     
+    // MARK: ViewBuilderType
+    
     /// Get an Array of ViewBuilderComponentType, using an InputViewDetailType
     /// and an InputViewDecoratorType instance.
     ///
@@ -174,28 +176,43 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
             .add(constraint: vertical)
             .build()
     }
-}
-
-extension TextInputViewBuilderComponent {
-    override open func configureAppearance(for view: UIView) {
-        super.configureAppearance(for: view)
+    
+    // MARK: ViewBuilderConfigType
+    
+    /// This method only configures the view's appearance.
+    ///
+    /// - Parameters:
+    ///   - view: A UIView instance.
+    ///   - input: An InputViewDetailType instance.
+    ///   - decorator: An InputViewDecoratorType instance.
+    override open func configureAppearance(for view: UIView,
+                                           using input: InputViewDetailType,
+                                           using decorator: InputViewDecoratorType) {
+        super.configureAppearance(for: view, using: input, using: decorator)
         let subviews = view.subviews
         
         if let inputField = subviews.filter({
             $0.accessibilityIdentifier == inputFieldId
         }).first as? InputFieldType {
-            configure(inputField: inputField, using: self)
+            configure(inputField: inputField, using: input, using: self)
         }
         
-        if let requiredIndicator = subviews.filter({
+        if let indicator = subviews.filter({
             $0.accessibilityIdentifier == requiredIndicatorId
         }).first as? UILabel {
-            configure(requiredIndicator: requiredIndicator, using: self)
+            configure(requiredIndicator: indicator, using: input, using: self)
         }
     }
     
-    override open func configureLogic(for view: UIView) {
-        super.configureLogic(for: view)
+    /// Configure business logic for a parent subview, or the master view if
+    /// there is only one input.
+    ///
+    /// - Parameters:
+    ///   - view: A UIView instance.
+    ///   - input: An InputViewDetailType instance.
+    override open func configureLogic(for view: UIView,
+                                      using input: InputViewDetailType) {
+        super.configureLogic(for: view, using: input)
         
         guard let view = view as? TextInputViewComponentType else {
             return
@@ -209,9 +226,11 @@ extension TextInputViewBuilderComponent {
     ///
     /// - Parameters:
     ///   - inputField: An InputFieldType instance.
+    ///   - input: An InputViewDetailType instance.
     ///   - decorator: A TextInputViewDecoratorType instance.
-    fileprivate func configure(inputField: InputFieldType,
-                               using decorator: TextInputViewDecoratorType) {
+    func configure(inputField: InputFieldType,
+                   using inputs: InputViewDetailType,
+                   using decorator: TextInputViewDecoratorType) {
         inputField.autocorrectionType = .no
         inputField.placeholder = input.placeholder
         inputField.textColor = decorator.inputTextColor
@@ -230,9 +249,11 @@ extension TextInputViewBuilderComponent {
     ///
     /// - Parameters:
     ///   - indicator: A UILabel instance.
+    ///   - input: An InputViewDetailType instance.
     ///   - decorator: A TextInputViewDecoratorType instance.
-    fileprivate func configure(requiredIndicator indicator: UILabel,
-                               using decorator: TextInputViewDecoratorType) {
+    func configure(requiredIndicator indicator: UILabel,
+                   using inputs: InputViewDetailType,
+                   using decorator: TextInputViewDecoratorType) {
         indicator.text = decorator.requiredIndicatorText
         indicator.textColor = decorator.requiredIndicatorTextColor
         indicator.font = decorator.requiredIndicatorFont

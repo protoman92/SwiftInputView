@@ -14,6 +14,8 @@ import UIKit
 /// a dialog of choices are displayed once the user clicks on the input view.
 open class ClickableInputViewBuilderComponent: TextInputViewBuilderComponent {
     
+    // MARK: ViewBuilderType
+    
     /// Get an Array of ViewBuilderComponentType, using an InputViewDetailType
     /// and an InputViewDecoratorType instance.
     ///
@@ -52,27 +54,37 @@ open class ClickableInputViewBuilderComponent: TextInputViewBuilderComponent {
             .with(constraints: constraints)
             .build()
     }
-}
-
-extension ClickableInputViewBuilderComponent {
-    override open func configureAppearance(for view: UIView) {
-        super.configureAppearance(for: view)
+    
+    // MARK: ViewBuilderConfigType
+    
+    /// This method only configures the view's appearance.
+    ///
+    /// - Parameters:
+    ///   - view: A UIView instance.
+    ///   - input: An InputViewDetailType instance.
+    ///   - decorator: An InputViewDecoratorType instance.
+    override open func configureAppearance(for view: UIView,
+                                           using input: InputViewDetailType,
+                                           using decorator: InputViewDecoratorType) {
+        super.configureAppearance(for: view, using: input, using: decorator)
         let subviews = view.subviews
         
         if let button = subviews.filter({
             $0.accessibilityIdentifier == clickableButtonId
         }).first as? UIButton {
-            configure(button: button)
+            configure(button: button, using: input, using: self)
         }
     }
     
     /// Configure the clickable button.
     ///
     /// - Parameter button: A UIButton instance.
-    open func configure(button: UIButton) {
+    open func configure(button: UIButton,
+                        using input: InputViewDetailType,
+                        using decorator: ClickableInputViewDecoratorType) {
         button.backgroundColor = .clear
         button.titleLabel?.textColor = .clear
-        button.titleLabel?.font = buttonFont
+        button.titleLabel?.font = decorator.buttonFont
     }
 }
 

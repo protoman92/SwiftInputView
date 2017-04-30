@@ -35,7 +35,6 @@ public protocol InputViewBuilderComponentType: ViewBuilderType {
         -> [ViewBuilderComponentType]
 }
 
-// MARK: - ViewBuilderType.
 open class InputViewBuilderComponent {
     public let input: InputViewDetailType
     public let decorator: InputViewDecoratorType
@@ -44,6 +43,8 @@ open class InputViewBuilderComponent {
         self.input = input
         self.decorator = input.decorator
     }
+    
+    // MARK: ViewBuilderType.
 
     /// Get an Array of ViewBuilderComponentType, using an InputViewDetailType
     /// and an InputViewDecoratorType instance.
@@ -58,31 +59,35 @@ open class InputViewBuilderComponent {
     {
         return []
     }
-}
-
-// MARK: - ViewBuilderConfigType.
-extension InputViewBuilderComponent {
-    @objc open func configure(for view: UIView) {
-        configureAppearance(for: view)
-        configureLogic(for: view)
+    
+    // MARK: ViewBuilderConfigType.
+    
+    open func configure(for view: UIView) {
+        configureAppearance(for: view, using: input, using: self)
+        configureLogic(for: view, using: input)
     }
     
     /// This method only configures the view's appearance.
     ///
-    /// - Parameters view: A UIView instance.
-    @objc open func configureAppearance(for view: UIView) {
-        view.backgroundColor = inputBackgroundColor
-        view.layer.cornerRadius = inputCornerRadius
+    /// - Parameters:
+    ///   - view: A UIView instance.
+    ///   - input: An InputViewDetailType instance.
+    ///   - decorator: An InputViewDecoratorType instance.
+    open func configureAppearance(for view: UIView,
+                                  using input: InputViewDetailType,
+                                  using decorator: InputViewDecoratorType) {
+        view.backgroundColor = decorator.inputBackgroundColor
+        view.layer.cornerRadius = decorator.inputCornerRadius ?? 0
     }
     
     /// Configure business logic for a parent subview, or the master view if
     /// there is only one input.
     ///
-    /// - Parameter view: A UIView instance.
-    @objc open func configureLogic(for view: UIView) {
-        view.backgroundColor = decorator.inputBackgroundColor
-        view.layer.cornerRadius = decorator.inputCornerRadius ?? 0
-        
+    /// - Parameters:
+    ///   - view: A UIView instance.
+    ///   - input: An InputViewDetailType instance.
+    open func configureLogic(for view: UIView,
+                             using input: InputViewDetailType) {
         if let view = view as? TextInputViewComponentType {
             // We setup the inputField here, e.g. wire up text listeners.
             view.setupInputField()
