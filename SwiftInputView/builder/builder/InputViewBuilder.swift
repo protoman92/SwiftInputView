@@ -92,9 +92,11 @@ open class InputViewBuilder {
             }
             
             return subviews
-        } else {
-            return []
+        } else if let input = inputs.first {
+            return input.viewBuilderComponent().subviews(for: view)
         }
+        
+        return []
     }
     
     /// Get an Array of NSLayoutConstraint to be added to a UIView.
@@ -108,6 +110,7 @@ open class InputViewBuilder {
         if count == 1, let input = inputs.first {
             return input.viewBuilderComponent().constraints(for: view)
         }
+        
         // Get sum of concrete inputViewWidth. For inputs that do not specify
         // a width, we anchor their width to a fraction of the master view
         // minus this value.

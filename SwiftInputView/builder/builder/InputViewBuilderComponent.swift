@@ -99,7 +99,7 @@ open class InputViewBuilderComponent {
     
     open func configure(for view: UIView) {
         configure(appearanceFor: view, using: input, using: self)
-        configure(loginFor: view, using: input)
+        configure(logicFor: view, using: input)
     }
     
     /// This method only configures the view's appearance.
@@ -121,7 +121,7 @@ open class InputViewBuilderComponent {
     /// - Parameters:
     ///   - view: A UIView instance.
     ///   - input: An InputViewDetailType instance.
-    open func configure(loginFor view: UIView, using input: InputViewDetailType) {
+    open func configure(logicFor view: UIView, using input: InputViewDetailType) {
         if let view = view as? TextInputViewComponentType {
             // We setup the inputField here, e.g. wire up text listeners.
             view.setupInputField()

@@ -52,7 +52,7 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
         if let inputType = input.textInputType, inputType.isMultiline {
             inputField = UIPlaceholderTextView()
         } else {
-            inputField = UIBaseTextField()
+            inputField = UIReactiveTextField()
         }
         
         inputField.accessibilityIdentifier = inputFieldId
@@ -192,9 +192,9 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
     /// - Parameters:
     ///   - view: A UIView instance.
     ///   - input: An InputViewDetailType instance.
-    override open func configure(loginFor view: UIView,
+    override open func configure(logicFor view: UIView,
                                  using input: InputViewDetailType) {
-        super.configure(loginFor: view, using: input)
+        super.configure(logicFor: view, using: input)
         
         guard let view = view as? TextInputViewComponentType else {
             return

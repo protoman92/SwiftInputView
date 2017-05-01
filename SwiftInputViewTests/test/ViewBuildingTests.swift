@@ -15,6 +15,11 @@ import XCTest
 class ViewBuildingTests: XCTestCase {
     let tries = 1000
     
+    override func setUp() {
+        super.setUp()
+        continueAfterFailure = false
+    }
+    
     func test_buildAndConfigWithInputs_shouldIncludeAppropriateViews() {
         // Setup
         let allInputs = (0..<tries).map({_ in InputDetail.randomValues})
@@ -63,22 +68,20 @@ class ViewBuildingTests: XCTestCase {
         
         // When & Then
         for builder in allBuilders {
-            let components = builder.builderComponents()
+            let subviews = builder.subviews(for: view)
             let inputs = builder.inputs.flatMap({$0 as? InputDetail})
             
-            view.populateSubviews(from: components)
-            builder.configure(for: view)
+            view.populateSubviews(with: builder)
             
             if inputs.count == 1, let input = inputs.first {
-                XCTAssertTrue(components.count > inputs.count)
+                XCTAssertTrue(subviews.count > inputs.count)
                 testBuilder(view, input)
             } else {
-                XCTAssertEqual(inputs.count, components.count)
+                XCTAssertEqual(inputs.count, subviews.count)
                 
-                for (input, component) in zip(inputs, components) {
-                    let subview = component.viewToBeAdded
+                for (input, subview) in zip(inputs, subviews) {
                     XCTAssertTrue(subview is UIInputComponentView)
-                    testBuilder(subview!, input)
+                    testBuilder(subview, input)
                 }
             }
             
