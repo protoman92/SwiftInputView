@@ -27,7 +27,11 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
         -> [UIView]
     {
         var subviews = super.subviews(for: view, using: input)
-        subviews.append(requiredIndicator(using: input))
+        
+        if let indicator = requiredIndicator(using: input) {
+            subviews.append(indicator)
+        }
+        
         subviews.append(inputField(using: input))
         return subviews
     }
@@ -35,11 +39,17 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
     /// Create a label to be used as the required indicator.
     ///
     /// - Parameters input: An InputViewDetailType instance.
-    /// - Returns: A UILabel instance.
-    open func requiredIndicator(using: InputViewDetailType) -> UILabel {
-        let indicator = UIBaseLabel()
-        indicator.accessibilityIdentifier = requiredIndicatorId
-        return indicator
+    /// - Returns: An optional UILabel instance. If 
+    ///            input.displayRequiredIndicator returns false, we do not
+    ///            attach any view.
+    open func requiredIndicator(using: InputViewDetailType) -> UILabel? {
+        if input.displayRequiredIndicator {
+            let indicator = UIBaseLabel()
+            indicator.accessibilityIdentifier = requiredIndicatorId
+            return indicator
+        } else {
+            return nil
+        }
     }
     
     /// Create a InputFieldType to be used as the main input field.
