@@ -13,7 +13,7 @@ import SwiftUtilitiesTests
 import XCTest
 
 class ViewBuildingTests: XCTestCase {
-    let tries = 1000
+    let tries = 2000
     
     override func setUp() {
         super.setUp()
@@ -40,12 +40,12 @@ class ViewBuildingTests: XCTestCase {
             if let inputField = inputField as? InputFieldType {
                 XCTAssertEqual(inputField.autocorrectionType, .no)
                 
-                if let iTextColor = decorator.inputTextColor {
-                    XCTAssertEqual(inputField.textColor, iTextColor)
+                if let inputTextColor = decorator.inputTextColor {
+                    XCTAssertEqual(inputField.textColor, inputTextColor)
                 }
                 
-                if let iTintColor = decorator.inputTintColor {
-                    XCTAssertEqual(inputField.tintColor, iTintColor)
+                if let inputTintColor = decorator.inputTintColor {
+                    XCTAssertEqual(inputField.tintColor, inputTintColor)
                 }
             }
             
@@ -74,7 +74,6 @@ class ViewBuildingTests: XCTestCase {
             view.populateSubviews(with: builder)
             
             if inputs.count == 1, let input = inputs.first {
-                XCTAssertTrue(subviews.count > inputs.count)
                 testBuilder(view, input)
             } else {
                 XCTAssertEqual(inputs.count, subviews.count)
