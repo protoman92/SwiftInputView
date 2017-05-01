@@ -63,7 +63,7 @@ class ViewBuildingTests: XCTestCase {
         
         // When & Then
         for builder in allBuilders {
-            let components = builder.builderComponents(for: view)
+            let components = builder.builderComponents()
             let inputs = builder.inputs.flatMap({$0 as? InputDetail})
             
             view.populateSubviews(from: components)

@@ -75,15 +75,14 @@ extension InputViewBuilder {
     /// we construct a separate UIView for each input (called parent subviews),
     /// and lay them horizontally.
     ///
-    /// - Parameter view: The master UIView.
     /// - Returns: An Array of ViewBuilderComponentType.
-    open func builderComponents(for view: UIView) -> [ViewBuilderComponentType] {
+    open func builderComponents() -> [ViewBuilderComponentType] {
         let inputs = self.inputs
         let count = inputs.count
         
         /// If there is only one input, use the master UIView directly.
         if count == 1, let input = inputs.first {
-            return input.viewBuilderComponent().builderComponents(for: view)
+            return input.viewBuilderComponent().builderComponents()
         }
         
         var components = [ViewBuilderComponentType]()
@@ -98,93 +97,103 @@ extension InputViewBuilder {
         for (index, (subview, input)) in zip(subs, inputs).enumerated() {
             let identifier = parentSubviewId(for: index + 1)
             let builderComponent = input.viewBuilderComponent()
-            let psc = builderComponent.builderComponents(for: subview)
+            let psc = builderComponent.builderComponents()
             subview.accessibilityIdentifier = identifier
             subview.populateSubviews(from: psc)
             
-            // Top constraint for parent subview.
-            let top = NSBaseLayoutConstraint(item: subview,
-                                             attribute: .top,
-                                             relatedBy: .equal,
-                                             toItem: view,
-                                             attribute: .top,
-                                             multiplier: 1,
-                                             constant: 0)
-            
-            top.constantValue = String(describing: 0)
-            
-            // Bottom constraint for parent subview.
-            let bottom = NSBaseLayoutConstraint(item: view,
-                                                attribute: .bottom,
-                                                relatedBy: .equal,
-                                                toItem: subview,
-                                                attribute: .bottom,
-                                                multiplier: 1,
-                                                constant: 0)
-            
-            bottom.constantValue = String(describing: 0)
-            
-            // Left constraint for parent subview. If this is the first
-            // subview to be added, the previousView will be the parent view,
-            // and the second attribute will be .left.
-            let previousView = index == 0 ? view : subs[index - 1]
-            let secondAttr = index == 0 ? NSLayoutAttribute.left : .right
-            
-            let left = NSBaseLayoutConstraint(item: subview,
-                                              attribute: .left,
-                                              relatedBy: .equal,
-                                              toItem: previousView,
-                                              attribute: secondAttr,
-                                              multiplier: 1,
-                                              constant: 0)
-            
-            left.constantValue = String(describing: 0)
-            left.identifier = parentSubviewLeftId
-            
-            // Width constraint for parent subview. We need to divide the
-            // width by the number of subviews, or set a concrete width if
-            // necessary.
-            let width: NSBaseLayoutConstraint
-            
-            if let vWidth = input.inputWidth, vWidth > 0 {
+            /// Apologies for the long piece of code here. The closure below
+            /// should stay the same so there is no need to put it in a
+            /// function that can be overridden. Also it requires knowledge
+            /// about the current parent subview's index.
+            let closure: (UIView) -> [NSLayoutConstraint] = {
+                [weak self, weak subview] in
+                guard let `self` = self, let subview = subview else { return [] }
                 
-                // Direct width constraint.
-                width = NSBaseLayoutConstraint(item: subview,
-                                             attribute: .width,
-                                             relatedBy: .equal,
-                                             toItem: nil,
-                                             attribute: .notAnAttribute,
-                                             multiplier: 1,
-                                             constant: vWidth)
+                // Top constraint for parent subview.
+                let top = NSBaseLayoutConstraint(item: subview,
+                                                 attribute: .top,
+                                                 relatedBy: .equal,
+                                                 toItem: $0,
+                                                 attribute: .top,
+                                                 multiplier: 1,
+                                                 constant: 0)
                 
-                width.identifier = parentSubviewWidthId
-            } else {
-                // Since concrete widths are already set, we subtract their
-                // count to calculate the multiplier.
-                let ratio = 1 / CGFloat(count - widths.count)
-                let constant: CGFloat = -(concreteWidth * ratio)
+                top.constantValue = String(describing: 0)
                 
-                width = NSBaseLayoutConstraint(item: subview,
-                                               attribute: .width,
-                                               relatedBy: .equal,
-                                               toItem: view,
-                                               attribute: .width,
-                                               multiplier: ratio,
-                                               constant: constant)
+                // Bottom constraint for parent subview.
+                let bottom = NSBaseLayoutConstraint(item: $0,
+                                                    attribute: .bottom,
+                                                    relatedBy: .equal,
+                                                    toItem: subview,
+                                                    attribute: .bottom,
+                                                    multiplier: 1,
+                                                    constant: 0)
                 
-                width.constantValue = String(describing: -1)
-                width.identifier = parentSubviewWidthRatioId
+                bottom.constantValue = String(describing: 0)
+                
+                // Left constraint for parent subview. If this is the first
+                // subview to be added, the previousView will be the parent 
+                // view, and the second attribute will be .left.
+                let previousView = index == 0 ? $0 : subs[index - 1]
+                let secondAttr = index == 0 ? NSLayoutAttribute.left : .right
+                
+                let left = NSBaseLayoutConstraint(item: subview,
+                                                  attribute: .left,
+                                                  relatedBy: .equal,
+                                                  toItem: previousView,
+                                                  attribute: secondAttr,
+                                                  multiplier: 1,
+                                                  constant: 0)
+                
+                left.constantValue = String(describing: 0)
+                left.identifier = self.parentSubviewLeftId
+                
+                // Width constraint for parent subview. We need to divide the
+                // width by the number of subviews, or set a concrete width if
+                // necessary.
+                let width: NSBaseLayoutConstraint
+                
+                if let vWidth = input.inputWidth, vWidth > 0 {
+                    
+                    // Direct width constraint.
+                    width = NSBaseLayoutConstraint(item: subview,
+                                                   attribute: .width,
+                                                   relatedBy: .equal,
+                                                   toItem: nil,
+                                                   attribute: .notAnAttribute,
+                                                   multiplier: 1,
+                                                   constant: vWidth)
+                    
+                    width.identifier = self.parentSubviewWidthId
+                } else {
+                    // Since concrete widths are already set, we subtract their
+                    // count to calculate the multiplier.
+                    let ratio = 1 / CGFloat(count - widths.count)
+                    let constant: CGFloat = -(concreteWidth * ratio)
+                    
+                    width = NSBaseLayoutConstraint(item: subview,
+                                                   attribute: .width,
+                                                   relatedBy: .equal,
+                                                   toItem: $0,
+                                                   attribute: .width,
+                                                   multiplier: ratio,
+                                                   constant: constant)
+                    
+                    width.constantValue = String(describing: -1)
+                    width.identifier = self.parentSubviewWidthRatioId
+                }
+                
+                return [top, bottom, left, width]
             }
             
             // Construct builder component for parent subview. With these
             // constraints, all parent subviews should be laid side by side.
-            components.append(ViewBuilderComponent.builder()
+            let component = ViewBuilderComponent.builder()
                 .with(view: subview)
-                .add(constraint: top)
-                .add(constraint: bottom)
-                .add(constraint: left)
-                .add(constraint: width)
-                .build())
+                .with(closure: closure)
+                .build()
+            
+            components.append(component)
         }
         
         return components
@@ -212,15 +221,12 @@ extension InputViewBuilder {
                                           andStartingIndex: 1)
         
         if parentSubviews.isNotEmpty {
-            configureConstraints(forMasterView: view,
-                                 andParentSubviews: parentSubviews)
+            configureConstraints(for: view, and: parentSubviews)
             
             for (index, subview) in parentSubviews.enumerated() {
-                guard let input = inputs.element(at: index) else {
-                    continue
+                if let input = inputs.element(at: index) {
+                    input.viewBuilderComponent().configure(for: subview)
                 }
-                
-                input.viewBuilderComponent().configure(for: subview)
             }
         } else if let input = inputs.first {
             input.viewBuilderComponent().configure(for: view)
@@ -232,8 +238,7 @@ extension InputViewBuilder {
     /// - Parameters:
     ///   - view: The master UIView.
     ///   - subs: An Array of all parent subviews.
-    fileprivate func configureConstraints(forMasterView view: UIView,
-                                          andParentSubviews subs: [UIView]) {
+    func configureConstraints(for view: UIView, and subs: [UIView]) {
         let horizontalSpacing = self.horizontalSpacing
         
         // We include all parent subviews' constraints to access their direct

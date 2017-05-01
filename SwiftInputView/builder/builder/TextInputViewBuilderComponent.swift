@@ -20,52 +20,35 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
     /// Get an Array of ViewBuilderComponentType, using an InputViewDetailType
     /// and an InputViewDecoratorType instance.
     ///
-    /// - Parameters:
-    ///   - view: The parent subview instance.
-    ///   - input: An InputViewDetailType instance.
+    /// - Parameters input: An InputViewDetailType instance.
     /// - Returns: An Array of ViewBuilderComponentType instances.
-    override open func builderComponents(for view: UIView,
-                                         using input: InputViewDetailType)
+    override open func builderComponents(using input: InputViewDetailType)
         -> [ViewBuilderComponentType]
     {
-        var components = super.builderComponents(for: view, using: input)
-        let normalInput = self.normalInput(for: view, using: input)
-        let multilineInput = self.multilineInput(for: view, using: input)
-        
-        // We need the get the inputField to pass to required indicator
-        // builder since the indicator's top constraint has to be anchored
-        // to the inputField's top.
-        let indicator = requiredIndicator(
-            for: view,
-            using: input,
-            using: self,
-            dependingOn: normalInput, multilineInput
-        )
-        
-        components.append(normalInput)
-        components.append(multilineInput)
-        components.append(indicator)
+        var components = super.builderComponents(using: input)
+        components.append(normalInput(using: input))
+        components.append(multilineInput(using: input))
+        components.append(requiredIndicator(using: input))
         return components
     }
     
-    /// Common method to prepare an inputField, since the setup is almost
-    /// identical no matter whether the input is multiline or not.
+    /// Create an Array of NSLayoutConstraint to be used with the inputField.
     ///
     /// - Parameters:
-    ///   - inputField: The inputField to be prepared.
-    ///   - view: The parent UIView.
-    ///   - input: An TextInputViewDetailType instance.
-    /// - Returns: A ViewBuilderComponentType instance.
-    func inputField<I>(_ inputField: I,
-                    for view: UIView,
-                    using input: InputViewDetailType)
-        -> ViewBuilderComponentType
-        where I: UIView, I: DynamicFontType & InputFieldType
+    ///   - view: The parent subview instance.
+    ///   - inputField: An optional InputFieldType instance. This is because
+    ///                 this function will be called within a closure.
+    ///   - current: The current TextInputViewBuilderComponent instance.
+    /// - Returns: An Array of NSLayoutConstraint.
+    func inputFieldConstraints<I>(for view: UIView,
+                               for inputField: I?,
+                               with current: TextInputViewBuilderComponent?)
+        -> [NSLayoutConstraint]
+        where I: UIView, I: InputFieldType
     {
-        inputField.accessibilityIdentifier = inputFieldId
+        guard let inputField = inputField else { return [] }
         
-        // Add constraints to fit.
-        let constraints = FitConstraintSet.builder()
+        return FitConstraintSet.builder()
             .with(parent: view)
             .with(child: inputField)
             .add(left: true, withMargin: Space.medium.value)
@@ -74,21 +57,40 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
             .add(right: true)
             .build()
             .constraints
+    }
+    
+    /// Common method to prepare an inputField, since the setup is almost
+    /// identical no matter whether the input is multiline or not.
+    ///
+    /// - Parameters:
+    ///   - inputField: The inputField to be prepared.
+    ///   - input: An TextInputViewDetailType instance.
+    /// - Returns: A ViewBuilderComponentType instance.
+    func inputField<I>(_ inputField: I, using input: InputViewDetailType)
+        -> ViewBuilderComponentType
+        where I: UIView, I: DynamicFontType & InputFieldType
+    {
+        inputField.accessibilityIdentifier = inputFieldId
+        
+        let closure: (UIView) -> [NSLayoutConstraint] = {
+            [weak self, weak inputField] in
+            return self?.inputFieldConstraints(for: $0,
+                                               for: inputField,
+                                               with: self) ?? []
+        }
         
         return ViewBuilderComponent.builder()
             .with(view: inputField)
-            .with(constraints: constraints)
+            .with(closure: closure)
             .build()
     }
     
     /// Get a normal input component i.e. non-multiline. We can use a
     /// UITextField for this.
     ///
-    /// - Parameters:
-    ///   - view: The parent UIView instance.
-    ///   - input: A TextInputViewDetailType instance.
+    /// - Parameters input: A TextInputViewDetailType instance.
     /// - Returns: A ViewBuilderComponentType instance.
-    open func normalInput(for view: UIView, using input: InputViewDetailType)
+    open func normalInput(using input: InputViewDetailType)
         -> ViewBuilderComponentType
     {
         // If multiline input, use UITextView instead.
@@ -96,17 +98,15 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
             return ViewBuilderComponent.empty
         }
         
-        return inputField(UIReactiveTextField(), for: view, using: input)
+        return inputField(UIReactiveTextField(), using: input)
     }
     
     /// Get a multiline input component i.e. non-multiline. We can use a
     /// PlaceholderTextView for this.
     ///
-    /// - Parameters:
-    ///   - view: The parent UIView instance.
-    ///   - input: A TextInputViewDetailType instance.
+    /// - Parameters input: A TextInputViewDetailType instance.
     /// - Returns: A ViewBuilderComponentType instance.
-    open func multilineInput(for view: UIView, using input: InputViewDetailType)
+    open func multilineInput(using input: InputViewDetailType)
         -> ViewBuilderComponentType
     {
         // If not multiline input, use UITextField instead.
@@ -114,35 +114,38 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
             return ViewBuilderComponent.empty
         }
         
-        return inputField(UIPlaceholderTextView(), for: view, using: input)
+        return inputField(UIPlaceholderTextView(), using: input)
     }
     
-    /// Return a component for the required indicator.
+    /// Create a label to be used a the required indicator.
+    ///
+    /// - Returns: A UILabel instance.
+    open func requiredIndicator() -> UILabel { return UIBaseLabel() }
+    
+    /// Create an Array of NSLayoutConstraint for the required indicator.
     ///
     /// - Parameters:
-    ///   - view: The parent UIView.
-    ///   - input: An InputViewDetailType instance.
-    ///   - others: Other ViewBuilderComponentType instances.
-    /// - Returns: A ViewBuilderComponentType instance.
-    open func requiredIndicator(for view: UIView,
-                                using input: InputViewDetailType,
-                                using decorator: TextInputViewDecoratorType,
-                                dependingOn others: ViewBuilderComponentType...)
-        -> ViewBuilderComponentType
-    {
+    ///   - view: The parent subview instance.
+    ///   - indicator: An optional UILabel instance. This is because this
+    ///                function will be called in a closure.
+    ///   - current: The current TextInputViewBuilderComponent instance.
+    /// - Returns: An Array of NSLayoutConstraint.
+    open func requiredIndicatorConstraints(
+        for view: UIView,
+        for indicator: UILabel?,
+        with current: TextInputViewBuilderComponent?
+    ) -> [NSLayoutConstraint] {
         guard
-            input.displayRequiredIndicator,
-            let inputField = others.flatMap({
-                $0.viewToBeAdded as? InputFieldType
-            }).first,
+            let current = current,
+            let indicator = indicator,
+            let inputField = view.subviews.filter({
+                $0.accessibilityIdentifier == current.inputFieldId
+            }).first as? InputFieldType,
             let placeholderView = inputField.placeholderView
         else {
-            return ViewBuilderComponent.empty
+            debugException()
+            return []
         }
-        
-        let indicator = UIBaseLabel()
-        
-        indicator.accessibilityIdentifier = requiredIndicatorId
         
         // Right constraint.
         let right = NSBaseLayoutConstraint(item: view,
@@ -169,11 +172,33 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
         
         vertical.constantValue = String(describing: 0)
         
+        return [right, vertical]
+    }
+    
+    /// Return a component for the required indicator.
+    ///
+    /// - Parameters:
+    ///   - view: The parent UIView.
+    ///   - input: An InputViewDetailType instance.
+    /// - Returns: A ViewBuilderComponentType instance.
+    open func requiredIndicator(using input: InputViewDetailType)
+        -> ViewBuilderComponentType
+    {
+        let indicator = requiredIndicator()
+        
+        indicator.accessibilityIdentifier = requiredIndicatorId
+        
+        let closure: (UIView) -> [NSLayoutConstraint] = {
+            [weak self, weak indicator] in
+            return self?.requiredIndicatorConstraints(for: $0,
+                                                      for: indicator,
+                                                      with: self) ?? []
+        }
+        
         // Return component
         return ViewBuilderComponent.builder()
             .with(view: indicator)
-            .add(constraint: right)
-            .add(constraint: vertical)
+            .with(closure: closure)
             .build()
     }
     
@@ -189,6 +214,7 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
                                            using input: InputViewDetailType,
                                            using decorator: InputViewDecoratorType) {
         super.configureAppearance(for: view, using: input, using: decorator)
+        
         let subviews = view.subviews
         
         if let inputField = subviews.filter({

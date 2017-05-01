@@ -31,7 +31,7 @@ public protocol InputViewBuilderComponentType: ViewBuilderType {
     ///   - view: A UIView instance.
     ///   - input: An InputViewDetailType instance.
     /// - Returns: An Array of ViewBuilderComponentType.
-    func builderComponents(for view: UIView, using input: InputViewDetailType)
+    func builderComponents(using input: InputViewDetailType)
         -> [ViewBuilderComponentType]
 }
 
@@ -49,12 +49,9 @@ open class InputViewBuilderComponent {
     /// Get an Array of ViewBuilderComponentType, using an InputViewDetailType
     /// and an InputViewDecoratorType instance.
     ///
-    /// - Parameters:
-    ///   - view: The parent subview instance.
-    ///   - input: An InputViewDetailType instance.
+    /// - Parameters input: An InputViewDetailType instance.
     /// - Returns: An Array of ViewBuilderComponentType instances.
-    open func builderComponents(for view: UIView,
-                                using input: InputViewDetailType)
+    open func builderComponents(using input: InputViewDetailType)
         -> [ViewBuilderComponentType]
     {
         return []
@@ -86,8 +83,7 @@ open class InputViewBuilderComponent {
     /// - Parameters:
     ///   - view: A UIView instance.
     ///   - input: An InputViewDetailType instance.
-    open func configureLogic(for view: UIView,
-                             using input: InputViewDetailType) {
+    open func configureLogic(for view: UIView, using input: InputViewDetailType) {
         if let view = view as? TextInputViewComponentType {
             // We setup the inputField here, e.g. wire up text listeners.
             view.setupInputField()
@@ -112,7 +108,14 @@ extension InputViewBuilderComponent: InputViewDecoratorType {
 }
 
 extension InputViewBuilderComponent: InputViewBuilderComponentType {
-    open func builderComponents(for view: UIView) -> [ViewBuilderComponentType] {
-        return builderComponents(for: view, using: input)
+    
+    /// Create an Array of ViewBuilderComponentType for a specific input.
+    ///
+    /// - Parameters:
+    ///   - view: A UIView instance.
+    ///   - input: An InputViewDetailType instance.
+    /// - Returns: An Array of ViewBuilderComponentType.
+    open func builderComponents() -> [ViewBuilderComponentType] {
+        return builderComponents(using: input)
     }
 }
