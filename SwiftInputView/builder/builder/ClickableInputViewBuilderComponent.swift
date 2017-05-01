@@ -16,70 +16,66 @@ open class ClickableInputViewBuilderComponent: TextInputViewBuilderComponent {
     
     // MARK: ViewBuilderType
     
-    /// Get an Array of ViewBuilderComponentType, using an InputViewDetailType
-    /// and an InputViewDecoratorType instance.
+    /// Create an Array of UIView for a specific input.
     ///
     /// - Parameters:
-    ///   - view: The parent subview instance.
+    ///   - view: A UIView instance.
     ///   - input: An InputViewDetailType instance.
-    /// - Returns: An Array of ViewBuilderComponentType instances.
-    override open func builderComponents(using input: InputViewDetailType)
-        -> [ViewBuilderComponentType]
+    /// - Returns: An Array of UIView.
+    override open func subviews(for view: UIView, using input: InputViewDetailType)
+        -> [UIView]
     {
-        var components = super.builderComponents(using: input)
-        components.append(button(using: input))
-        return components
+        var subviews = super.subviews(for: view, using: input)
+        subviews.append(button(using: input))
+        return subviews
     }
     
     /// Create a UIButton for the current parent subview.
     ///
+    /// - Parameter input: An InputViewDetailType instance.
     /// - Returns: A UIButton instance
-    open func button() -> UIButton { return UIBaseButton() }
+    open func button(using input: InputViewDetailType) -> UIButton {
+        let button = UIBaseButton()
+        button.accessibilityIdentifier = clickableButtonId
+        return button
+    }
+    
+    /// Create an Array of NSLayoutConstraint for a specific input.
+    ///
+    /// - Parameters:
+    ///   - view: A UIView instance.
+    ///   - input: An InputViewDetailType instance.
+    /// - Returns: An Array of NSLayoutConstraint.
+    override open func constraints(for view: UIView,
+                                   using input: InputViewDetailType)
+        -> [NSLayoutConstraint]
+    {
+        var allConstraints = super.constraints(for: view, using: input)
+        
+        let subviews = view.subviews
+        
+        if let button = subviews.filter({
+            $0.accessibilityIdentifier == clickableButtonId
+        }).first as? UIButton {
+            let cs = self.constraints(forButton: button, for: view)
+            allConstraints.append(contentsOf: cs)
+        }
+        
+        return allConstraints
+    }
     
     /// Create an Array of NSLayoutConstraint for the clickable button.
     ///
     /// - Parameters:
+    ///   - button: A UIButton instance.
     ///   - view: A parent subview instance.
-    ///   - button: An optional UIButton instance, since this method will be
-    ///             called within a closure.
-    ///   - current: The current ClickableInputViewBuilderComponent instance.
     /// - Returns: An Array of NSLayoutConstraint.
-    open func buttonConstraints(
-        for view: UIView,
-        for button: UIButton?,
-        with current: ClickableInputViewBuilderComponent?
-    ) -> [NSLayoutConstraint] {
-        guard let button = button else { return [] }
-        
+    open func constraints(forButton button: UIButton, for view: UIView)
+        -> [NSLayoutConstraint]
+    {
         return FitConstraintSet
             .fit(forParent: view, andChild: button)
             .constraints
-    }
-    
-    /// Create a UIButton for the current parent subview.
-    ///
-    /// - Parameters:
-    ///   - view: A parent subview instance.
-    ///   - input: An InputViewDetailType instance.
-    /// - Returns: A ViewBuilderComponentType instance
-    open func button(using input: InputViewDetailType)
-        -> ViewBuilderComponentType
-    {
-        let button = self.button()
-        
-        button.accessibilityIdentifier = clickableButtonId
-        
-        let closure: (UIView) -> [NSLayoutConstraint] = {
-            [weak self, weak button] in
-            return self?.buttonConstraints(for: $0,
-                                           for: button,
-                                           with: self) ?? []
-        }
-        
-        return ViewBuilderComponent.builder()
-            .with(view: button)
-            .with(closure: closure)
-            .build()
     }
     
     // MARK: ViewBuilderConfigType
@@ -90,10 +86,11 @@ open class ClickableInputViewBuilderComponent: TextInputViewBuilderComponent {
     ///   - view: A UIView instance.
     ///   - input: An InputViewDetailType instance.
     ///   - decorator: An InputViewDecoratorType instance.
-    override open func configureAppearance(for view: UIView,
-                                           using input: InputViewDetailType,
-                                           using decorator: InputViewDecoratorType) {
-        super.configureAppearance(for: view, using: input, using: decorator)
+    override open func configure(appearanceFor view: UIView,
+                                 using input: InputViewDetailType,
+                                 using decorator: InputViewDecoratorType) {
+        super.configure(appearanceFor: view, using: input, using: decorator)
+        
         let subviews = view.subviews
         
         if let button = subviews.filter({

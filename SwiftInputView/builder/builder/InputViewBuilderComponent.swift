@@ -25,16 +25,26 @@ public protocol InputViewBuilderComponentType: ViewBuilderType {
     /// This decorator should be acquired from the input itself.
     var decorator: InputViewDecoratorType { get }
     
-    /// Create an Array of ViewBuilderComponentType for a specific input.
+    /// Create an Array of UIView for a specific input.
     ///
     /// - Parameters:
     ///   - view: A UIView instance.
     ///   - input: An InputViewDetailType instance.
-    /// - Returns: An Array of ViewBuilderComponentType.
-    func builderComponents(using input: InputViewDetailType)
-        -> [ViewBuilderComponentType]
+    /// - Returns: An Array of UIView.
+    func subviews(for view: UIView, using input: InputViewDetailType) -> [UIView]
+    
+    /// Create an Array of NSLayoutConstraint for a specific input.
+    ///
+    /// - Parameters:
+    ///   - view: A UIView instance.
+    ///   - input: An InputViewDetailType instance.
+    /// - Returns: An Array of NSLayoutConstraint.
+    func constraints(for view: UIView, using input: InputViewDetailType)
+        -> [NSLayoutConstraint]
 }
 
+/// The default component builder class whenever InputViewBuilderComponentType
+/// is required.
 open class InputViewBuilderComponent {
     public let input: InputViewDetailType
     public let decorator: InputViewDecoratorType
@@ -45,14 +55,42 @@ open class InputViewBuilderComponent {
     }
     
     // MARK: ViewBuilderType.
-
-    /// Get an Array of ViewBuilderComponentType, using an InputViewDetailType
-    /// and an InputViewDecoratorType instance.
+    
+    /// Get an Array of UIView subviews to be added to a UIView.
+    /// - Parameter view: The parent UIView instance.
+    /// - Returns: An Array of ViewBuilderComponentType.
+    open func subviews(for view: UIView) -> [UIView] {
+        return subviews(for: view, using: input)
+    }
+    
+    /// Create an Array of UIView for a specific input.
     ///
-    /// - Parameters input: An InputViewDetailType instance.
-    /// - Returns: An Array of ViewBuilderComponentType instances.
-    open func builderComponents(using input: InputViewDetailType)
-        -> [ViewBuilderComponentType]
+    /// - Parameters:
+    ///   - view: A UIView instance.
+    ///   - input: An InputViewDetailType instance.
+    /// - Returns: An Array of UIView.
+    open func subviews(for view: UIView, using input: InputViewDetailType)
+        -> [UIView]
+    {
+        return []
+    }
+    
+    /// Get an Array of NSLayoutConstraint to be added to a UIView.
+    ///
+    /// - Parameter view: The parent UIView instance.
+    /// - Returns: An Array of NSLayoutConstraint.
+    open func constraints(for view: UIView) -> [NSLayoutConstraint] {
+        return constraints(for: view, using: input)
+    }
+    
+    /// Create an Array of NSLayoutConstraint for a specific input.
+    ///
+    /// - Parameters:
+    ///   - view: A UIView instance.
+    ///   - input: An InputViewDetailType instance.
+    /// - Returns: An Array of NSLayoutConstraint.
+    open func constraints(for view: UIView, using input: InputViewDetailType)
+        -> [NSLayoutConstraint]
     {
         return []
     }
@@ -60,8 +98,8 @@ open class InputViewBuilderComponent {
     // MARK: ViewBuilderConfigType.
     
     open func configure(for view: UIView) {
-        configureAppearance(for: view, using: input, using: self)
-        configureLogic(for: view, using: input)
+        configure(appearanceFor: view, using: input, using: self)
+        configure(loginFor: view, using: input)
     }
     
     /// This method only configures the view's appearance.
@@ -70,9 +108,9 @@ open class InputViewBuilderComponent {
     ///   - view: A UIView instance.
     ///   - input: An InputViewDetailType instance.
     ///   - decorator: An InputViewDecoratorType instance.
-    open func configureAppearance(for view: UIView,
-                                  using input: InputViewDetailType,
-                                  using decorator: InputViewDecoratorType) {
+    open func configure(appearanceFor view: UIView,
+                        using input: InputViewDetailType,
+                        using decorator: InputViewDecoratorType) {
         view.backgroundColor = decorator.inputBackgroundColor
         view.layer.cornerRadius = decorator.inputCornerRadius ?? 0
     }
@@ -83,7 +121,7 @@ open class InputViewBuilderComponent {
     /// - Parameters:
     ///   - view: A UIView instance.
     ///   - input: An InputViewDetailType instance.
-    open func configureLogic(for view: UIView, using input: InputViewDetailType) {
+    open func configure(loginFor view: UIView, using input: InputViewDetailType) {
         if let view = view as? TextInputViewComponentType {
             // We setup the inputField here, e.g. wire up text listeners.
             view.setupInputField()
@@ -107,15 +145,4 @@ extension InputViewBuilderComponent: InputViewDecoratorType {
     }
 }
 
-extension InputViewBuilderComponent: InputViewBuilderComponentType {
-    
-    /// Create an Array of ViewBuilderComponentType for a specific input.
-    ///
-    /// - Parameters:
-    ///   - view: A UIView instance.
-    ///   - input: An InputViewDetailType instance.
-    /// - Returns: An Array of ViewBuilderComponentType.
-    open func builderComponents() -> [ViewBuilderComponentType] {
-        return builderComponents(using: input)
-    }
-}
+extension InputViewBuilderComponent: InputViewBuilderComponentType {}
