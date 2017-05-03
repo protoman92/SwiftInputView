@@ -22,9 +22,8 @@ open class ClickableInputViewBuilderComponent: TextInputViewBuilderComponent {
     ///   - view: A UIView instance.
     ///   - input: An InputViewDetailType instance.
     /// - Returns: An Array of UIView.
-    override open func subviews(for view: UIView, using input: InputViewDetailType)
-        -> [UIView]
-    {
+    override open func subviews(for view: UIView,
+                                using input: InputViewDetailType) -> [UIView] {
         var subviews = super.subviews(for: view, using: input)
         subviews.append(button(using: input))
         return subviews

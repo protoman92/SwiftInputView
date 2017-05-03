@@ -23,9 +23,8 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
     ///   - view: A UIView instance.
     ///   - input: An InputViewDetailType instance.
     /// - Returns: An Array of UIView.
-    override open func subviews(for view: UIView, using input: InputViewDetailType)
-        -> [UIView]
-    {
+    override open func subviews(for view: UIView,
+                                using input: InputViewDetailType) -> [UIView] {
         var subviews = super.subviews(for: view, using: input)
         
         if let indicator = requiredIndicator(using: input) {
@@ -39,7 +38,7 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
     /// Create a label to be used as the required indicator.
     ///
     /// - Parameters input: An InputViewDetailType instance.
-    /// - Returns: An optional UILabel instance. If 
+    /// - Returns: An optional UILabel instance. If
     ///            input.displayRequiredIndicator returns false, we do not
     ///            attach any view.
     open func requiredIndicator(using: InputViewDetailType) -> UILabel? {
@@ -90,10 +89,10 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
             allConstraints.append(contentsOf: cs)
         }
         
-        if let indicator = subviews.filter({
+        if let label = subviews.filter({
             $0.accessibilityIdentifier == requiredIndicatorId
         }).first {
-            let cs = self.constraints(forRequiredIndicator: indicator, for: view)
+            let cs = self.constraints(forRequiredIndicator: label, for: view)
             allConstraints.append(contentsOf: cs)
         }
         
@@ -124,10 +123,10 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
     /// Create an Array of NSLayoutConstraint for the required indicator.
     ///
     /// - Parameters:
-    ///   - indicator: An UIView instance.
+    ///   - label: An UIView instance.
     ///   - view: The parent subview instance.
     /// - Returns: An Array of NSLayoutConstraint.
-    open func constraints(forRequiredIndicator indicator: UIView, for view: UIView)
+    open func constraints(forRequiredIndicator label: UIView, for view: UIView)
         -> [NSLayoutConstraint]
     {
         guard
@@ -141,29 +140,25 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
         }
         
         // Right constraint.
-        let right = NSBaseLayoutConstraint(item: view,
-                                           attribute: .right,
-                                           relatedBy: .equal,
-                                           toItem: indicator,
-                                           attribute: .right,
-                                           multiplier: 1,
-                                           constant: 0)
-        
-        right.constantValue = String(describing: 5)
+        let right = NSLayoutConstraint(item: view,
+                                       attribute: .right,
+                                       relatedBy: .equal,
+                                       toItem: label,
+                                       attribute: .right,
+                                       multiplier: 1,
+                                       constant: Space.medium.value ?? 0)
         
         // Vertical constraint. We need to align vertically to the
         // placeholderView so that even if the inputField is multiline (i.e.
         // its height to larger than the rest), the required indicator is
         // still anchored to the centerY of the first line of text.
-        let vertical = NSBaseLayoutConstraint(item: placeholderView,
-                                              attribute: .centerY,
-                                              relatedBy: .equal,
-                                              toItem: indicator,
-                                              attribute: .centerY,
-                                              multiplier: 1,
-                                              constant: 0)
-        
-        vertical.constantValue = String(describing: 0)
+        let vertical = NSLayoutConstraint(item: placeholderView,
+                                          attribute: .centerY,
+                                          relatedBy: .equal,
+                                          toItem: label,
+                                          attribute: .centerY,
+                                          multiplier: 1,
+                                          constant: 0)
         
         return [right, vertical]
     }
@@ -205,10 +200,7 @@ open class TextInputViewBuilderComponent: InputViewBuilderComponent {
     override open func configure(logicFor view: UIView,
                                  using input: InputViewDetailType) {
         super.configure(logicFor: view, using: input)
-        
-        guard let view = view as? TextInputViewComponentType else {
-            return
-        }
+        guard let view = view as? TextInputViewComponentType else { return }
         
         // We setup the inputField here, e.g. wire up text listeners.
         view.setupInputField()
@@ -260,19 +252,19 @@ extension TextInputViewBuilderComponent: TextInputViewDecoratorType {
     }
     
     public var inputFieldFontName: String {
-        return textDecorator?.inputFieldFontName ?? ""
+        return textDecorator?.inputFieldFontName ?? DefaultFont.normal.value
     }
     
     public var inputFieldFontSize: CGFloat {
-        return textDecorator?.inputFieldFontSize ?? 0
+        return textDecorator?.inputFieldFontSize ?? TextSize.medium.value ?? 0
     }
     
     public var requiredIndicatorFontName: String {
-        return textDecorator?.requiredIndicatorFontName ?? ""
+        return textDecorator?.requiredIndicatorFontName ?? DefaultFont.normal.value
     }
     
     public var requiredIndicatorFontSize: CGFloat {
-        return textDecorator?.requiredIndicatorFontSize ?? 0
+        return textDecorator?.requiredIndicatorFontSize ?? TextSize.medium.value ?? 0
     }
     
     public var requiredIndicatorTextColor: UIColor {
