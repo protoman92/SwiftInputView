@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import SwiftInputView
 
 class IncrementalIdentifierTypeTests: XCTestCase {
     func test_findingIncrementalElements_shouldSucceed() {

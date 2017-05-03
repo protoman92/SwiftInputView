@@ -16,7 +16,7 @@ import UIKit
 /// input type, we should define a InputViewBuilder subclass and 
 /// InputViewBuilderConfig.
 public final class UIAdaptableInputView: UIView {
-    fileprivate lazy var presenter: Presenter = Presenter(view: self)
+    lazy var presenter: Presenter = Presenter(view: self)
     
     override open func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
@@ -26,10 +26,10 @@ public final class UIAdaptableInputView: UIView {
     }
     
     /// Presenter class for UIAdaptableInputView.
-    fileprivate class Presenter: BaseViewPresenter {
-        fileprivate let disposeBag = DisposeBag()
+    class Presenter: BaseViewPresenter {
+        let disposeBag = DisposeBag()
         
-        fileprivate init(view: UIAdaptableInputView) {
+        init(view: UIAdaptableInputView) {
             super.init(view: view)
         }
     }
@@ -41,12 +41,10 @@ extension UIAdaptableInputView: TextInputViewComponentType {
     }
 }
 
-extension UIAdaptableInputView: TextInputViewIdentifierType {}
-
 public extension UIAdaptableInputView {
     
     /// Get all parent subviews using a base identifier.
-    fileprivate var parentSubviews: [UIView] {
+    var parentSubviews: [UIView] {
         let id = parentSubviewId
         let views = findAll(withBaseIdentifier: id, andStartingIndex: 1)
         return views.isNotEmpty ? views : [self]
@@ -62,13 +60,13 @@ public extension UIAdaptableInputView {
     }
 }
 
+extension UIAdaptableInputView: InputHolderViewType {}
+extension UIAdaptableInputView: TextInputViewIdentifierType {}
+
 public extension Reactive where Base: UIAdaptableInputView {
     
     /// Use this Observable to observe text changes.
     public var text: Observable<String?> {
-        return base.inputFields
-            .map({$0.rxText})
-            .flatMap({$0})
-            .mergeAsObservable()
+        return base.inputFields.map({$0.rxText}).flatMap({$0}).mergeAsObservable()
     }
 }

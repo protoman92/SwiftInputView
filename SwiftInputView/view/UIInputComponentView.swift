@@ -16,30 +16,27 @@ import UIKit
 /// Each instance of this view shall serve as a component within a multi-input
 /// UIAdaptableInputView.
 public final class UIInputComponentView: UIView {
-    fileprivate lazy var presenter: Presenter = Presenter(view: self)
+    lazy var presenter: Presenter = Presenter(view: self)
     
     /// Presenter class for UIInputComponentView
-    fileprivate class Presenter: BaseViewPresenter {
-        fileprivate let disposeBag = DisposeBag()
+    class Presenter: BaseViewPresenter {
+        let disposeBag = DisposeBag()
         
-        fileprivate init(view: UIInputComponentView) {
-            super.init(view: view)
-        }
+        init(view: UIInputComponentView) { super.init(view: view) }
     }
 }
+
+extension UIInputComponentView: InputHolderViewType {}
+extension UIInputComponentView.Presenter: TextInputViewIdentifierType {}
 
 extension UIInputComponentView: TextInputViewComponentType {
-    public var disposeBag: DisposeBag {
-        return presenter.disposeBag
-    }
+    public var disposeBag: DisposeBag { return presenter.disposeBag }
 }
 
-fileprivate extension UIInputComponentView.Presenter {
+extension UIInputComponentView.Presenter {
     
     /// Get the viewDelegate as a UIInputComponentView instance.
-    fileprivate var view: UIInputComponentView? {
+    var view: UIInputComponentView? {
         return viewDelegate as? UIInputComponentView
     }
 }
-
-extension UIInputComponentView.Presenter: TextInputViewIdentifierType {}

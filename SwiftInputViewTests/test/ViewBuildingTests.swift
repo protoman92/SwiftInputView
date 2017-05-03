@@ -11,6 +11,7 @@ import SwiftUIUtilities
 import SwiftUtilities
 import SwiftUtilitiesTests
 import XCTest
+@testable import SwiftInputView
 
 class ViewBuildingTests: XCTestCase {
     let tries = 2000
